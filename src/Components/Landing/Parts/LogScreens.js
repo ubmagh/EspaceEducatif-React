@@ -174,6 +174,10 @@ class TeacherLog extends React.Component {
                     <div className="row mt-5 ">
                         <i className="fas fa-chalkboard-teacher fa-10x text-center mx-auto mt-5" style={{ color: '#0b7285' }}></i>
                     </div>
+
+                    <MyModal ShowOrNot={this.state.showMod} setShowOrNot={this.HandleShowModal.bind(this)} Heading={this.state.heading} body={this.state.body} />
+
+
                     <div className="row col-md-8 mx-auto mt-3 mb-md-n5">
                         <Formik
                             initialValues={{ email: '', password: '', type: 'prof', save: false }}
