@@ -14,41 +14,41 @@ class Landing extends React.Component {
 
     render() {
         return (
-            <>
-                <Router>
-                    <Banner />
 
-                    <Switch>
-                        <Route exact path="/">
-                            <Body />
-                        </Route>
+            <Router>
+                <Banner />
 
-                        <Route exact path="/Aide">
-                            <Aide />
-                        </Route>
+                <Switch>
+                    <Route exact path="/">
+                        <Body />
+                    </Route>
 
-                        <Route exact path="/StudentLog">
-                            <StudentLog />
-                        </Route>
-                        <Route exact path="/TeacherLog">
-                            <TeacherLog />
-                        </Route>
+                    <Route exact path="/Aide">
+                        <Aide />
+                    </Route>
 
-                        <Route exact path="/Rules">
-                            <Rules />
-                        </Route>
+                    <Route exact path="/StudentLog">
+                        <StudentLog />
+                    </Route>
+                    <Route exact path="/TeacherLog">
+                        <TeacherLog />
+                    </Route>
 
-                        <Route exact path="/register">
-                            <Register />
-                        </Route>
+                    <Route exact path="/Rules">
+                        <Rules />
+                    </Route>
 
-                        <Route component={Page404} />
+                    <Route exact path="/register">
+                        <Register />
+                    </Route>
 
-                    </Switch>
-                    <Footer />
+                    <Route component={Page404} />
 
-                </Router>
-            </>
+                </Switch>
+                <Footer />
+
+            </Router>
+
         )
     }
 }

@@ -8,7 +8,7 @@ function Banner(props) {
     return (
         <>
 
-            <Navbar bg="" style={{ backgroundColor: '#003D7E' }} variant="dark" className="sticky-top" expand="md" >
+            <Navbar bg="" style={{ backgroundColor: '#003D7E' }} variant="dark" className="sticky-top " expand="md" >
                 <Navbar.Brand >
                     <Link to="." className="NavBarBrand" style={{ textDecoration: 'none' }} >
                         <img
@@ -27,13 +27,13 @@ function Banner(props) {
                         <NavLink exact to="/" className="NavLink text-light my-xs-2 mt-sm-2 mt-md-0" style={{ textDecoration: 'none' }} >
                             Acceuil
                         </NavLink>
-                        <NavLink exact to="/Aide" className="NavLink text-light mt-xs-2 mt-sm-2 mt-md-0 ml-sm-3 " style={{ textDecoration: 'none' }} >
+                        <NavLink exact to="/Aide" className="NavLink text-light my-2 my-md-0 mt-md-0 ml-sm-3 " style={{ textDecoration: 'none' }} >
                             Aide ?
                         </NavLink>
                     </Nav>
 
-                    <ButtonToolbar>
-                        <Link to="/register"><Button type="button" variant="light" className="btn-outline-white mr-md-3 mx-auto mt-xs-2 mt-sm-2 mt-md-0" > <i className="fas fa-plus text-primary"> </i> Créer Compte</Button></Link>
+                    <ButtonToolbar className="row ">
+                        <Link to="/register" className="col text-nowrap p-0 mr-1 mt-1 mt-md-0"><Button type="button" variant="light" className="btn-outline-white col-12" > <i className="fas fa-plus text-primary"> </i> Créer Compte</Button></Link>
                         <OverlayTrigger
                             trigger="click"
                             key='LoginBtn'
@@ -54,7 +54,7 @@ function Banner(props) {
                                 </Popover>
                             }
                         >
-                            <Button variant="light" className="btn-outline-white mr-md-3 mx-auto mt-xs-2 mt-sm-2 mt-md-0" > <i className="fas fa-sign-in-alt text-primary"> </i> Se Connecter</Button>
+                            <Button variant="light" className=" col btn-outline-white text-nowrap mt-1 mt-md-0 mr-1" > <i className="fas fa-sign-in-alt text-primary"> </i> Se Connecter</Button>
                         </OverlayTrigger>
                     </ButtonToolbar>
                 </Navbar.Collapse>
