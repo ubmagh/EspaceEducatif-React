@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Formik, Field } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
-import MyModal from '../../Common/Modal';
+import { MyModal } from './register';
 
 
 const LoginSchema = Yup.object().shape({
@@ -74,12 +74,6 @@ class StudentLog extends React.Component {
                                                         this.setState({ heading: 's', body: ' Connexion succès ', showMod: true });
                                                         localStorage.setItem('LastLogDate', res.data.LogDate);
                                                         localStorage.setItem('LogToken', res.data.token);
-                                                        var getUrl = window.location;
-                                                        var baseUrl = getUrl.protocol + "//" + getUrl.host + '/';
-                                                        //window.open(baseUrl);
-                                                        window.location = baseUrl;
-                                                        //+ ':' + getUrl.port +
-
                                                     }
                                     })
                                     .catch(err => {
@@ -214,10 +208,6 @@ class TeacherLog extends React.Component {
                                                         this.setState({ heading: 's', body: ' Connexion succès ', showMod: true });
                                                         localStorage.setItem('LastLogDate', res.data.LogDate);
                                                         localStorage.setItem('LogToken', res.data.token);
-                                                        var getUrl = window.location;
-                                                        var baseUrl = getUrl.protocol + "//" + getUrl.host + '/';
-                                                        window.open(baseUrl);
-                                                        //+ ':' + getUrl.port +
                                                     }
                                     })
                                     .catch(err => {
