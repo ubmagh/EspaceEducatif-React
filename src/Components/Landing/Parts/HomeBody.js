@@ -9,9 +9,10 @@ function Body() {
 
     return (
         <>
-            <Container fluid="true" className="w-100 pb-3" >
-                <Row className="  pb-xs-4 mb-xs-5" style={{ maxHeight: '3000px', minHeight: '100%' }}>
-                    <div className="col-md-6 col-xs-0">
+            <Container fluid="true" className="w-100" >
+                <Row className="  w-100 m-0 p-0" >
+
+                    <div className=" col-md-6 col-xs-0 m-0 p-0 ">
                         <img
                             alt="Colaboration en education"
                             src={pic1}
@@ -19,22 +20,25 @@ function Body() {
                         />
                     </div>
 
-                    <div className=" col-xs-5 col-md-6" style={{ height: '600px' }}>
-                        <div className="row w-100 mx-auto mt-md-3">
+                    <div className=" col-xs-5 col-md-6 m-0 p-0 " >
+
+                        <div className="row  w-100 mx-auto mt-sm-5">
                             <img
-                                alt="Colaboration en education"
+                                alt="University Logo"
                                 src={pic2}
-                                className=" align-top mx-auto mt-2 w-75 "
+                                className=" w-75 mx-auto  my-0 "
                             />
                         </div>
-                        <div className="row w-100 mx-auto mt-md-4" >
+
+                        <div className=" row w-100 mx-auto mt-sm-5 mt-3" >
                             <br />
-                            <h1 className="text-center mx-auto mt-md-0 mt-lg-2" style={{ fontFamily: ' Source Sans Pro ', fontSize: '57px', fontWeight: 'bolder', color: 'rgb(16,16,141)' }}> Espace Educatif </h1>
-                            <h5 className="text-center text-justify mx-auto mt-md-5 mt-sm-2" style={{ fontFamily: ' Source Sans Pro ', fontSize: '30px', fontWeight: 'lighter', color: 'rgb(20,25,110)' }}> Un Réseau éducatif privé aux étudiants de l'école supérieure de Technologie Agadir et offrant des outils puissantes pour les professeurs. </h5>
+                            <h1 className="text-nowrap mx-auto mt-md-0 mt-lg-2" style={{ fontFamily: ' Source Sans Pro ', fontSize: '57px', fontWeight: 'bolder', color: 'rgb(16,16,141)' }}> Espace Educatif </h1>
+                            <h6 className="text-center h6 mx-auto mt-4 mt-sm-5 " style={{ fontFamily: ' Source Sans Pro ', fontSize: '30px', fontWeight: 'lighter', color: 'rgb(20,25,110)' }}> Un Réseau éducatif privé aux étudiants de l'école supérieure de Technologie Agadir et offrant des outils puissantes pour les professeurs. </h6>
                             <p className="text-center mx-auto text-justify mt-md-3 mb-xs-3" style={{ fontFamily: ' Source Sans Pro ', fontSize: '20px', fontWeight: 'normal', color: 'rgb(20,35,100)' }}>
                                 Un internaute ? Connectez-vous !
                             </p>
                         </div>
+
                     </div>
                 </Row>
 

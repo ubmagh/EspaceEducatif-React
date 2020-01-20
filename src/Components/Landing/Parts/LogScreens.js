@@ -36,15 +36,15 @@ class StudentLog extends React.Component {
 
         return (
             <>
-                <div className="container mb-md-n5" style={{ minHeight: '100%', maxHeight: '100%px' }}>
-                    <div className="row mt-5 ">
-                        <i className="fas fa-user-graduate fa-10x text-center mx-auto mt-5" style={{ color: '#0b7285' }}></i>
+                <div className="container mb-md-n5" style={{ minHeight: '100%' }}>
+                    <div className="row mt-5 d-inline-block w-100 col-12  ">
+                        <i className=" d-block fas fa-user-graduate fa-10x text-center mx-auto mt-5" style={{ color: '#0b7285' }}></i>
                     </div>
 
                     <MyModal ShowOrNot={this.state.showMod} setShowOrNot={this.HandleShowModal.bind(this)} Heading={this.state.heading} body={this.state.body} />
 
 
-                    <div className="row col-md-8 mx-auto mt-3 mb-md-n5">
+                    <div className="row d-block col-md-8 mx-auto mt-3 mb-md-n5">
                         <Formik
                             initialValues={{ email: '', password: '', type: 'etud', save: false }}
                             validationSchema={LoginSchema}
@@ -95,7 +95,7 @@ class StudentLog extends React.Component {
 
                                 <Form className="col-10 mx-auto text-center mt-5 mb-md-n5">
 
-                                    <div className="form-group">
+                                    <div className="form-group d-block mx-auto">
                                         <Field type="email" name="email" className="form-control  text-center" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Adresse Email" />
                                         {errors.email && touched.email ? (
                                             <>
@@ -176,15 +176,15 @@ class TeacherLog extends React.Component {
     render() {
         return (
             <>
-                <div className="container mb-md-n5" style={{ minHeight: '100%', maxHeight: '100%px' }}>
-                    <div className="row mt-5 ">
-                        <i className="fas fa-chalkboard-teacher fa-10x text-center mx-auto mt-5" style={{ color: '#0b7285' }}></i>
+                <div className="container mb-md-n5" style={{ minHeight: '100%' }}>
+                    <div className="row d-inline-block w-100 mt-5 ">
+                        <i className="d-block fas fa-chalkboard-teacher fa-10x text-center mx-auto mt-5" style={{ color: '#0b7285' }}></i>
                     </div>
 
                     <MyModal ShowOrNot={this.state.showMod} setShowOrNot={this.HandleShowModal.bind(this)} Heading={this.state.heading} body={this.state.body} />
 
 
-                    <div className="row col-md-8 mx-auto mt-3 mb-md-n5">
+                    <div className="row d-block col-md-8 mx-auto mt-3 mb-md-n5">
                         <Formik
                             initialValues={{ email: '', password: '', type: 'prof', save: false }}
                             validationSchema={LoginSchema}

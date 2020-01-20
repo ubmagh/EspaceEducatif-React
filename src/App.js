@@ -80,7 +80,7 @@ class App extends React.Component {
         return (
           <Student />
         );
-      else
+      else if (this.state.user.UserType === 'prof')
         return (
           <Prof />
         );

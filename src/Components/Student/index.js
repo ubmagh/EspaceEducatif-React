@@ -5,6 +5,12 @@ import Footer from './Common/Footer';
 import Page404 from './Common/404Page';
 import Home from './Home/Home';
 
+//// importing template css
+import './css/style.css';
+import './css/responsive.css';
+
+
+
 
 
 class Student extends React.Component {
@@ -14,21 +20,26 @@ class Student extends React.Component {
 
         return (
             <Router>
-                <Banner />
 
-                <Switch>
-                    <Route exact path="/">
-                        <Home />
-                    </Route>
+                <div className="wrapper mt-0">
 
-                    <Route component={Page404} />
+                    <Banner />
 
-                </Switch>
+                    <Switch>
+                        <Route exact path="/">
+                            <Home />
+                        </Route>
 
-                <Footer />
+                        <Route component={Page404} />
 
+                    </Switch>
 
-            </Router>
+                    <Footer />
+
+                </div>
+
+            </Router >
+
         );
     }
 

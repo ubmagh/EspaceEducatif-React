@@ -8,7 +8,7 @@ function Banner(props) {
     return (
         <>
 
-            <Navbar bg="" style={{ backgroundColor: '#003D7E' }} variant="dark" className="sticky-top " expand="md" >
+            <Navbar bg="" style={{ backgroundColor: '#003D7E' }} variant="dark" className="sticky-top w-100" expand="md" >
                 <Navbar.Brand >
                     <Link to="." className="NavBarBrand" style={{ textDecoration: 'none' }} >
                         <img
