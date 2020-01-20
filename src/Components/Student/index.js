@@ -8,6 +8,8 @@ import Home from './Home/Home';
 //// importing template css
 import './css/style.css';
 import './css/responsive.css';
+import './css/animate.css';
+import './css/jquery.range.css';
 
 
 
@@ -15,6 +17,12 @@ import './css/responsive.css';
 
 class Student extends React.Component {
 
+
+    componentDidMount() {
+        var user = localStorage.getItem('user');
+        console.log(JSON.parse(user));
+
+    }
 
     render() {
 
