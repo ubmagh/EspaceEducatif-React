@@ -47,6 +47,7 @@ class App extends React.Component {
 
           } else {
             localStorage.setItem('user', JSON.stringify(res.data.user));
+            localStorage.setItem('details', JSON.stringify(res.data.details));
             localStorage.setItem('LastLogDate', res.data.LastLogDate);
             this.setState({ loged: true, user: res.data.user });
 
