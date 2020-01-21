@@ -29,7 +29,7 @@ class Student extends React.Component {
         return (
             <Router>
 
-                <div className="wrapper mt-0">
+                <div className="wrapper mt-0" style={{ Height: '100%' }}>
 
                     <Banner />
 

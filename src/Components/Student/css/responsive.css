@@ -1,9 +1,16 @@
 
+.buttonOutline{
+	border : none !important;
+	outline: none !important;
+	box-shadow: none !important;
+}
 
 @media (max-width: 1200px) {
-	header nav {position: fixed;top: 0;left: 0;width: 200px;height: 100%;background-color: #e44d3a;padding: 25px 20px;opacity: 0;visibility: hidden;z-index: 0}
 	header nav.active {opacity: 1;visibility: visible;z-index: 9999;}
-	header nav ul li {float: left;width: 100%;text-align: left;padding: 0 0 0 0;margin-bottom: 20px;}
+	header nav ul li {float: left;width: 100%;text-align: left;padding: 0 0 0 0;margin-bottom: 20px;}/*thisone */
+
+	header nav {margin-left: auto;}
+	
 	.menu-btn {display: block;}
 	header nav ul li span {display: inline-block;margin-right: 10px;}
 	.widget-about h3 {font-size: 16px;}
@@ -87,6 +94,10 @@
 
 
 @media (max-width: 768px) {
+	header nav {margin-left: 0px;margin-top: 8px;}
+	.search-bar{width: 75%;margin-left: 5%;}
+	.logo{margin-left: 45px;margin-right: -10px;}
+	
 	.login_register {display: none;}
 	.forum-bar ul {float: right;}
 	.comment_box input {width: 84%;}
@@ -113,6 +124,10 @@
 
 
 @media (max-width: 576px) {
+	header nav {margin-left: 0px;margin-top: 12px;}
+	.search-bar{width: 100%;margin-left: 0px;}
+
+
 	.signin-pop {margin-bottom: 40px;}
 	.login-resources ul li {margin-bottom: 7px;}
 	.logo {width: 100%;text-align: center;}

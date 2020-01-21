@@ -244,6 +244,7 @@ nav ul li:hover > ul,
 .wrapper {
 	float: left;
 	width: 100%;
+	height: 100%;
 	position: relative;
 }
 
@@ -705,6 +706,7 @@ main {
 .main-section {
 	float: left;
 	width: 100%;
+	height: 100%;
 }
 .main-section-data {
 	float: left;
