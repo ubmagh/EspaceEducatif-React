@@ -7,18 +7,22 @@ import './App.css';
 import Student from './Components/Student/index';
 import Prof from './Components/Prof/index';
 
-//import Loading from './Components/Common/Loading';
+import Loading from './Components/Common/Loading';
 
 
 class App extends React.Component {
 
+  componentDidMount() {
+    setTimeout(() =>
+      this.setState({ Loading: false }), 2000);
+  }
 
 
   constructor(props) {
 
     super(props);
 
-    this.state = { loged: false, user: '', token: localStorage.getItem('LogToken') };
+    this.state = { Loading: true, loged: false, user: '', token: localStorage.getItem('LogToken') };
 
 
     //Methode GET est non-sécurisée mais pour sa vitesse de réponse je l'ai utilisée ici
@@ -73,7 +77,9 @@ class App extends React.Component {
 
   render() {
 
-
+    if (this.state.Loading) {
+      return <Loading />
+    }
 
     if (this.state.loged) {
 

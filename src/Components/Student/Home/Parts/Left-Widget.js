@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 
 class LeftWidget extends React.Component {
@@ -18,7 +19,7 @@ class LeftWidget extends React.Component {
                         <div className="user-profile">
                             <div className="username-dt">
                                 <div className="usr-pic">
-                                    <img src="http://via.placeholder.com/100x100" alt="qsd" />
+                                    <img src={this.state.details.AvatarPath} style={{ backgroundColor: 'white', height: '100px', width: '100px' }} alt="qsd" />
                                 </div>
                             </div>{/*username-dt end*/}
                             <div className="user-specs">
@@ -31,7 +32,7 @@ class LeftWidget extends React.Component {
                     </div>{/*user-data end*/}
                     <div className="suggestions full-width">
                         <div className="sd-title">
-                            <h3>Mes Classes</h3><a href="#qsdqsd"><img className="icon1" alt='qsdq' src="images/icons8-ajouter-50.png" /></a>
+                            <h3>Mes Classes</h3>
                         </div>{/*sd-title end*/}
                         <div className="suggestions-list">
                             <div className="suggestion-usd">
@@ -39,7 +40,7 @@ class LeftWidget extends React.Component {
                                 </div>
                             </div>
                             <div className="view-more">
-                                <a href="#sqdfqs">Voir Plus</a>
+                                <Link to="Classes"><i class="fas fa-plus ml-n1 mr-1"></i> Voir Plus</Link>
                             </div>
                         </div>{/*suggestions-list end*/}
                     </div>{/*suggestions end*/}

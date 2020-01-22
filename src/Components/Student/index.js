@@ -1,8 +1,7 @@
 import React from 'react';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import Banner from './Common/Banner';
-import Footer from './Common/Footer';
-import Page404 from './Common/404Page';
+import Page404 from '../Common/404Page';
 import Home from './Home/Home';
 
 //// importing template css
@@ -18,9 +17,8 @@ import './css/jquery.range.css';
 class Student extends React.Component {
 
 
+
     componentDidMount() {
-        var user = localStorage.getItem('user');
-        console.log(JSON.parse(user));
 
     }
 
@@ -42,10 +40,9 @@ class Student extends React.Component {
 
                     </Switch>
 
-                    <Footer />
+
 
                 </div>
-
             </Router >
 
         );
