@@ -178,7 +178,7 @@ class Register extends React.Component {
                                         </div>
 
                                         <div className="form-group">
-                                            <Field type="text" name="CIN" className="form-control  text-center" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="CIN" />
+                                            <Field type="text" name="CIN" className="form-control  text-center" id="CIN" aria-describedby="emailHelp" placeholder="CIN" />
                                             {errors.CIN && touched.CIN ? (
                                                 <>
                                                     <div className="alert alert-danger" role="alert">

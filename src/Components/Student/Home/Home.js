@@ -14,7 +14,7 @@ class Home extends React.Component {
                         <div className="row mt-3" style={{ Height: '100%' }}>
 
                             <LeftWidget />
-                            <Posts />
+                            <Posts useriD={JSON.parse(localStorage.getItem('user')+'').id} Avatar={JSON.parse(localStorage.getItem('details')+'').AvatarPath } />
                             <RightWidget />
 
                         </div>

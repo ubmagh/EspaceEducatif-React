@@ -100,8 +100,8 @@
 	
 	.login_register {display: none;}
 	.forum-bar ul {float: right;}
-	.comment_box input {width: 84%;}
-	.comment_box {width: 88%;}
+	.comment_box input {width: 74%;}
+	.comment_box {width: 100%;}
 	.no-pd {padding: 0;}
 	.sign-in-page {padding: 60px 0;}
 	.overview-box {width: 100%;}

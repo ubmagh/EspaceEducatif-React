@@ -1571,7 +1571,7 @@ main {
 }
 .comment-list {
 	display: table;
-	padding-bottom: 30px;
+	padding-bottom: 6px;
 }
 .bg-img {
 	display: table-cell;
@@ -1636,13 +1636,17 @@ main {
 .cm_img {
 	float: left;
 	width: 40px;
-	margin-right: 10px;
+	margin-right: 5px;
+	margin-left: -5px;
+}
+.cm_img img{
+	border-radius: 100px;
 }
 .comment_box {
-	float: left;
+	display: inline;
 }
 .comment_box input {
-	width: 387px;
+	width: 74%;
 	height: 40px;
 	border: 1px solid #e5e5e5;
 	background-color: #efefef;
@@ -1654,7 +1658,7 @@ main {
 	resize: none;
 }
 .comment_box form button {
-	float: right;
+	display: inline;
 	color: #fff;
 	background-color:#003D7E;
 	height: 40px;

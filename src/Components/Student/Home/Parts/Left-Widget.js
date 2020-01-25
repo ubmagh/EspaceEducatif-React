@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 
 class LeftWidget extends React.Component {
@@ -40,7 +40,7 @@ class LeftWidget extends React.Component {
                                 </div>
                             </div>
                             <div className="view-more">
-                                <Link to="Classes"><i class="fas fa-plus ml-n1 mr-1"></i> Voir Plus</Link>
+                                <Link to="Classes"><i className="fas fa-plus ml-n1 mr-1"></i> Voir Plus</Link>
                             </div>
                         </div>{/*suggestions-list end*/}
                     </div>{/*suggestions end*/}
