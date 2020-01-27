@@ -216,8 +216,8 @@ class TeacherLog extends React.Component {
                                                         localStorage.setItem('LogToken', res.data.token);
                                                         var getUrl = window.location;
                                                         var baseUrl = getUrl.protocol + "//" + getUrl.host + '/';
-                                                        window.open(baseUrl);
-                                                        //+ ':' + getUrl.port +
+                                                        //window.open(baseUrl);
+                                                        window.location = baseUrl;
                                                     }
                                     })
                                     .catch(err => {
