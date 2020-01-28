@@ -30,7 +30,7 @@ class Aide extends React.Component {
     render() {
         return (
             <>
-                <div className="jumbotron jumbotron-fluid mt-n3 w-100 d-inline-block" id="aideContai">
+                <div className="jumbotron jumbotron-fluid mt-n3 w-100 d-inline-block" style={{ height: '100%' }} id="aideContai">
                     <div className="container">
                         <h1 className="display-4">Besoin de l'aide ?</h1>
                         <p className="lead">Veuillez nous contacter en remplissant ce formulaire, nous allons vous répondre plutot possible. </p>

@@ -8,7 +8,8 @@ class Banner extends React.Component {
 
     LogoutFunction() {
         localStorage.clear();
-        window.location.reload();
+
+        window.location = window.location.protocol + '//' + window.location.host + "/";
     }
 
     render() {
