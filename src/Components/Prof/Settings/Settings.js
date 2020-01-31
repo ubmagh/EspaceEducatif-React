@@ -20,6 +20,55 @@ const EmailSchema = Yup.object().shape({
     .min(6, " mot de passe invalide ")
 });
 
+const PwdsSchema = Yup.object().shape({
+  OldPwd: Yup.string()
+    .required("Saisissez votre mot de passe !")
+    .max(30, " mot de passe invalide ")
+    .min(6, " mot de passe invalide "),
+  NewPwd: Yup.string()
+    .required("Saisissez votre nouveau mot de passe !")
+    .max(30, " mot de passe invalide ")
+    .min(6, " mot de passe invalide min=6 "),
+  ReNewPwd: Yup.string()
+    .required("Champ nécessaire pour s'assurer !")
+    .oneOf(
+      [Yup.ref("NewPwd"), null],
+      "Ce mot de passe ne ressemble pas au premier !"
+    )
+    .max(30, " mot de passe invalide ")
+    .min(6, " mot de passe invalide ")
+});
+
+const FileSchema = Yup.object().shape({
+  imgFile: Yup.mixed()
+    .required("Selectionnez d'abord une image")
+    .test("FileFormat", "Format de l'image est invalide .", value => {
+      return /\.(gif|jpg|jpeg|bmp|png)$/i.test(value.split("\\").pop() + "");
+    })
+    .test("fileSize", "Taille de l'image doit etre <= 3Mo ", value => {
+      var ele = document.getElementById("customFile");
+      return ele.files[0].size <= 3000000;
+    })
+    .test("fileDim", "Maximum Résolution de l'image : 250x250px. ", value => {
+      var ele = document.getElementById("customFile");
+
+      var file = ele.files[0];
+      var img = new Image();
+      var objectUrl = URL.createObjectURL(file);
+      img.onload = function() {
+        URL.revokeObjectURL(objectUrl);
+      };
+      img.src = objectUrl;
+
+      return img.width <= 280 && img.height <= 280;
+    }),
+
+  password: Yup.string()
+    .required("Champ nécessaire pour sauvegarder !")
+    .max(30, " mot de passe invalide ")
+    .min(6, " mot de passe invalide ")
+});
+
 class Settings extends React.Component {
   constructor(props) {
     super(props);
@@ -32,9 +81,9 @@ class Settings extends React.Component {
 
   render() {
     return (
-      <section className="profile-account-setting">
-        <div className="container">
-          <div className="account-tabs-setting">
+      <section className="profile-account-setting bg-white">
+        <div className="container bg-white">
+          <div className="account-tabs-setting ">
             <div className="row">
               <div className="col-lg-3">
                 <div className="acc-leftbar">
@@ -161,6 +210,14 @@ class Settings extends React.Component {
                                     body: " Adresse Email Bien Changée ",
                                     showMod: true
                                   });
+                                  var user = JSON.parse(
+                                    localStorage.getItem("user")
+                                  );
+                                  user.email = data.email1;
+                                  localStorage.setItem(
+                                    "user",
+                                    JSON.stringify(user)
+                                  );
                                   break;
 
                                 default:
@@ -298,6 +355,7 @@ class Settings extends React.Component {
                     </div>
                     {/*acc-setting end*/}
                   </div>
+
                   <div
                     className="tab-pane fade"
                     id="nav-password"
@@ -308,87 +366,215 @@ class Settings extends React.Component {
                       <h3 className=" text-center h3">
                         Changer votre mot de passe
                       </h3>
-                      <form>
-                        <div className="cp-field">
-                          <h5>Ancien mot de passe</h5>
-                          <div className="input-group cpp-fiel">
-                            <div className="input-group-prepend">
-                              <span className="input-group-text bg-transparent">
-                                <i className="fa fa-key" />
-                              </span>
-                            </div>
-                            <input
-                              type="text"
-                              className="form-control"
-                              name="old-password"
-                              placeholder="Ancien mot de passe"
-                            />
-                          </div>
-                        </div>
-                        <div className="cp-field">
-                          <h5>Nouveau mot de passe</h5>
-                          <div className="input-group cpp-fiel">
-                            <div className="input-group-prepend">
-                              <span className="input-group-text bg-transparent">
-                                <i className="fa fa-key" />
-                              </span>
-                            </div>
-                            <input
-                              type="text"
-                              className="form-control"
-                              name="new-password"
-                              placeholder="Nouveau mot de passe"
-                            />
-                          </div>
-                        </div>
-                        <div className="cp-field">
-                          <h5>Confirmer le nouveau mot de passe</h5>
-                          <div className="input-group cpp-fiel">
-                            <div className="input-group-prepend">
-                              <span className="input-group-text bg-transparent">
-                                <i className="fa fa-key" />
-                              </span>
-                            </div>
-                            <input
-                              type="text"
-                              className="form-control"
-                              name="repeat-password"
-                              placeholder="Confirmer mot de passe"
-                            />
-                          </div>
-                        </div>
-                        <div className="cp-field">
-                          <h5 className="text-center ">
-                            <a href="#dqsd">
-                              <u>
-                                {" "}
-                                <i className="far fa-question-circle"></i> Mot
-                                de passe oublié ?{" "}
-                              </u>
-                            </a>
-                          </h5>
-                        </div>
-                        <div className="save-stngs pd2">
-                          <ul className=" mx-auto">
-                            <li className="mr-3">
-                              <button type="submit">
-                                {" "}
-                                <i className="fas fa-save"></i> Enregistrer
-                              </button>
-                            </li>
-                            <li className="mr-0">
-                              <button type="submit">
-                                {" "}
-                                <i className="fas fa-recycle"></i> Rénitialiser
-                              </button>
-                            </li>
-                          </ul>
-                        </div>
-                        {/*save-stngs end*/}
-                      </form>
+                      <Formik
+                        initialValues={{ OldPwd: "", NewPwd: "", ReNewPwd: "" }}
+                        validationSchema={PwdsSchema}
+                        onSubmit={(data, { setSubmitting, resetForm }) => {
+                          setSubmitting(true);
+                          const mydata = data;
+
+                          /// check if oldPWD == NewPWD
+                          if (mydata.OldPwd === mydata.NewPwd) {
+                            this.setState({
+                              heading: "w",
+                              body:
+                                " le nouveau mot de passe est le meme que l'ancien ! ",
+                              showMod: true
+                            });
+                            setSubmitting(false);
+                            return;
+                          }
+
+                          //// Envoie des données vers la BD utilisant axios ( =: ajax ) sans actualiser
+                          axios({
+                            method: "post",
+                            url: "http://127.0.0.1:8000/api/Settings/ChangePwD",
+
+                            data: {
+                              token: "" + localStorage.getItem("LogToken"),
+                              OldPwd: "" + mydata.OldPwd,
+                              NewPwd: "" + mydata.NewPwd
+                            },
+                            timeout: 5000,
+                            headers: { "Content-Type": "application/json" }
+                          })
+                            .then(res => {
+                              var response = res.data;
+                              //check token validation
+                              validateToken(response);
+
+                              switch (response.error + "") {
+                                case "ValidationError":
+                                  this.setState({
+                                    heading: "w",
+                                    body: "Données Fournies sont invalides .",
+                                    showMod: true
+                                  });
+                                  break;
+
+                                case "PwDErr":
+                                  this.setState({
+                                    heading: "d",
+                                    body: "Ancien Mot De Passe Incorrecte !",
+                                    showMod: true
+                                  });
+                                  break;
+                                case "none":
+                                  this.setState({
+                                    heading: "s",
+                                    body:
+                                      " Mot de passe Bien Changé ! Veuillez vous souvenir de votre nouveau mot de passe. ",
+                                    showMod: true
+                                  });
+                                  break;
+
+                                default:
+                                  break;
+                              }
+                            })
+                            .catch(err => {
+                              this.setState({
+                                heading: "d",
+                                body: "Une Erreur s'est produit! \n " + err,
+                                showMod: true
+                              });
+                              console.log("contact-Err :" + err);
+                            });
+
+                          /// FIn du requete GET
+                          resetForm({});
+                          setSubmitting(false);
+                        }}
+                      >
+                        {({
+                          values,
+                          handleSubmit,
+                          handleChange,
+                          isSubmitting,
+                          errors,
+                          touched,
+                          resetForm
+                        }) => {
+                          return (
+                            <Form>
+                              <div className="cp-field">
+                                <h5>Ancien mot de passe</h5>
+                                <div className="input-group cpp-fiel">
+                                  <div className="input-group-prepend">
+                                    <span className="input-group-text bg-transparent">
+                                      <i className="fa fa-key" />
+                                    </span>
+                                  </div>
+                                  <Field
+                                    type="password"
+                                    className="form-control"
+                                    name="OldPwd"
+                                    placeholder="Ancien mot de passe"
+                                  />
+                                </div>
+                                {errors.OldPwd && touched.OldPwd ? (
+                                  <>
+                                    <div className="d-block mt-4 mb-n2 text-danger text-center mx-auto h5">
+                                      <i className="fas fa-exclamation" />{" "}
+                                      {errors.OldPwd}{" "}
+                                    </div>
+                                  </>
+                                ) : null}
+                              </div>
+                              <div className="cp-field">
+                                <h5>Nouveau mot de passe</h5>
+                                <div className="input-group cpp-fiel">
+                                  <div className="input-group-prepend">
+                                    <span className="input-group-text bg-transparent">
+                                      <i className="fa fa-key" />
+                                    </span>
+                                  </div>
+                                  <Field
+                                    type="password"
+                                    className="form-control"
+                                    name="NewPwd"
+                                    placeholder="Nouveau mot de passe"
+                                  />
+                                </div>
+                                {errors.NewPwd && touched.NewPwd ? (
+                                  <>
+                                    <div className="d-block mt-4 mb-n2 text-warning text-center mx-auto h5">
+                                      <i className="fas fa-exclamation" />{" "}
+                                      {errors.NewPwd}{" "}
+                                    </div>
+                                  </>
+                                ) : null}
+                              </div>
+                              <div className="cp-field">
+                                <h5>Confirmer le nouveau mot de passe</h5>
+                                <div className="input-group cpp-fiel">
+                                  <div className="input-group-prepend">
+                                    <span className="input-group-text bg-transparent">
+                                      <i className="fa fa-key" />
+                                    </span>
+                                  </div>
+                                  <Field
+                                    type="password"
+                                    className="form-control"
+                                    name="ReNewPwd"
+                                    placeholder="Confirmer mot de passe"
+                                  />
+                                </div>
+                                {errors.ReNewPwd && touched.ReNewPwd ? (
+                                  <>
+                                    <div className="d-block mt-4 mb-n2 text-warning text-center mx-auto h5">
+                                      <i className="fas fa-exclamation" />{" "}
+                                      {errors.ReNewPwd}{" "}
+                                    </div>
+                                  </>
+                                ) : null}
+                              </div>
+                              <div className="cp-field">
+                                <h5 className="text-center ">
+                                  <a href="#dqsd">
+                                    <u>
+                                      {" "}
+                                      <i className="far fa-question-circle"></i>{" "}
+                                      Mot de passe oublié ?{" "}
+                                    </u>
+                                  </a>
+                                </h5>
+                              </div>
+                              <div className="save-stngs pd2">
+                                <ul className=" mx-auto">
+                                  <li className="mr-3">
+                                    <button
+                                      type="submit"
+                                      disabled={
+                                        isSubmitting ||
+                                        errors.NewPwd ||
+                                        errors.ReNewPwd ||
+                                        errors.OldPwd
+                                      }
+                                    >
+                                      {" "}
+                                      <i className="fas fa-save"></i>{" "}
+                                      Enregistrer
+                                    </button>
+                                  </li>
+                                  <li className="mr-0">
+                                    <button type="button" onClick={resetForm}>
+                                      {" "}
+                                      <i className="fas fa-recycle"></i>{" "}
+                                      Rénitialiser
+                                    </button>
+                                  </li>
+                                </ul>
+                              </div>
+                              {/*save-stngs end*/}
+                            </Form>
+                          );
+                        }}
+                      </Formik>
                     </div>
                     {/*acc-setting end*/}
                   </div>
+
                   <div
                     className="tab-pane fade"
                     id="nav-requests"
@@ -401,13 +587,18 @@ class Settings extends React.Component {
                           <div className="username-dt">
                             <div className="usr-pic">
                               <img
-                                src="http://via.placeholder.com/100x100"
-                                style={{ height: "100px", width: "100px" }}
-                                alt="sdqsd"
+                                src={
+                                  JSON.parse(localStorage.getItem("details"))
+                                    .AvatarPath
+                                }
+                                style={{
+                                  height: "150px",
+                                  width: "150px",
+                                  backgroundColor: "white"
+                                }}
+                                className="ml-n4 mb-3"
+                                alt="User Avatar"
                               />
-                              <a href="#dqsd">
-                                <i className="fa fa-camera" /> Modifier{" "}
-                              </a>
                             </div>
                           </div>
                           {/*username-dt end*/}
@@ -415,20 +606,168 @@ class Settings extends React.Component {
                         </div>
                         {/*user-profile end*/}
                         <div className="cp-field">
-                          <h5>Confirmer votre mot de passe</h5>
-                          <div className=" input-group cpp-fiel">
-                            <div className="input-group-prepend">
-                              <span className="input-group-text bg-transparent">
-                                <i className="fa fa-key" />
-                              </span>
-                            </div>
-                            <input
-                              type="text"
-                              className="form-control"
-                              name="new-password"
-                              placeholder="Mot de passe"
-                            />
-                          </div>
+                          <Formik
+                            initialValues={{
+                              imgFile: "",
+                              password: ""
+                            }}
+                            validationSchema={FileSchema}
+                            onSubmit={(data, { setSubmitting, resetForm }) => {
+                              setSubmitting(true);
+                              const mydata = data;
+
+                              /// check if oldPWD == NewPWD
+                              if (mydata.OldPwd === mydata.NewPwd) {
+                                this.setState({
+                                  heading: "w",
+                                  body:
+                                    " le nouveau mot de passe est le meme que l'ancien ! ",
+                                  showMod: true
+                                });
+                                setSubmitting(false);
+                                return;
+                              }
+
+                              //// Envoie des données vers la BD utilisant axios ( =: ajax ) sans actualiser
+                              axios({
+                                method: "post",
+                                url:
+                                  "http://127.0.0.1:8000/api/Settings/ChangePwD",
+
+                                data: {
+                                  token: "" + localStorage.getItem("LogToken"),
+                                  OldPwd: "" + mydata.OldPwd,
+                                  NewPwd: "" + mydata.NewPwd
+                                },
+                                timeout: 5000,
+                                headers: { "Content-Type": "application/json" }
+                              })
+                                .then(res => {
+                                  var response = res.data;
+                                  //check token validation
+                                  validateToken(response);
+
+                                  switch (response.error + "") {
+                                    case "ValidationError":
+                                      this.setState({
+                                        heading: "w",
+                                        body:
+                                          "Données Fournies sont invalides .",
+                                        showMod: true
+                                      });
+                                      break;
+
+                                    case "PwDErr":
+                                      this.setState({
+                                        heading: "d",
+                                        body:
+                                          "Ancien Mot De Passe Incorrecte !",
+                                        showMod: true
+                                      });
+                                      break;
+                                    case "none":
+                                      this.setState({
+                                        heading: "s",
+                                        body:
+                                          " Mot de passe Bien Changé ! Veuillez vous souvenir de votre nouveau mot de passe. ",
+                                        showMod: true
+                                      });
+                                      break;
+
+                                    default:
+                                      break;
+                                  }
+                                })
+                                .catch(err => {
+                                  this.setState({
+                                    heading: "d",
+                                    body: "Une Erreur s'est produit! \n " + err,
+                                    showMod: true
+                                  });
+                                  console.log("contact-Err :" + err);
+                                });
+
+                              /// FIn du requete GET
+                              resetForm({});
+                              setSubmitting(false);
+                            }}
+                          >
+                            {({
+                              values,
+                              handleSubmit,
+                              handleChange,
+                              isSubmitting,
+                              errors,
+                              touched,
+                              resetForm
+                            }) => {
+                              return (
+                                <Form>
+                                  <h5>Choisissez une photo</h5>
+                                  <div className=" input-group mt-2 mb-4">
+                                    <div className="input-group-prepend">
+                                      <span className="input-group-text bg-transparent">
+                                        <i className="fa fa-camera" />
+                                      </span>
+                                    </div>
+                                    <div className="custom-file">
+                                      <Field
+                                        type="file"
+                                        className={
+                                          values.imgFile.length === 0
+                                            ? "custom-file-input"
+                                            : "custom-file-input selected"
+                                        }
+                                        id="customFile"
+                                        name="imgFile"
+                                        accept=".png,.bmp,.gif,.jpeg,.jpg"
+                                      />
+                                      <label
+                                        className="custom-file-label"
+                                        htmlFor="customFile"
+                                        id="customFile2"
+                                      >
+                                        {values.imgFile.length === 0
+                                          ? "Choisir une image"
+                                          : values.imgFile.split("\\").pop()}
+                                      </label>
+                                    </div>
+                                  </div>
+                                  {errors.imgFile && touched.imgFile ? (
+                                    <>
+                                      <div className="d-block mt-n4 mb-3 text-warning text-center mx-auto h5">
+                                        <i className="fas fa-exclamation" />{" "}
+                                        {errors.imgFile}{" "}
+                                      </div>
+                                    </>
+                                  ) : null}
+
+                                  <h5>Confirmer votre mot de passe</h5>
+                                  <div className=" input-group cpp-fiel">
+                                    <div className="input-group-prepend">
+                                      <span className="input-group-text bg-transparent">
+                                        <i className="fa fa-key" />
+                                      </span>
+                                    </div>
+                                    <Field
+                                      type="password"
+                                      className="form-control"
+                                      name="password"
+                                      placeholder="Mot de passe"
+                                    />
+                                  </div>
+                                  {errors.password && touched.password ? (
+                                    <>
+                                      <div className="d-block mt-4 mb-n2 text-danger text-center mx-auto h5">
+                                        <i className="fas fa-exclamation" />{" "}
+                                        {errors.password}{" "}
+                                      </div>
+                                    </>
+                                  ) : null}
+                                </Form>
+                              );
+                            }}
+                          </Formik>
                         </div>
                         <div className="save-stngs pd2">
                           <ul className=" mx-auto">
