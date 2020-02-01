@@ -2,8 +2,8 @@ import React from "react";
 import { Form, Formik, Field } from "formik";
 import axios from "axios";
 import * as Yup from "yup";
-import Modal from "../../Common/Modal";
-import validateToken from "../../Common/tokenValidate";
+import Modal from "./Modal";
+import validateToken from "./tokenValidate";
 
 const EmailSchema = Yup.object().shape({
   email1: Yup.string()
@@ -42,14 +42,14 @@ const PwdsSchema = Yup.object().shape({
 const FileSchema = Yup.object().shape({
   imgFile: Yup.mixed()
     .required("Selectionnez d'abord une image")
-    .test("FileFormat", "Format de l'image est invalide .", value => {
+    /*.test("FileFormat", "Format de l'image est invalide .", value => {
       return /\.(gif|jpg|jpeg|bmp|png)$/i.test(value.split("\\").pop() + "");
-    })
+    })*/
     .test("fileSize", "Taille de l'image doit etre <= 3Mo ", value => {
       var ele = document.getElementById("customFile");
       return ele.files[0].size <= 3000000;
     })
-    .test("fileDim", "Maximum Résolution de l'image : 250x250px. ", value => {
+    .test("fileDim", "Maximum Résolution de l'image : 600x600px. ", value => {
       var ele = document.getElementById("customFile");
 
       var file = ele.files[0];
@@ -60,7 +60,7 @@ const FileSchema = Yup.object().shape({
       };
       img.src = objectUrl;
 
-      return img.width <= 280 && img.height <= 280;
+      return img.width <= 600 && img.height <= 600;
     }),
 
   password: Yup.string()
@@ -77,6 +77,59 @@ class Settings extends React.Component {
 
   HandleShowModal(t) {
     this.setState({ heading: "", body: "", showMod: false });
+  }
+
+  ImageParDefault() {
+    const pwd = document.getElementById("pwdd").value;
+
+    axios({
+      method: "post",
+      url: "http://127.0.0.1:8000/api/Settings/DefAvatar",
+      data: {
+        token: localStorage.getItem("LogToken") + "",
+        password: pwd + ""
+      },
+      timeout: 5000,
+      headers: { "Content-Type": "application/json" }
+    })
+      .then(res => {
+        var response = res.data;
+        //check token validation
+        validateToken(response);
+        switch (response.error + "") {
+          case "ValidationError":
+            this.setState({
+              heading: "w",
+              body: "Mot de passe invalide/incorrecte .",
+              showMod: true
+            });
+            break;
+
+          case "PwDErr":
+            this.setState({
+              heading: "d",
+              body: "Mot De Passe Incorrecte !",
+              showMod: true
+            });
+            break;
+          case "none":
+            this.setState({
+              heading: "s",
+              body: " Image est mise par défaut ! ",
+              showMod: true
+            });
+            setTimeout(function() {
+              window.location.reload();
+            }, 2500);
+            break;
+
+          default:
+            break;
+        }
+      })
+      .catch(err =>
+        this.setState({ heading: "d", body: "erreur: " + err, showMod: true })
+      );
   }
 
   render() {
@@ -605,104 +658,109 @@ class Settings extends React.Component {
                           <div className="user-specs"></div>
                         </div>
                         {/*user-profile end*/}
-                        <div className="cp-field">
-                          <Formik
-                            initialValues={{
-                              imgFile: "",
-                              password: ""
-                            }}
-                            validationSchema={FileSchema}
-                            onSubmit={(data, { setSubmitting, resetForm }) => {
-                              setSubmitting(true);
-                              const mydata = data;
 
-                              /// check if oldPWD == NewPWD
-                              if (mydata.OldPwd === mydata.NewPwd) {
+                        <Formik
+                          initialValues={{
+                            imgFile: "",
+                            password: ""
+                          }}
+                          validationSchema={FileSchema}
+                          onSubmit={(data, { setSubmitting, resetForm }) => {
+                            setSubmitting(true);
+                            const mydata = data;
+
+                            let fd = new FormData();
+                            fd.append(
+                              "imgFile",
+                              mydata.imgFile,
+                              mydata.imgFile.name
+                            );
+                            fd.append("password", mydata.password);
+
+                            //// Envoie des données vers la BD utilisant axios ( =: ajax ) sans actualiser
+                            axios({
+                              method: "post",
+                              url:
+                                "http://127.0.0.1:8000/api/Settings/ChangeAva",
+                              params: {
+                                token: "" + localStorage.getItem("LogToken")
+                              },
+                              data: fd,
+                              timeout: 5000
+                            })
+                              .then(res => {
+                                var response = res.data;
+
+                                //check token validation
+                                validateToken(response);
+
+                                switch (response.error + "") {
+                                  case "ValidationError":
+                                    this.setState({
+                                      heading: "w",
+                                      body: "Données Fournies sont invalides .",
+                                      showMod: true
+                                    });
+                                    break;
+
+                                  case "PwDErr":
+                                    this.setState({
+                                      heading: "d",
+                                      body: "Mot De Passe Incorrecte !",
+                                      showMod: true
+                                    });
+                                    break;
+                                  case "none":
+                                    this.setState({
+                                      heading: "s",
+                                      body: " Image Changée avec Succès. ",
+                                      showMod: true
+                                    });
+                                    let det = JSON.parse(
+                                      localStorage.getItem("details")
+                                    );
+                                    det.AvatarPath =
+                                      "http://localhost:8000/images/Avatars/" +
+                                      JSON.parse(localStorage.getItem("user"))
+                                        .id +
+                                      "." +
+                                      mydata.imgFile.name.split(".").pop();
+                                    localStorage.setItem(
+                                      "details",
+                                      JSON.stringify(det) + ""
+                                    );
+                                    break;
+
+                                  default:
+                                    break;
+                                }
+                              })
+                              .catch(err => {
                                 this.setState({
-                                  heading: "w",
-                                  body:
-                                    " le nouveau mot de passe est le meme que l'ancien ! ",
+                                  heading: "d",
+                                  body: "Une Erreur s'est produit! \n " + err,
                                   showMod: true
                                 });
-                                setSubmitting(false);
-                                return;
-                              }
+                                console.log("contact-Err :" + err);
+                              });
 
-                              //// Envoie des données vers la BD utilisant axios ( =: ajax ) sans actualiser
-                              axios({
-                                method: "post",
-                                url:
-                                  "http://127.0.0.1:8000/api/Settings/ChangePwD",
-
-                                data: {
-                                  token: "" + localStorage.getItem("LogToken"),
-                                  OldPwd: "" + mydata.OldPwd,
-                                  NewPwd: "" + mydata.NewPwd
-                                },
-                                timeout: 5000,
-                                headers: { "Content-Type": "application/json" }
-                              })
-                                .then(res => {
-                                  var response = res.data;
-                                  //check token validation
-                                  validateToken(response);
-
-                                  switch (response.error + "") {
-                                    case "ValidationError":
-                                      this.setState({
-                                        heading: "w",
-                                        body:
-                                          "Données Fournies sont invalides .",
-                                        showMod: true
-                                      });
-                                      break;
-
-                                    case "PwDErr":
-                                      this.setState({
-                                        heading: "d",
-                                        body:
-                                          "Ancien Mot De Passe Incorrecte !",
-                                        showMod: true
-                                      });
-                                      break;
-                                    case "none":
-                                      this.setState({
-                                        heading: "s",
-                                        body:
-                                          " Mot de passe Bien Changé ! Veuillez vous souvenir de votre nouveau mot de passe. ",
-                                        showMod: true
-                                      });
-                                      break;
-
-                                    default:
-                                      break;
-                                  }
-                                })
-                                .catch(err => {
-                                  this.setState({
-                                    heading: "d",
-                                    body: "Une Erreur s'est produit! \n " + err,
-                                    showMod: true
-                                  });
-                                  console.log("contact-Err :" + err);
-                                });
-
-                              /// FIn du requete GET
-                              resetForm({});
-                              setSubmitting(false);
-                            }}
-                          >
-                            {({
-                              values,
-                              handleSubmit,
-                              handleChange,
-                              isSubmitting,
-                              errors,
-                              touched,
-                              resetForm
-                            }) => {
-                              return (
-                                <Form>
+                            /// FIn du requete GET
+                            resetForm({});
+                            setSubmitting(false);
+                          }}
+                        >
+                          {({
+                            values,
+                            handleSubmit,
+                            handleChange,
+                            isSubmitting,
+                            errors,
+                            touched,
+                            resetForm
+                          }) => {
+                            return (
+                              <Form>
+                                <div className="cp-field">
                                   <h5>Choisissez une photo</h5>
                                   <div className=" input-group mt-2 mb-4">
                                     <div className="input-group-prepend">
@@ -711,13 +769,19 @@ class Settings extends React.Component {
                                       </span>
                                     </div>
                                     <div className="custom-file">
-                                      <Field
+                                      <input
                                         type="file"
                                         className={
                                           values.imgFile.length === 0
                                             ? "custom-file-input"
                                             : "custom-file-input selected"
                                         }
+                                        onChange={event => {
+                                          values.imgFile =
+                                            event.currentTarget.files[0];
+                                          touched.imgFile = true;
+                                        }}
+                                        onSubmit={handleSubmit}
                                         id="customFile"
                                         name="imgFile"
                                         accept=".png,.bmp,.gif,.jpeg,.jpg"
@@ -729,7 +793,7 @@ class Settings extends React.Component {
                                       >
                                         {values.imgFile.length === 0
                                           ? "Choisir une image"
-                                          : values.imgFile.split("\\").pop()}
+                                          : values.imgFile.name}
                                       </label>
                                     </div>
                                   </div>
@@ -752,6 +816,7 @@ class Settings extends React.Component {
                                     <Field
                                       type="password"
                                       className="form-control"
+                                      id="pwdd"
                                       name="password"
                                       placeholder="Mot de passe"
                                     />
@@ -759,26 +824,75 @@ class Settings extends React.Component {
                                   {errors.password && touched.password ? (
                                     <>
                                       <div className="d-block mt-4 mb-n2 text-danger text-center mx-auto h5">
-                                        <i className="fas fa-exclamation" />{" "}
-                                        {errors.password}{" "}
+                                        <i className="fas fa-exclamation" />
+                                        {errors.password}
                                       </div>
                                     </>
                                   ) : null}
-                                </Form>
-                              );
-                            }}
-                          </Formik>
-                        </div>
-                        <div className="save-stngs pd2">
-                          <ul className=" mx-auto">
-                            <li>
-                              <button type="submit">
-                                {" "}
-                                <i className="fas fa-save"></i> Enregistrer
-                              </button>
-                            </li>
-                          </ul>
-                        </div>
+                                </div>
+                                <div className="save-stngs pd2">
+                                  <ul className=" mx-auto">
+                                    <li>
+                                      <button type="submit">
+                                        <i className="fas fa-save"></i>{" "}
+                                        Enregistrer
+                                      </button>
+                                    </li>
+                                    {JSON.parse(localStorage.getItem("user"))
+                                      .UserType +
+                                      "" ===
+                                    "prof" ? (
+                                      JSON.parse(
+                                        localStorage.getItem("details")
+                                      ).AvatarPath +
+                                        "" !==
+                                        "http://localhost:8000/images/Avatars/DefTM.png" &&
+                                      JSON.parse(
+                                        localStorage.getItem("details")
+                                      ).AvatarPath +
+                                        "" !==
+                                        "http://localhost:8000/images/Avatars/DefTF.png" ? (
+                                        <li>
+                                          <button
+                                            type="button"
+                                            onClick={this.ImageParDefault.bind(
+                                              this
+                                            )}
+                                          >
+                                            <i className="fas fa-undo"></i>{" "}
+                                            Image par défaut
+                                          </button>
+                                        </li>
+                                      ) : null
+                                    ) : JSON.parse(
+                                        localStorage.getItem("details")
+                                      ).AvatarPath +
+                                        "" !==
+                                        "http://localhost:8000/images/Avatars/DefMF.png" &&
+                                      JSON.parse(
+                                        localStorage.getItem("details")
+                                      ).AvatarPath +
+                                        "" !==
+                                        "http://localhost:8000/images/Avatars/DefM.png" ? (
+                                      <li>
+                                        <button
+                                          type="button"
+                                          onClick={this.ImageParDefault.bind(
+                                            this
+                                          )}
+                                        >
+                                          <i className="fas fa-undo"></i> Image
+                                          par défaut
+                                        </button>
+                                      </li>
+                                    ) : null}
+                                  </ul>
+                                </div>
+                              </Form>
+                            );
+                          }}
+                        </Formik>
+
                         {/*save-stngs end*/}
                       </div>
                       {/*user-data end*/}

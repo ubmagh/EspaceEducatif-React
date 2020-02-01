@@ -119,6 +119,14 @@ class Register extends React.Component {
                           showMod: true
                         });
                       } else if (res.data.status + "" === "ValidationError") {
+                        if(res.data.content.email[0]+''==='The email has already been taken.')
+                          this.setState({
+                            heading: "w",
+                            body:
+                              " Email déja existe !",
+                            showMod: true
+                          });
+                        else
                         this.setState({
                           heading: "w",
                           body:
