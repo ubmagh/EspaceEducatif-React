@@ -27,7 +27,7 @@ class Prof extends React.Component {
               <Home />
             </Route>
 
-            <Route exact path="/Classes">
+            <Route path="/Classes">
               <ClassesList />
             </Route>
 

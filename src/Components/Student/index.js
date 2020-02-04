@@ -6,6 +6,7 @@ import Home from "./Home/Home";
 import Settings from "../Common/Settings";
 import ClassesList from "./Classes/ClassesList";
 import Aide from "../Common/Aide";
+import Classe from "./Classes/Classe";
 
 //// importing template cssAide
 import "./css/style.css";
@@ -34,6 +35,8 @@ class Student extends React.Component {
             <Route exact path="/Classes">
               <ClassesList />
             </Route>
+
+            <Route path="/Classes/:classID" component={Classe} />
 
             <Route exact path="/Help">
               <Aide />

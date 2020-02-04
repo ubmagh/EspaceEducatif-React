@@ -701,7 +701,7 @@ nav > ul > li > a:hover {
 main {
 	float: left;
 	width: 100%;
-	padding: 60px 0;
+	padding: 30px 0;
 }
 .main-section {
 	float: left;
@@ -715,7 +715,7 @@ main {
 .main-left-sidebar {
 	float: left;
 	width: 100%;
-	margin-top: -20px;
+	margin-top: -9px;
 }
 .full-width {
 	float: left;
