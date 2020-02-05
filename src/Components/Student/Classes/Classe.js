@@ -3,6 +3,8 @@ import axios from "axios";
 import TokenValidate from "../../Common/tokenValidate";
 import Modal from "../../Common/Modal";
 import { Redirect } from "react-router-dom";
+import TabAffichage from "./Parts/TabAffichage";
+import CreatePoste from "./Parts/CreatePoste";
 
 class Classe extends React.Component {
   constructor(props) {
@@ -27,7 +29,6 @@ class Classe extends React.Component {
       }
     })
       .then(res => {
-        console.log(res.data);
         TokenValidate(res.data);
 
         if (res.data.error + "" === "ValidationError") {
@@ -76,6 +77,10 @@ class Classe extends React.Component {
     this.setState({ heading: "", body: "", showMod: false });
   }
 
+  UseModal(h,b,show){
+    this.setState({ heading: h, body: b, showMod: show });
+  }
+
   render() {
     if (this.state.Goback) return <Redirect to="/Classes" />;
     return (
@@ -90,9 +95,6 @@ class Classe extends React.Component {
               alt=""
               style={{ height: "100%", width: "100%" }}
             />
-            <a href="#a" title="true">
-              <i className="fa fa-camera" /> Changer l'image
-            </a>
           </section>
 
           <Modal
@@ -104,36 +106,12 @@ class Classe extends React.Component {
 
           <main style={{ paddingTop: "20px" }}>
             <div className="main-section">
-              <div className="container-fluid">
+              <div className="container">
                 <div className="main-section-data">
                   <div className="row">
                     <div className="col-lg-4">
-                      <div
-                        className="main-left-sidebar"
-                        style={{ marginTop: "-2px" }}
-                      >
-                        <div className="user_profile"></div>
-                        {/*user_profile end*/}
-                        <div className="suggestions full-width">
-                          <div
-                            className="sd-title"
-                            style={{ borderTop: "1px solid #e5e5e5" }}
-                          >
-                            <h3>Actualités</h3>
-                            <i className="la la-ellipsis-v" />
-                          </div>
-                          {/*sd-title end*/}
-                          <div className="suggestions-list">
-                            <div className="view-more">
-                              <a href="#a" title="true">
-                                Voir plus
-                              </a>
-                            </div>
-                          </div>
-                          {/*suggestions-list end*/}
-                        </div>
-                        {/*suggestions end*/}
-                      </div>
+                      <TabAffichage />
+
                       {/*main-left-sidebar end*/}
                     </div>
                     <div className="col-lg-6">
@@ -154,18 +132,9 @@ class Classe extends React.Component {
                             </span>
                           </div>
                           {/*star-descp end*/}
-                          <div className="post-topbar">
-                            <div className="post_comment_sec">
-                              <form>
-                                <textarea
-                                  placeholder="Your Answer"
-                                  defaultValue={""}
-                                />
-                                <button type="submit">Post Answer</button>
-                              </form>
-                            </div>
-                            {/*post_comment_sec end*/}
-                          </div>
+
+                          <CreatePoste Usemodal = {this.UseModal.bind(this)} />
+
                           {/*post-topbar end*/}
                         </div>
                         {/*user-tab-sec end*/}
@@ -227,9 +196,9 @@ class Classe extends React.Component {
                     <div className="col-lg-2">
                       <div className="right-sidebar">
                         <div className="widget widget-portfolio">
-                          <div className="wd-heady">
-                            <h3>Profiles des étudiants</h3>
-                            <img src="images/photo-icon.png" alt="" />
+                          <div className="wd-heady ">
+                            <h3>Etudiants</h3>
+                            <i className="fas fa-users float-right d-inline-block fa-lg" />
                           </div>
                           <div className="pf-gallery">
                             <ul>

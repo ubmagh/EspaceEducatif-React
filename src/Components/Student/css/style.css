@@ -5278,8 +5278,8 @@ a:hover {
 	border-radius: 100px;
 }
 .post_comment_sec {
-	float: left;
-	width: 90%;
+	float: none;
+	width: 98%;
 }
 .post_comment_sec form {
 	float: left;

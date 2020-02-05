@@ -14,14 +14,14 @@ class Banner extends React.Component {
   render() {
     return (
       <header className="navbar fixed-top sticky-top navbar-expand-md w-100">
-        <div className="container ">
-          <div className="d-inline-block logo my-0">
+        <div className="container-fluid ">
+          <div className="d-inline-block float-left ml-xl-5 ml-lg-4 logo my-0">
             <Link to="/">
               <img className="ot1" src={logo} alt="LOGO" />
             </Link>
           </div>
 
-          <div className="search-bar mr-auto my-2 my-sm-0 mb-1">
+          <div className="search-bar float-left mr-xl-auto  my-2 my-sm-0 mb-1 ">
             <form>
               <div className="input-group">
                 <input
@@ -42,8 +42,8 @@ class Banner extends React.Component {
           </div>
 
           <nav className=" col-12  col-md-8 col-lg-6 col-xl-6 mr-0 p-0 my-0 ">
-            <ul className="row p-0 mb-0 mt-2">
-              <li className="col py-0 my-1 text-center">
+            <ul className="row float-xl-right mr-xl-2 p-0 mb-0 mt-2">
+              <li className="col py-0 my-1 text-center px-xl-4 mr-xl-1">
                 <Link to="/">
                   <span className="d-block mx-auto">
                     {" "}
@@ -52,16 +52,16 @@ class Banner extends React.Component {
                   Accueill
                 </Link>
               </li>
-              <li className="col py-0 my-1 text-center">
+              <li className="col py-0 my-1 text-center  px-xl-3 mr-xl-1">
                 <a href="#aaa">
                   <span className="d-block mx-auto">
                     {" "}
-                    <i className="fas fa-user-friends fa-lg text-light mt-n1 mb-1"></i>{" "}
+                    <i className="fas fa-user fa-lg text-light mt-n1 mb-1"></i>{" "}
                   </span>
                   Profile
                 </a>
               </li>
-              <li className=" col py-0 my-1 text-center ">
+              <li className=" col py-0 my-1 text-center px-xl-4 mr-xl-1 ">
                 <a href="#aaa">
                   <span className="d-block mx-auto">
                     {" "}
@@ -70,7 +70,7 @@ class Banner extends React.Component {
                   Planning
                 </a>
               </li>
-              <li className="col py-0 my-1 text-center">
+              <li className="col py-0 my-1 text-center pl-xl-3 pr-xl-2 mr-xl-1 ">
                 <a href="#aa" className="not-box-open">
                   <span className="d-block mx-auto">
                     {" "}
@@ -79,7 +79,7 @@ class Banner extends React.Component {
                   Messages
                 </a>
               </li>
-              <li className="col py-0 my-1 text-center">
+              <li className="col py-0 my-1 text-center  px-xl-3 mr-xl-1">
                 <a href="#aa" className="not-box-open">
                   <span className="d-block mx-auto">
                     {" "}
@@ -88,7 +88,7 @@ class Banner extends React.Component {
                   Notifications
                 </a>
               </li>
-              <li className="col-xs-12 col-lg-1 col py-0 my-1 text-center p-0">
+              <li className="col-xs-12 col py-0 my-1 text-center px-0 pl-xl-2 pr-xl-2 mr-xl-2 ">
                 <OverlayTrigger
                   trigger="click"
                   key="bottom"
