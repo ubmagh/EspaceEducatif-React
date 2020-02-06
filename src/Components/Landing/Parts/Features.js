@@ -7,7 +7,7 @@ function Features() {
   return (
     <>
       <Row
-        className=" border border-top-secondary border-bottom-0 px-3 py-3  mt-xs-5 pt-xs-5 bg-white"
+        className=" border border-left-0 border-right-0 border-bottom-0 border-top border-aqua px-3 py-3  mt-xs-5 pt-xs-5 bg-white"
         style={{ maxHeight: "600px" }}
       >
         <div
@@ -39,7 +39,7 @@ function Features() {
       <br />
 
       <Row
-        className=" border border-top-secondary border-bottom-0 px-3 py-3 bg-white"
+        className=" border border-left-0 border-right-0 border-bottom-0 border-top border-aqua px-3 py-3 bg-white"
         style={{ maxHeight: "600px" }}
       >
         <div

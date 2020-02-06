@@ -77,7 +77,7 @@ class Classe extends React.Component {
     this.setState({ heading: "", body: "", showMod: false });
   }
 
-  UseModal(h,b,show){
+  UseModal(h, b, show) {
     this.setState({ heading: h, body: b, showMod: show });
   }
 
@@ -133,7 +133,10 @@ class Classe extends React.Component {
                           </div>
                           {/*star-descp end*/}
 
-                          <CreatePoste Usemodal = {this.UseModal.bind(this)} />
+                          <CreatePoste
+                            Usemodal={this.UseModal.bind(this)}
+                            classID={this.state.classID}
+                          />
 
                           {/*post-topbar end*/}
                         </div>

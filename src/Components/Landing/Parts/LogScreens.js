@@ -93,7 +93,7 @@ class StudentLog extends React.Component {
 
                             {({ values, handleSubmit, handleChange, isSubmitting, errors, touched }) => (
 
-                                <Form className="col-10 mx-auto text-center mt-5 mb-md-n5">
+                                <Form className="col-8 mx-auto text-center mt-5 mb-md-n5">
 
                                     <div className="form-group d-block mx-auto">
                                         <Field type="email" name="email" className="form-control  text-center" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Adresse Email" />
@@ -231,7 +231,7 @@ class TeacherLog extends React.Component {
 
                             {({ values, handleSubmit, handleChange, isSubmitting, errors, touched }) => (
 
-                                <Form className="col-10 mx-auto text-center mt-5 mb-md-n5">
+                                <Form className="col-8 mx-auto text-center mt-5 mb-md-n5">
 
                                     <div className="form-group">
                                         <Field type="email" name="email" className="form-control  text-center" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Adresse Email" />

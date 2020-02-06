@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import axios from "axios";
 import MyModal from "../../Common/Modal";
+import moment from "moment";
 
 const RegisterSchema = Yup.object().shape({
   Fname: Yup.string()
@@ -44,7 +45,12 @@ const RegisterSchema = Yup.object().shape({
     .required("l'email est Obligatoire !"),
   password: Yup.string()
     .min(6, "Mot De Passe invalide >6!")
-    .required("Entrez Votre Mot De Passe !")
+    .required("Entrez Votre Mot De Passe !"),
+  DateNais: Yup.date()
+    .required("Veuillez saisir votre date de Naissance ici")
+    .test("DOB", "date saisie est invalide !", value => {
+      return moment().diff(moment(value), "years") >= 18;
+    })
 });
 
 class Register extends React.Component {
@@ -86,7 +92,8 @@ class Register extends React.Component {
                   password: "",
                   Filiere: "",
                   Annee: "",
-                  Sex: "",
+                  Sex: "F",
+                  DateNais: "",
                   CIN: "",
                   Rules: false
                 }}
@@ -119,20 +126,22 @@ class Register extends React.Component {
                           showMod: true
                         });
                       } else if (res.data.status + "" === "ValidationError") {
-                        if(res.data.content.email[0]+''==='The email has already been taken.')
+                        if (
+                          res.data.content.email[0] + "" ===
+                          "The email has already been taken."
+                        )
                           this.setState({
                             heading: "w",
-                            body:
-                              " Email déja existe !",
+                            body: " Email déja existe !",
                             showMod: true
                           });
                         else
-                        this.setState({
-                          heading: "w",
-                          body:
-                            " Les données fournies invalides, réssayez plus tard !",
-                          showMod: true
-                        });
+                          this.setState({
+                            heading: "w",
+                            body:
+                              " Les données fournies invalides, réssayez plus tard !",
+                            showMod: true
+                          });
                       }
                     })
                     .catch(err => {
@@ -154,7 +163,7 @@ class Register extends React.Component {
                   errors,
                   touched
                 }) => (
-                  <Form className="col-md-10 col-xs-12 col-sm-11 mx-auto text-center mt-5 mb-md-n5">
+                  <Form className="col-md-8 col-xs-10 col-sm-11 col-12 mx-auto text-center mt-5 mb-md-n5">
                     <div className="form-group">
                       <Field
                         type="input"
@@ -194,10 +203,10 @@ class Register extends React.Component {
                         id="customRadioInline1"
                         name="Sex"
                         value="M"
-                        className="custom-control-input"
+                        className="custom-control-input mt-n1"
                       />
                       <label
-                        className="custom-control-label"
+                        className="custom-control-label mt-2"
                         htmlFor="customRadioInline1"
                       >
                         Mâle
@@ -210,14 +219,40 @@ class Register extends React.Component {
                         id="customRadioInline2"
                         name="Sex"
                         value="F"
-                        className="custom-control-input"
+                        className="custom-control-input mt-n1"
+                        checked
                       />
                       <label
-                        className="custom-control-label"
+                        className="custom-control-label mt-2"
                         htmlFor="customRadioInline2"
                       >
                         femelle
                       </label>
+                    </div>
+
+                    <div className=" form-group col-12 mx-auto ">
+                      <h6
+                        className="h6 float-left mt-2 mr-md-2"
+                        style={{ fontFamily: "Source Sans Pro" }}
+                      >
+                        Date de Naissance :
+                      </h6>
+                      <Field
+                        type="date"
+                        className="form-control text-center col-lg-8 col-10 mx-auto "
+                        name="DateNais"
+                        placeholder="Date de Naissance"
+                      />
+                      {errors.DateNais && touched.DateNais ? (
+                        <>
+                          <div
+                            className="d-inline-block mx-auto alert alert-danger"
+                            role="alert"
+                          >
+                            {errors.DateNais}
+                          </div>
+                        </>
+                      ) : null}
                     </div>
 
                     <div className="form-group">
@@ -326,11 +361,11 @@ class Register extends React.Component {
                       <Field
                         type="checkbox"
                         name="Rules"
-                        className="custom-control-input"
+                        className="custom-control-input mt-n1"
                         id="customCheck1"
                       />
                       <label
-                        className="custom-control-label"
+                        className="custom-control-label mt-2"
                         htmlFor="customCheck1"
                       >
                         J'accepte tous{" "}
@@ -344,14 +379,15 @@ class Register extends React.Component {
                         !values.Rules ||
                         isSubmitting ||
                         errors.Lname ||
-                          errors.Lname ||
-                          errors.Sex ||
-                          errors.Filiere ||
-                          errors.Annee ||
-                          errors.CIN ||
-                          errors.email ||
-                          errors.password ||
-                          errors.Rules
+                        errors.Lname ||
+                        errors.Sex ||
+                        errors.Filiere ||
+                        errors.Annee ||
+                        errors.CIN ||
+                        errors.email ||
+                        errors.password ||
+                        errors.Rules ||
+                        errors.DateNais
                       }
                       className="btn btn-primary col-md-5 mt-4 mb-md-n5"
                     >

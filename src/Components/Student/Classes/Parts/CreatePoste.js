@@ -18,7 +18,7 @@ import axios from "axios";
 class CreatePoste extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { attachedFiles: [] };
+    this.state = { attachedFiles: [], classID: props.classID };
     this.UseModal = props.Usemodal;
   }
 
@@ -403,27 +403,29 @@ class CreatePoste extends React.Component {
             initialValues={{ pub: "", attachedFiles: [] }}
             onSubmit={(data, { setSubmitting, resetForm }) => {
               let fd = new FormData();
-              fd.append(
-                "Files",
-                this.state.attachedFiles
-              );
+              
+              for(let i=0;i<this.state.attachedFiles.length;i++)
+              fd.append("File"+i, this.state.attachedFiles[i]);
+              fd.append("lngth",this.state.attachedFiles.length);
               fd.append("pub", data.pub);
+              fd.append("classID",this.state.classID);
               resetForm({});
               this.Vider();
-              
-              axios({
-                method:'post',
-                url:'',
-                params: {token:localStorage.getItem('LogToken')},
-                data:fd,
-              }).then(
-                /// TODO
-                
-                ///
-              ).catch(
-                err => this.UseModal('d','une erreure servenue :'+err,true)
-              )
 
+              axios({
+                method: "post",
+                url: "http://localhost:8000/api/Postes/newIntoClasse",
+                params: { token: localStorage.getItem("LogToken") },
+                data: fd
+              })
+                .then
+                /// TODO
+
+                ///
+                ()
+                .catch(err =>
+                  this.UseModal("d", "une erreure servenue :" + err, true)
+                );
             }}
           >
             {({
