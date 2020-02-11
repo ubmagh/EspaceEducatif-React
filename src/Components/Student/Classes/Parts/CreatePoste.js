@@ -2,6 +2,7 @@ import React from "react";
 import { Tooltip, OverlayTrigger } from "react-bootstrap";
 import { Form, Formik, Field } from "formik";
 import FormatFileSize from "../../../Common/FileSizeFormat";
+import validateToken from "../../../Common/tokenValidate";
 //// pictures
 import pictureIcon from "../../../Common/images/picture.png";
 import pdfIcon from "../../../Common/images/pdf.png";
@@ -18,7 +19,7 @@ import axios from "axios";
 class CreatePoste extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { attachedFiles: [], classID: props.classID };
+    this.state = { attachedFiles: [], classID: props.classID, Progress: 0 };
     this.UseModal = props.Usemodal;
   }
 
@@ -43,7 +44,17 @@ class CreatePoste extends React.Component {
   onChange(e) {
     let tab = this.state.attachedFiles;
     let flag = false;
-    let allowed = ["docx", "xlsx", "pptx", "zip", "rar", "pdf"];
+    let allowed = [
+      "docx",
+      "doc",
+      "rtf",
+      "xlsx",
+      "pptx",
+      "ppt",
+      "zip",
+      "rar",
+      "pdf"
+    ];
     let tmp = "",
       Signal = [],
       sizes = [];
@@ -380,6 +391,18 @@ class CreatePoste extends React.Component {
           ele = this.file_Thumbnail("audio", files[i].name, files[i].size, i);
         } else if (files[i].type.search("video") !== -1) {
           ele = this.file_Thumbnail("video", files[i].name, files[i].size, i);
+        } else if (files[i].name.split(".").pop() === "ppt") {
+          ele = this.file_Thumbnail(
+            "presentation",
+            files[i].name,
+            files[i].size,
+            i
+          );
+        } else if (
+          files[i].name.split(".").pop() === "doc" ||
+          files[i].name.split(".").pop() === "rtf"
+        ) {
+          ele = this.file_Thumbnail("doc", files[i].name, files[i].size, i);
         }
       } else {
         if (files[i].name.split(".").pop() === "rar") {
@@ -395,6 +418,13 @@ class CreatePoste extends React.Component {
     return Table;
   }
 
+  progressELevator(progressEvent) {
+    var percentCompleted = Math.round(
+      (progressEvent.loaded * 100) / progressEvent.total
+    );
+    this.setState({ Progress: percentCompleted });
+  }
+
   render() {
     return (
       <div className="post-topbar">
@@ -403,12 +433,22 @@ class CreatePoste extends React.Component {
             initialValues={{ pub: "", attachedFiles: [] }}
             onSubmit={(data, { setSubmitting, resetForm }) => {
               let fd = new FormData();
-              
-              for(let i=0;i<this.state.attachedFiles.length;i++)
-              fd.append("File"+i, this.state.attachedFiles[i]);
-              fd.append("lngth",this.state.attachedFiles.length);
+              if (
+                this.state.attachedFiles.length === 0 &&
+                data.pub.length === 0
+              ) {
+                this.UseModal("w", "impossible de publier null", true);
+                setSubmitting(false);
+                return;
+              }
+
+              setSubmitting(true);
+
+              for (let i = 0; i < this.state.attachedFiles.length; i++)
+                fd.append("File" + i, this.state.attachedFiles[i]);
+              fd.append("lngth", this.state.attachedFiles.length);
               fd.append("pub", data.pub);
-              fd.append("classID",this.state.classID);
+              fd.append("classID", this.state.classID);
               resetForm({});
               this.Vider();
 
@@ -416,16 +456,31 @@ class CreatePoste extends React.Component {
                 method: "post",
                 url: "http://localhost:8000/api/Postes/newIntoClasse",
                 params: { token: localStorage.getItem("LogToken") },
-                data: fd
+                data: fd,
+                onUploadProgress: this.progressELevator.bind(this)
               })
-                .then
-                /// TODO
+                .then(
+                  /// TODO
+                  ///
+                  res => {
+                    validateToken(res.data);
 
-                ///
-                ()
+                    if (res.data.status === "Succes") {
+                      this.UseModal("s", "Bien Publié !", true);
+                    } else if (res.data.status === "NonAuth") {
+                      this.UseModal(
+                        "w",
+                        " Données Fournies incorrectes ",
+                        true
+                      );
+                    }
+                  }
+                )
                 .catch(err =>
                   this.UseModal("d", "une erreure servenue :" + err, true)
                 );
+
+              setSubmitting(false);
             }}
           >
             {({
@@ -491,6 +546,7 @@ class CreatePoste extends React.Component {
                         resetForm({});
                         this.Vider();
                       }}
+                      disabled={isSubmitting}
                     >
                       <i className="fas fa-times fa-lg"></i> Annuler
                     </button>
@@ -498,10 +554,24 @@ class CreatePoste extends React.Component {
                       type="submit"
                       className="btn btn-primary bg-primary ml-1 "
                       onClick={handleSubmit}
+                      disabled={isSubmitting}
                     >
                       <i className="fas fa-check fa-lg"></i> Publier
                     </button>
                   </div>
+                  {this.state.Progress !== 0 && this.state.Progress !== 100 ? (
+                    <div
+                      className="w-100 d-inline-block mt-3 mb-n4"
+                      style={{ height: "15px" }}
+                    >
+                      <div class="progress">
+                        <div
+                          class="progress-bar"
+                          style={{ width: this.state.Progress + "%" }}
+                        ></div>
+                      </div>
+                    </div>
+                  ) : null}
                 </Form>
               );
             }}

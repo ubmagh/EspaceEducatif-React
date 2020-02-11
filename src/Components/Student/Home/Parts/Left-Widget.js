@@ -49,10 +49,12 @@ class LeftWidget extends React.Component {
 
     for (let i = 0; i < this.state.data.length; i++) {
       rows.push(
-        <h1 key={this.state.data[i].id} className="text-center py-2">
-          {" "}
-          {this.state.data[i].ClasseName}{" "}
-        </h1>
+        <Link to={"/Classes/" + this.state.data[i].id}>
+          <h1 key={this.state.data[i].id} className="text-center py-2 mx-auto">
+            {" "}
+            {this.state.data[i].ClasseName}{" "}
+          </h1>
+        </Link>
       );
     }
 

@@ -5,6 +5,7 @@ import Modal from "../../Common/Modal";
 import { Redirect } from "react-router-dom";
 import TabAffichage from "./Parts/TabAffichage";
 import CreatePoste from "./Parts/CreatePoste";
+import PostsSection from "./Parts/PostsSection";
 
 class Classe extends React.Component {
   constructor(props) {
@@ -143,51 +144,11 @@ class Classe extends React.Component {
                         {/*user-tab-sec end*/}
                         <div className="product-feed-tab current" id="feed-dd">
                           <div className="posts-section">
-                            <div className="post-bar">
-                              <div className="post_topbar">
-                                <div className="usy-dt">
-                                  <img
-                                    src="http://via.placeholder.com/50x50"
-                                    alt=""
-                                  />
-                                  <div className="usy-name">
-                                    <h3>Omar Zemzami</h3>
-                                    <span>
-                                      <img src="images/clock.png" alt="" />3 min
-                                      ago
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="job_descp">
-                                <p>Contenu du post</p>
-                              </div>
-                              <div className="job-status-bar">
-                                <ul className="like-com">
-                                  <li>
-                                    <a href="#a">
-                                      <i className="la la-heart" /> Like
-                                    </a>
-                                    <img src="images/liked-img.png" alt="" />
-                                    <span>25</span>
-                                  </li>
-                                  <li>
-                                    <a href="#a" title="true" className="com">
-                                      <img src="images/com.png" alt="" />{" "}
-                                      Comment 15
-                                    </a>
-                                  </li>
-                                </ul>
-                              </div>
-                            </div>
-                            {/*post-bar end*/}
-                            <div className="process-comm">
-                              <div className="spinner">
-                                <div className="bounce1" />
-                                <div className="bounce2" />
-                                <div className="bounce3" />
-                              </div>
-                            </div>
+                            <PostsSection
+                              classID={this.state.classID}
+                              useModal={this.UseModal.bind(this)}
+                            />
+
                             {/*process-comm end*/}
                           </div>
                           {/*posts-section end*/}

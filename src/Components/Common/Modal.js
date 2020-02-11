@@ -59,7 +59,7 @@ function MyModal({ ShowOrNot, setShowOrNot, Heading, body }, props) {
       show={ShowOrNot}
       onHide={() => setShowOrNot(false)}
       size="md"
-      aria-labelledby="contained-modal-title-vcenter"
+      aria-labelledby="contained-modal-title-hcenter"
       centered
     >
       <Modal.Header closeButton></Modal.Header>
