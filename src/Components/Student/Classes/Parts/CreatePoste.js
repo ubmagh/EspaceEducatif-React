@@ -466,11 +466,21 @@ class CreatePoste extends React.Component {
                     validateToken(res.data);
 
                     if (res.data.status === "Succes") {
-                      this.UseModal("s", "Bien Publié !", true);
+                      this.UseModal(
+                        "s",
+                        "Bien Publié ! à l'attente du confirmation",
+                        true
+                      );
                     } else if (res.data.status === "NonAuth") {
                       this.UseModal(
                         "w",
                         " Données Fournies incorrectes ",
+                        true
+                      );
+                    } else if (res.data.status === "permission") {
+                      this.UseModal(
+                        "w",
+                        " Vous n'etes pas permis à publier! Contactez l'administration.",
                         true
                       );
                     }

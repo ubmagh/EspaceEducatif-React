@@ -12,7 +12,8 @@ class PostsSection extends React.Component {
       Loading: true,
       Posts: "",
       Posters: "",
-      Medias: ""
+      Medias: "",
+      Comments: ""
     };
     this.useModal = props.useModal;
     var fd = new FormData();
@@ -34,7 +35,9 @@ class PostsSection extends React.Component {
             Loading: false,
             Posts: res.data.Posts,
             Posters: res.data.Posters,
-            Medias: res.data.medias
+            Medias: res.data.medias,
+            Comments: res.data.LastComms,
+            Likes: res.data.Likes
           });
         }
       })
@@ -50,9 +53,13 @@ class PostsSection extends React.Component {
     for (let i = 0; i < this.state.Posts.length; i++) {
       tab.push(
         <Post
+          key={"post:" + this.state.Posts[i].PostID}
           Poster={this.state.Posters[i]}
           Post={this.state.Posts[i]}
           Media={this.state.Medias[i]}
+          Comment={this.state.Comments[i]}
+          Like={this.state.Likes[i]}
+          useModal={this.useModal}
         />
       );
     }

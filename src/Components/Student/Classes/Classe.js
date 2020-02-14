@@ -6,6 +6,7 @@ import { Redirect } from "react-router-dom";
 import TabAffichage from "./Parts/TabAffichage";
 import CreatePoste from "./Parts/CreatePoste";
 import PostsSection from "./Parts/PostsSection";
+import RightWidget from "./Parts/RightWidget";
 
 class Classe extends React.Component {
   constructor(props) {
@@ -157,74 +158,8 @@ class Classe extends React.Component {
                       </div>
                       {/*main-ws-sec end*/}
                     </div>
-                    <div className="col-lg-2">
-                      <div className="right-sidebar">
-                        <div className="widget widget-portfolio">
-                          <div className="wd-heady ">
-                            <h3>Etudiants</h3>
-                            <i className="fas fa-users float-right d-inline-block fa-lg" />
-                          </div>
-                          <div className="pf-gallery">
-                            <ul>
-                              <li>
-                                <a href="#A" title="true">
-                                  <img
-                                    src="http://via.placeholder.com/70x70"
-                                    alt=""
-                                  />
-                                </a>
-                              </li>
-                              <li>
-                                <a href="#a" title="true">
-                                  <img
-                                    src="http://via.placeholder.com/70x70"
-                                    alt=""
-                                  />
-                                </a>
-                              </li>
-                              <li>
-                                <a href="#a" title="true">
-                                  <img
-                                    src="http://via.placeholder.com/70x70"
-                                    alt=""
-                                  />
-                                </a>
-                              </li>
-                              <li>
-                                <a href="#a" title="true">
-                                  <img
-                                    src="http://via.placeholder.com/70x70"
-                                    alt=""
-                                  />
-                                </a>
-                              </li>
-                              <li>
-                                <a href="#a" title="true">
-                                  <img
-                                    src="http://via.placeholder.com/70x70"
-                                    alt=""
-                                  />
-                                </a>
-                              </li>
-                              <li>
-                                <a href="#a" title="true">
-                                  <img
-                                    src="http://via.placeholder.com/70x70"
-                                    alt=""
-                                  />
-                                </a>
-                              </li>
-                            </ul>
-                            <div className="view-more">
-                              <a href="#a" title="true">
-                                Voir plus
-                              </a>
-                            </div>
-                          </div>
-                          {/*pf-gallery end*/}
-                        </div>
-                        {/*widget-portfolio end*/}
-                      </div>
+                    <div className="col-xl-2 col-lg-4">
+                      <RightWidget classID={this.state.classID} />
                       {/*right-sidebar end*/}
                     </div>
                   </div>
