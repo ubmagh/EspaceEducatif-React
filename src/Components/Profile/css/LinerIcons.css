@@ -1,0 +1,19 @@
+.lnr {
+  font-family: "Linearicons-Free";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.lnr-envelope:before {
+  content: "\e818";
+}
+.lnr-calendar-full:before {
+  content: "\e836";
+}

@@ -24,7 +24,7 @@ class Post extends React.Component {
       media: props.Media,
       comment: props.Comment,
       myComments: [],
-      Liked: props.Like
+      Liked: props.Like ? true : false
     };
     this.useModal = props.useModal;
     moment.updateLocale("en", {
@@ -386,6 +386,7 @@ class Post extends React.Component {
   }
 
   LikeIt() {
+    //// try to use socket io here to send and get those quickly
     Axios({
       method: "get",
       url: "http://localhost:8000/api/Classes/Like",
@@ -401,6 +402,14 @@ class Post extends React.Component {
           this.useModal("w", "Action de Like refusée !", true);
         } else if (res.data.status === "successed") {
           this.setState({ Liked: !this.state.Liked });
+          if (this.state.Liked)
+            document
+              .getElementById("Like" + this.state.post.PostID)
+              .classList.add("text-primary");
+          else
+            document
+              .getElementById("Like" + this.state.post.PostID)
+              .classList.remove("text-primary");
           /////
         } else if (res.data.status === "NotSuccessed") {
           this.useModal("w", "une erreure servenue au dernier action ", true);
@@ -455,9 +464,15 @@ class Post extends React.Component {
                   >
                     {" "}
                     {this.state.post.likes === 0 ? null : this.state.post.likes}
-                    <i className={this.state.Liked === true? "far fa-thumbs-up fa-lg ml-2 text-primary" : "far fa-thumbs-up fa-lg ml-2 "}></i>{" "}
-                        Liker
-                    
+                    <i
+                      className={
+                        this.state.Liked === true
+                          ? "far fa-thumbs-up fa-lg ml-2 text-primary"
+                          : "far fa-thumbs-up fa-lg ml-2 "
+                      }
+                      id={"Like" + this.state.post.PostID}
+                    ></i>{" "}
+                    Liker
                   </button>
                 </li>
                 <li>

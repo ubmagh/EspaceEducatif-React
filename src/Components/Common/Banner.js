@@ -53,13 +53,13 @@ class Banner extends React.Component {
                 </Link>
               </li>
               <li className="col py-0 my-1 text-center  px-xl-3 mr-xl-1">
-                <a href="#aaa">
+                <Link to="/Profile">
                   <span className="d-block mx-auto">
                     {" "}
                     <i className="fas fa-user fa-lg text-light mt-n1 mb-1"></i>{" "}
                   </span>
                   Profile
-                </a>
+                </Link>
               </li>
               <li className=" col py-0 my-1 text-center px-xl-4 mr-xl-1 ">
                 <a href="#aaa">

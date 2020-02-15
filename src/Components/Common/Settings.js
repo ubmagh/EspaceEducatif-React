@@ -4,6 +4,7 @@ import axios from "axios";
 import * as Yup from "yup";
 import Modal from "./Modal";
 import validateToken from "./tokenValidate";
+import moment from "moment";
 
 const EmailSchema = Yup.object().shape({
   email1: Yup.string()
@@ -72,7 +73,52 @@ const FileSchema = Yup.object().shape({
 class Settings extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { heading: "", body: "", showMod: false };
+    this.state = { heading: "", body: "", showMod: false, LastLog: "" };
+
+    axios({
+      method: "get",
+      url: "http://localhost:8000/api/LastLogin",
+      headers: { "Content-Type": "application/json" },
+      params: { token: "" + localStorage.getItem("LogToken") }
+    })
+      .then(res => {
+        validateToken(res.data);
+
+        if (res.data.status + "" === "succeded") {
+          this.setState({ LastLog: "" + res.data.content });
+        }
+      })
+      .catch(err => {
+        this.setState({ heading: "d", body: "Erreure: " + err, showMod: true });
+      });
+
+    moment.updateLocale("fr", {
+      months: [
+        "Janvier",
+        "Février",
+        "Mars",
+        "Avril",
+        "May",
+        "Juin",
+        "juillet",
+        "aout",
+        "Septembre",
+        "Octobre",
+        "Novembre",
+        "Décembre"
+      ]
+    });
+    moment.updateLocale("fr", {
+      longDateFormat: {
+        LT: "h:mm A",
+        LTS: "h:mm:ss A",
+        L: "MM/DD/YYYY",
+        LL: " Do MMMM YYYY",
+        LLL: " Do MMMM YYYY, LT",
+        LLLL: "dddd, MMMM Do YYYY LT"
+      }
+    });
+    moment.locale("fr");
   }
 
   HandleShowModal(t) {
@@ -173,6 +219,24 @@ class Settings extends React.Component {
                       aria-selected="false"
                     >
                       <i className="fas fa-camera" /> Changer la photo
+                    </a>
+
+                    <a
+                      className="nav-item  disabled"
+                      href="#here"
+                      id="here"
+                      disabled
+                      style={{ cursor: "default" }}
+                    >
+                      <i className="fas fa-history" /> Dernière connexion:{" "}
+                      <span className="text-info">
+                        {this.state.LastLog.length > 0
+                          ? moment(
+                              this.state.LastLog,
+                              "YYYY-MM-DD HH:mm:ss"
+                            ).format("LLL")
+                          : "Cette connexion !"}
+                      </span>
                     </a>
                   </div>
                 </div>
