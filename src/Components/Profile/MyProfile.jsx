@@ -120,7 +120,7 @@ class MyProfile extends React.Component {
                       src={this.state.data.infos.AvatarPath}
                       alt="."
                       style={{
-                        backgroundColor: "#eaf2f3",
+                        backgroundColor: "white",
                         border: "1px solid #eaf2f3 "
                       }}
                     />
@@ -147,13 +147,14 @@ class MyProfile extends React.Component {
                         }}
                       >
                         {" "}
-                        <span class="text-success">
+                        <span className="text-success">
                           <u>
+                            {" "}
                             {this.state.data.infos.Sex === "M"
                               ? "Etudiant"
                               : "Etudiante"}{" "}
                           </u>
-                        </span>
+                        </span>{" "}
                         {" en "}
                         {this.Filiere(this.state.data.infos.Filiere)} -{" "}
                         {this.Annee(this.state.data.infos.Annee)}

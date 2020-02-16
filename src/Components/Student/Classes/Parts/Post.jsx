@@ -14,6 +14,7 @@ import zipIcon from "../../../Common/images/zip.png";
 import audioIcon from "../../../Common/images/audio.png";
 import videoIcon from "../../../Common/images/video.png";
 import Axios from "axios";
+import { Link } from "react-router-dom";
 
 class Post extends React.Component {
   constructor(props) {
@@ -114,9 +115,10 @@ class Post extends React.Component {
             <span
               className="float-right mr-1 mt-1"
               style={{ cursor: "pointer" }}
+              title="Télécharger ce fichier"
             >
               {" "}
-              <i className="fas fa-times text-danger fa-lg " />{" "}
+              <i className="far fa-arrow-alt-circle-down text-success fa-5x mt-2 " />{" "}
             </span>
             <div className=" mx-auto ">
               <h4 className="text-break text-center mt-3 h5">{FileName}</h4>
@@ -142,9 +144,10 @@ class Post extends React.Component {
             <span
               className="float-right mr-1 mt-1"
               style={{ cursor: "pointer" }}
+              title="Télécharger ce fichier"
             >
               {" "}
-              <i className="fas fa-times text-danger fa-lg " />{" "}
+              <i className="far fa-arrow-alt-circle-down text-success fa-5x mt-2 " />{" "}
             </span>
             <div className="  mx-auto ">
               <h4 className="text-break text-center mt-3 h5">{FileName}</h4>
@@ -170,9 +173,10 @@ class Post extends React.Component {
             <span
               className="float-right mr-1 mt-1"
               style={{ cursor: "pointer" }}
+              title="Télécharger ce fichier"
             >
               {" "}
-              <i className="fas fa-times text-danger fa-lg " />{" "}
+              <i className="far fa-arrow-alt-circle-down text-success fa-5x mt-2 " />{" "}
             </span>
             <div className="  mx-auto ">
               <h4 className="text-break text-center mt-3 h5">{FileName}</h4>
@@ -198,9 +202,10 @@ class Post extends React.Component {
             <span
               className="float-right mr-1 mt-1"
               style={{ cursor: "pointer" }}
+              title="Télécharger ce fichier"
             >
               {" "}
-              <i className="fas fa-times text-danger fa-lg " />{" "}
+              <i className="far fa-arrow-alt-circle-down text-success fa-5x mt-2 " />{" "}
             </span>
 
             <div className=" mx-auto ">
@@ -227,9 +232,10 @@ class Post extends React.Component {
             <span
               className="float-right mr-1 mt-1"
               style={{ cursor: "pointer" }}
+              title="Télécharger ce fichier"
             >
               {" "}
-              <i className="fas fa-times text-danger fa-lg " />{" "}
+              <i className="far fa-arrow-alt-circle-down text-success fa-5x mt-2 " />{" "}
             </span>
 
             <div className="  mx-auto ">
@@ -256,9 +262,10 @@ class Post extends React.Component {
             <span
               className="float-right mr-1 mt-1"
               style={{ cursor: "pointer" }}
+              title="Télécharger ce fichier"
             >
               {" "}
-              <i className="fas fa-times text-danger fa-lg " />{" "}
+              <i className="far fa-arrow-alt-circle-down text-success fa-5x mt-2 " />{" "}
             </span>
 
             <div className="  mx-auto ">
@@ -285,9 +292,10 @@ class Post extends React.Component {
             <span
               className="float-right mr-1 mt-1"
               style={{ cursor: "pointer" }}
+              title="Télécharger ce fichier"
             >
               {" "}
-              <i className="fas fa-times text-danger fa-lg " />{" "}
+              <i className="far fa-arrow-alt-circle-down text-success fa-5x mt-2 " />{" "}
             </span>
 
             <div className="  mx-auto ">
@@ -319,9 +327,10 @@ class Post extends React.Component {
             <span
               className="float-right mr-1 mt-1"
               style={{ cursor: "pointer" }}
+              title="Télécharger ce fichier"
             >
               {" "}
-              <i className="fas fa-times text-danger fa-lg " />{" "}
+              <i className="far fa-arrow-alt-circle-down text-success fa-5x mt-2 " />{" "}
             </span>
 
             <div className="  mx-auto ">
@@ -338,27 +347,30 @@ class Post extends React.Component {
   }
 
   comment(text, date, id) {
+    let myid = JSON.parse(localStorage.getItem("user")).id;
     return (
       <div className="comment-sec">
         <ul>
           <li className=" border border-top-0 border-left-0 border-right-0 mb-2 ">
             <div className="comment-list ">
               <div className="bg-img">
-                <img
-                  src={JSON.parse(localStorage.getItem("details")).AvatarPath}
-                  style={{ height: "50px", width: "50px" }}
-                  alt={
-                    "Commentor" + JSON.parse(localStorage.getItem("user")).id
-                  }
-                />
+                <Link to={"/Profile/" + myid}>
+                  <img
+                    src={JSON.parse(localStorage.getItem("details")).AvatarPath}
+                    style={{ height: "50px", width: "50px" }}
+                    alt={"Commentor" + myid}
+                  />
+                </Link>
               </div>
               <div className="comment">
-                <h3 className="mt-n1">
-                  {" "}
-                  {JSON.parse(localStorage.getItem("details")).Lname +
-                    " " +
-                    JSON.parse(localStorage.getItem("details")).Fname}
-                </h3>
+                <Link to={"/Profile/" + myid}>
+                  <h3 className="mt-n1">
+                    {" "}
+                    {JSON.parse(localStorage.getItem("details")).Lname +
+                      " " +
+                      JSON.parse(localStorage.getItem("details")).Fname}
+                  </h3>
+                </Link>
                 <span className="mt-n2">
                   <i className="far fa-clock text-secondary"></i>{" "}
                   {moment(date, "YYYY-DD-MM HH:mm:ss").fromNow()}
@@ -428,13 +440,18 @@ class Post extends React.Component {
           <div className="post-bar no-margin">
             <div className="post_topbar">
               <div className="usy-dt">
-                <img
-                  src={this.state.poster.pic}
-                  alt="postOwner Avatar"
-                  style={{ maxHeight: "50px", maxWidth: "50px" }}
-                />
+                <Link to={"/Profile/" + this.state.poster.id}>
+                  <img
+                    src={this.state.poster.pic}
+                    alt="postOwner Avatar"
+                    style={{ maxHeight: "50px", maxWidth: "50px" }}
+                  />
+                </Link>
                 <div className="usy-name">
-                  <h3>{this.state.poster.name}</h3>
+                  <Link to={"/Profile/" + this.state.poster.id}>
+                    {" "}
+                    <h3>{this.state.poster.name}</h3>{" "}
+                  </Link>
                   <span>
                     <i className="far fa-clock text-secondary"></i>{" "}
                     {moment(
@@ -508,7 +525,7 @@ class Post extends React.Component {
           {/*post-bar end*/}
 
           <div className="comment-section">
-            {this.state.comment ? (
+            {this.state.comment.com !== undefined ? (
               <>
                 <div className="plus-ic">
                   <i className="fa fa-plus" />
@@ -518,14 +535,22 @@ class Post extends React.Component {
                     <li className=" border border-top-0 border-left-0 border-right-0 mb-2 ">
                       <div className="comment-list ">
                         <div className="bg-img">
-                          <img
-                            src={this.state.comment.pic}
-                            style={{ height: "50px", width: "50px" }}
-                            alt={"Commentor" + this.state.comment.idc}
-                          />
+                          {" "}
+                          <Link to={"/Profile/" + this.state.comment.idc}>
+                            <img
+                              src={this.state.comment.pic}
+                              style={{ height: "50px", width: "50px" }}
+                              alt={"Commentor" + this.state.comment.idc}
+                            />
+                          </Link>
                         </div>
                         <div className="comment">
-                          <h3 className="mt-n1"> {this.state.comment.name} </h3>
+                          <Link to={"/Profile/" + this.state.comment.idc}>
+                            <h3 className="mt-n1">
+                              {" "}
+                              {this.state.comment.name}{" "}
+                            </h3>
+                          </Link>
                           <span className="mt-n2">
                             <i className="far fa-clock text-secondary"></i>{" "}
                             {moment(
@@ -587,6 +612,12 @@ class Post extends React.Component {
                           this.useModal(
                             "w",
                             "L'ajout du commentaire est refusé !",
+                            true
+                          );
+                        } else if (res.data.status === "Permission") {
+                          this.useModal(
+                            "w",
+                            "Vous ne pouvez pas commenter !",
                             true
                           );
                         } else if (res.data.status === "successed") {

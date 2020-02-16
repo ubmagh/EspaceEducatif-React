@@ -1,5 +1,6 @@
 import React from "react";
 import Axios from "axios";
+import { Link } from "react-router-dom";
 
 class RightWidget extends React.Component {
   constructor(props) {
@@ -8,7 +9,9 @@ class RightWidget extends React.Component {
       classID: props.classID,
       Profimg: "",
       profName: "",
-      profLink: ""
+      profLink: "",
+      id: "",
+      the6: []
     };
 
     Axios({
@@ -25,7 +28,9 @@ class RightWidget extends React.Component {
           this.setState({
             Profimg: "" + res.data.content.pic,
             profName: "" + res.data.content.name,
-            profLink: "" + res.data.content.idProf
+            profLink: "" + res.data.content.idProf,
+            id: "" + res.data.content.id,
+            the6: res.data.the6
           });
         } else {
           this.setState({
@@ -44,7 +49,32 @@ class RightWidget extends React.Component {
       );
   }
 
+  Render_ClasseMates(props) {
+    return (
+      <li>
+        <Link to={"/Profile/" + props.id} title={props.name}>
+          <img
+            src={"http://localhost:8000/images/Avatars/" + props.AvatarPath}
+            style={{ height: "70px", width: "70px" }}
+            alt="Classmate"
+          />
+        </Link>
+      </li>
+    );
+  }
+
   render() {
+    var tab = [];
+    for (let i = 0; i < this.state.the6.length; i++) {
+      tab.push(
+        <this.Render_ClasseMates
+          id={this.state.the6[i].id + ""}
+          AvatarPath={this.state.the6[i].AvatarPath + ""}
+          name={this.state.the6[i].Lname + " " + this.state.the6[i].Fname}
+          key={"classeMate" + this.state.the6[i].id}
+        />
+      );
+    }
     return (
       <>
         <div className="right-sidebar">
@@ -55,25 +85,38 @@ class RightWidget extends React.Component {
             </div>
             <div className="pf-gallery">
               <div className="float-none col-md-11 mx-auto mb-1">
-                <img
-                  src={this.state.Profimg}
-                  className="float-none d-block mx-auto"
-                  style={{
-                    height: "120px",
-                    width: "120px",
-                    borderRadius: "100%",
-                    backgroundColor: "#a1bff3"
-                  }}
-                  alt="."
-                />
+                <Link to={"/Profile/" + this.state.id}>
+                  <img
+                    src={this.state.Profimg}
+                    className="float-none d-block mx-auto"
+                    style={{
+                      height: "120px",
+                      width: "120px",
+                      borderRadius: "100%",
+                      backgroundColor: "#a1bff3"
+                    }}
+                    alt="."
+                  />
+                </Link>
               </div>
               <div className="float-md-none d-md-inline-block col-md-12 mt-md-2 mb-md-3">
-                <h2
-                  className="text-center"
-                  style={{ fontFamily: "Source Sans Pro", fontSize: "18px" }}
+                <Link
+                  to={"/Profile/" + this.state.id}
+                  style={{ textDecoration: "none" }}
                 >
-                  {this.state.profName}
-                </h2>
+                  <h2
+                    className="text-nowrap text-center "
+                    style={{
+                      fontFamily: "Source Sans Pro",
+                      fontSize: "20px",
+                      fontWeight: "bold",
+                      textDecoration: "none",
+                      color: "black"
+                    }}
+                  >
+                    {this.state.profName}
+                  </h2>
+                </Link>
               </div>
             </div>
             {/*pf-gallery end*/}
@@ -97,38 +140,7 @@ class RightWidget extends React.Component {
               <i className="fas fa-users float-right d-inline-block fa-lg" />
             </div>
             <div className="pf-gallery">
-              <ul>
-                <li>
-                  <a href="#A" title="true">
-                    <img src="http://via.placeholder.com/70x70" alt="" />
-                  </a>
-                </li>
-                <li>
-                  <a href="#a" title="true">
-                    <img src="http://via.placeholder.com/70x70" alt="" />
-                  </a>
-                </li>
-                <li>
-                  <a href="#a" title="true">
-                    <img src="http://via.placeholder.com/70x70" alt="" />
-                  </a>
-                </li>
-                <li>
-                  <a href="#a" title="true">
-                    <img src="http://via.placeholder.com/70x70" alt="" />
-                  </a>
-                </li>
-                <li>
-                  <a href="#a" title="true">
-                    <img src="http://via.placeholder.com/70x70" alt="" />
-                  </a>
-                </li>
-                <li>
-                  <a href="#a" title="true">
-                    <img src="http://via.placeholder.com/70x70" alt="" />
-                  </a>
-                </li>
-              </ul>
+              <ul>{tab}</ul>
               <div className="view-more">
                 <a href="#a" title="true">
                   Voir plus

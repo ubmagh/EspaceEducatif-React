@@ -119,7 +119,7 @@ class Classe extends React.Component {
                     <div className="col-lg-6">
                       <div className="main-ws-sec">
                         <div className="user-tab-sec">
-                          <h3 className="text-nowrap text-center">
+                          <h3 className="text-nowrap text-center display-2 mb-n3 mt-3">
                             {this.state.classeData.ClasseName}
                           </h3>
                           <div className=" text-nowrap text-center star-descp">
@@ -129,9 +129,7 @@ class Classe extends React.Component {
                                 float: "none",
                                 textAlign: "center !important"
                               }}
-                            >
-                              {this.state.profName}
-                            </span>
+                            ></span>
                           </div>
                           {/*star-descp end*/}
 

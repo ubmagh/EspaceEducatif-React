@@ -8,6 +8,7 @@ import ClassesList from "./Classes/ClassesList";
 import Aide from "../Common/Aide";
 import Classe from "./Classes/Classe";
 import MyProfile from "../Profile/MyProfile";
+import Profile from "../Profile/Profile";
 
 //// importing template cssAide
 import "./css/style.css";
@@ -43,7 +44,7 @@ class Student extends React.Component {
               <MyProfile />
             </Route>
 
-            <Route path="/Profiles/:classID" component={Classe} />
+            <Route path="/Profile/:UserId" component={Profile} />
 
             <Route exact path="/Help">
               <Aide />
