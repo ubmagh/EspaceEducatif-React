@@ -3,6 +3,7 @@ import { Form, Formik, Field } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import tokenValidate from "../Common/tokenValidate";
+import { ApiHost } from "./Config";
 
 const LoginSchema = Yup.object().shape({
   message: Yup.string()
@@ -43,7 +44,7 @@ class Aide extends React.Component {
                 //// Envoie des données vers la BD utilisant axios ( =: ajax ) sans actualiser
                 axios({
                   method: "get",
-                  url: "http://127.0.0.1:8000/api/Help",
+                  url: ApiHost + "/api/Help",
                   params: {
                     token: localStorage.getItem("LogToken") + "",
                     message: "" + mydata.message

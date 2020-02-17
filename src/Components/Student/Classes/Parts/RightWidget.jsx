@@ -1,6 +1,7 @@
 import React from "react";
 import Axios from "axios";
 import { Link } from "react-router-dom";
+import { ApiHost } from "../../../Common/Config";
 
 class RightWidget extends React.Component {
   constructor(props) {
@@ -16,7 +17,7 @@ class RightWidget extends React.Component {
 
     Axios({
       method: "get",
-      url: "http://localhost:8000/api/Classes/GetClassesProf",
+      url: ApiHost + "/api/Classes/GetClassesProf",
       header: { "Content-Type": "application/json" },
       params: {
         token: "" + localStorage.getItem("LogToken"),
@@ -26,7 +27,7 @@ class RightWidget extends React.Component {
       .then(res => {
         if (res.data.status === "succeded") {
           this.setState({
-            Profimg: "" + res.data.content.pic,
+            Profimg: ApiHost + res.data.content.pic,
             profName: "" + res.data.content.name,
             profLink: "" + res.data.content.idProf,
             id: "" + res.data.content.id,
@@ -54,7 +55,7 @@ class RightWidget extends React.Component {
       <li>
         <Link to={"/Profile/" + props.id} title={props.name}>
           <img
-            src={"http://localhost:8000/images/Avatars/" + props.AvatarPath}
+            src={ApiHost + "/images/Avatars/" + props.AvatarPath}
             style={{ height: "70px", width: "70px" }}
             alt="Classmate"
           />

@@ -5,7 +5,7 @@ import MyProfile from "./MyProfile";
 import TokenValidate from "../Common/tokenValidate";
 import Modal from "../Common/Modal";
 import NotFound from "./notFound";
-
+import { ApiHost } from "../Common/Config";
 import Axios from "axios";
 import Loading from "../Common/Loading";
 
@@ -25,7 +25,7 @@ class Profile extends React.Component {
     //// if itis we'll return My profile component
 
     Axios({
-      url: "http://127.0.0.1:8000/api/CheckProfile",
+      url: ApiHost + "/api/CheckProfile",
       method: "get",
       headers: { "Content-Type": "application/json" },
       params: {
@@ -36,9 +36,11 @@ class Profile extends React.Component {
       .then(res => {
         TokenValidate(res.data);
         if (res.data.status === "succeded") {
+          var content = res.data.content;
+          content.pic = ApiHost + content.pic;
           this.setState({
             userType: res.data.content.Type,
-            data: res.data.content
+            data: content
           });
         } else {
           this.setState({

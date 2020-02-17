@@ -4,6 +4,7 @@ import axios from "axios";
 import * as Yup from "yup";
 import Modal from "./Modal";
 import validateToken from "./tokenValidate";
+import { ApiHost } from "./Config";
 import moment from "moment";
 
 const EmailSchema = Yup.object().shape({
@@ -74,10 +75,10 @@ class Settings extends React.Component {
   constructor(props) {
     super(props);
     this.state = { heading: "", body: "", showMod: false, LastLog: "" };
-
+    console.log(ApiHost);
     axios({
       method: "get",
-      url: "http://localhost:8000/api/LastLogin",
+      url: ApiHost + "/api/LastLogin",
       headers: { "Content-Type": "application/json" },
       params: { token: "" + localStorage.getItem("LogToken") }
     })
@@ -130,7 +131,7 @@ class Settings extends React.Component {
 
     axios({
       method: "post",
-      url: "http://127.0.0.1:8000/api/Settings/DefAvatar",
+      url: ApiHost + "/api/Settings/DefAvatar",
       data: {
         token: localStorage.getItem("LogToken") + "",
         password: pwd + ""
@@ -272,8 +273,7 @@ class Settings extends React.Component {
                           //// Envoie des données vers la BD utilisant axios ( =: ajax ) sans actualiser
                           axios({
                             method: "post",
-                            url:
-                              "http://127.0.0.1:8000/api/Settings/ChangeEmail",
+                            url: ApiHost + "/api/Settings/ChangeEmail",
 
                             data: {
                               token: "" + localStorage.getItem("LogToken"),
@@ -505,7 +505,7 @@ class Settings extends React.Component {
                           //// Envoie des données vers la BD utilisant axios ( =: ajax ) sans actualiser
                           axios({
                             method: "post",
-                            url: "http://127.0.0.1:8000/api/Settings/ChangePwD",
+                            url: ApiHost + "/api/Settings/ChangePwD",
 
                             data: {
                               token: "" + localStorage.getItem("LogToken"),
@@ -744,8 +744,7 @@ class Settings extends React.Component {
                             //// Envoie des données vers la BD utilisant axios ( =: ajax ) sans actualiser
                             axios({
                               method: "post",
-                              url:
-                                "http://127.0.0.1:8000/api/Settings/ChangeAva",
+                              url: ApiHost + "/api/Settings/ChangeAva",
                               params: {
                                 token: "" + localStorage.getItem("LogToken")
                               },
@@ -784,7 +783,8 @@ class Settings extends React.Component {
                                       localStorage.getItem("details")
                                     );
                                     det.AvatarPath =
-                                      "http://localhost:8000/images/Avatars/" +
+                                      ApiHost +
+                                      "/images/Avatars/" +
                                       JSON.parse(localStorage.getItem("user"))
                                         .id +
                                       "." +
@@ -910,12 +910,13 @@ class Settings extends React.Component {
                                         localStorage.getItem("details")
                                       ).AvatarPath +
                                         "" !==
-                                        "http://localhost:8000/images/Avatars/DefTM.png" &&
+                                        ApiHost + "/images/Avatars/DefTM.png" &&
                                       JSON.parse(
                                         localStorage.getItem("details")
                                       ).AvatarPath +
                                         "" !==
-                                        "http://localhost:8000/images/Avatars/DefTF.png" ? (
+                                        ApiHost +
+                                          "/images/Avatars/DefTF.png" ? (
                                         <li>
                                           <button
                                             type="button"
@@ -932,12 +933,12 @@ class Settings extends React.Component {
                                         localStorage.getItem("details")
                                       ).AvatarPath +
                                         "" !==
-                                        "http://localhost:8000/images/Avatars/DefMF.png" &&
+                                        ApiHost + "/images/Avatars/DefMF.png" &&
                                       JSON.parse(
                                         localStorage.getItem("details")
                                       ).AvatarPath +
                                         "" !==
-                                        "http://localhost:8000/images/Avatars/DefM.png" ? (
+                                        ApiHost + "/images/Avatars/DefM.png" ? (
                                       <li>
                                         <button
                                           type="button"

@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { ApiHost } from "../../../Common/Config";
 
 class LeftWidget extends React.Component {
   constructor(props) {
@@ -12,7 +13,7 @@ class LeftWidget extends React.Component {
 
     axios({
       method: "get",
-      url: "http://localhost:8000/api/classes/GetInitialClasses",
+      url: ApiHost + "/api/classes/GetInitialClasses",
       params: {
         token: localStorage.getItem("LogToken")
       },

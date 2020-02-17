@@ -2,6 +2,7 @@ import React from "react";
 import { Form, Formik, Field } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import { ApiHost } from "../../Common/Config";
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string()
@@ -53,7 +54,7 @@ class Aide extends React.Component {
                 //// Envoie des données vers la BD utilisant axios ( =: ajax ) sans actualiser
                 axios({
                   method: "post",
-                  url: "http://127.0.0.1:8000/api/NewContact",
+                  url: ApiHost + "/api/NewContact",
                   data: {
                     email: `${mydata.email}`,
                     name: `${mydata.name}`,

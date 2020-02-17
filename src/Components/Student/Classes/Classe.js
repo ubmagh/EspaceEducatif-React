@@ -7,6 +7,7 @@ import TabAffichage from "./Parts/TabAffichage";
 import CreatePoste from "./Parts/CreatePoste";
 import PostsSection from "./Parts/PostsSection";
 import RightWidget from "./Parts/RightWidget";
+import { ApiHost } from "../../Common/Config";
 
 class Classe extends React.Component {
   constructor(props) {
@@ -22,7 +23,7 @@ class Classe extends React.Component {
     };
 
     axios({
-      url: "http://127.0.0.1:8000/api/Classes/ClassInfo",
+      url: ApiHost + "/api/Classes/ClassInfo",
       method: "get",
       headers: { "Content-Type": "application/json" },
       params: {
@@ -49,12 +50,12 @@ class Classe extends React.Component {
           });
           setTimeout(() => this.setState({ Goback: true }), 3000);
         } else if (res.data.error + "" === "none") {
+          var classData = res.data.data.classeData;
+          classData.ImagePath = ApiHost + classData.ImagePath;
           this.setState({
-            classeData: res.data.data.classeData,
+            classeData: classData,
             profName: res.data.data.profName
           });
-          console.log("state");
-          console.log(this.state);
         } else {
           this.setState({
             heading: "d",

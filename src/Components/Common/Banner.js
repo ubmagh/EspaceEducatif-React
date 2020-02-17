@@ -99,7 +99,7 @@ class Banner extends React.Component {
                       className="mt-md-4 mt-sm-3 mt-2 "
                     >
                       <Popover.Content>
-                        <Link to="Help">
+                        <Link to="/Help">
                           <button
                             type="button"
                             className="w-100 d-block btn btn-outline-white border border-0 text-info text-left buttonOutline"
@@ -110,7 +110,7 @@ class Banner extends React.Component {
                           </button>
                         </Link>
                         <hr className="mb-0 mt-1 py-0" />
-                        <Link to="Settings">
+                        <Link to="/Settings">
                           <button
                             type="button"
                             className="w-100 d-block btn btn-outline-white border border-0  text-left buttonOutline"

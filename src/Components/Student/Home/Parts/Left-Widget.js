@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { ApiHost } from "../../../Common/Config";
 
 class LeftWidget extends React.Component {
   constructor(props) {
@@ -12,7 +13,7 @@ class LeftWidget extends React.Component {
 
     axios({
       method: "get",
-      url: "http://localhost:8000/api/classes/GetInitialClasses",
+      url: ApiHost + "/api/classes/GetInitialClasses",
       params: {
         token: localStorage.getItem("LogToken")
       },
@@ -49,7 +50,10 @@ class LeftWidget extends React.Component {
 
     for (let i = 0; i < this.state.data.length; i++) {
       rows.push(
-        <Link to={"/Classes/" + this.state.data[i].id}>
+        <Link
+          to={"/Classes/" + this.state.data[i].id}
+          key={"classe:" + this.state.data[i].id}
+        >
           <h1 key={this.state.data[i].id} className="text-center py-2 mx-auto">
             {" "}
             {this.state.data[i].ClasseName}{" "}
@@ -69,22 +73,26 @@ class LeftWidget extends React.Component {
             <div className="user-profile">
               <div className="username-dt">
                 <div className="usr-pic">
-                  <img
-                    src={this.state.details.AvatarPath}
-                    style={{
-                      backgroundColor: "white",
-                      height: "100px",
-                      width: "100px"
-                    }}
-                    alt="qsd"
-                  />
+                  <Link to={"/Profile"}>
+                    <img
+                      src={this.state.details.AvatarPath}
+                      style={{
+                        backgroundColor: "white",
+                        height: "100px",
+                        width: "100px"
+                      }}
+                      alt="qsd"
+                    />
+                  </Link>
                 </div>
               </div>
               {/*username-dt end*/}
               <div className="user-specs">
-                <h3>
-                  {this.state.details.Lname + " " + this.state.details.Fname}
-                </h3>
+                <Link to={"/Profile"}>
+                  <h3>
+                    {this.state.details.Lname + " " + this.state.details.Fname}
+                  </h3>
+                </Link>
                 <span>
                   {this.state.details.Filiere + " - "}{" "}
                   {this.state.details.Annee + "" === "1"
@@ -98,7 +106,7 @@ class LeftWidget extends React.Component {
           {/*user-data end*/}
           <div className="suggestions full-width">
             <div className="sd-title">
-              <h3>Mes Classes</h3>
+              <h3 className="display-3">Mes Classes</h3>
             </div>
             {/*sd-title end*/}
             <div className="suggestions-list">

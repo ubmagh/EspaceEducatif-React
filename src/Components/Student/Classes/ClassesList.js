@@ -3,6 +3,7 @@ import RightWidget from "../Home/Parts/Right-Widget";
 import LeftWidget from "../Home/Parts/Left-Widget";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { ApiHost } from "../../Common/Config";
 
 class ClassesList extends React.Component {
   constructor(props) {
@@ -11,7 +12,7 @@ class ClassesList extends React.Component {
 
     axios({
       method: "get",
-      url: "http://localhost:8000/api/classes/GetClassesList",
+      url: ApiHost + "/api/classes/GetClassesList",
       params: {
         token: localStorage.getItem("LogToken")
       },

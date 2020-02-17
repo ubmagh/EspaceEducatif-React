@@ -9,7 +9,8 @@ class PostsSection extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      classID: props.classID,
+      Filiere: JSON.parse(localStorage.getItem("details")).Filiere,
+      Annee: JSON.parse(localStorage.getItem("details")).Annee,
       Loading: true,
       Posts: "",
       Posters: "",
@@ -72,9 +73,13 @@ class PostsSection extends React.Component {
     }
     return tab;
   }
-
   render() {
-    if (this.state.Loading) return <Loading />;
+    if (this.state.Loading)
+      return (
+        <div className="d-block col-6">
+          <Loading />
+        </div>
+      );
     return (
       <>
         {this.renderPosts()}

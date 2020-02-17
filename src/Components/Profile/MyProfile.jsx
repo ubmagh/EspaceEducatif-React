@@ -7,6 +7,7 @@ import Modal from "../Common/Modal";
 import ValidateToken from "../Common/tokenValidate";
 import Loading from "../Common/Loading";
 import moment from "moment";
+import { ApiHost } from "../Common/Config";
 
 class MyProfile extends React.Component {
   constructor(props) {
@@ -47,7 +48,7 @@ class MyProfile extends React.Component {
     });
     moment.locale("fr");
     Axios({
-      url: "http://127.0.0.1:8000/api/Profile",
+      url: ApiHost + "/api/Profile",
       method: "get",
       headers: { "Content-Type": "application/json" },
       params: {
@@ -57,7 +58,9 @@ class MyProfile extends React.Component {
       .then(res => {
         ValidateToken(res.data);
         if (res.data.status + "" === "succeded") {
-          this.setState({ data: res.data.content });
+          var content = res.data.content;
+          content.infos.AvatarPath = ApiHost + content.infos.AvatarPath;
+          this.setState({ data: content });
           this.setState({ userType: res.data.content.Type });
         } else {
           this.setState({
@@ -128,14 +131,30 @@ class MyProfile extends React.Component {
                   <div className="col-lg-7 ml-sm-n5 ml-md-0">
                     <div className="personal_text mx-sm-auto d-sm-inline-block ">
                       <h3 className="text-nowrap ml-sm-n5 ml-md-0">
+                        {this.state.data.infos.Sex === "M" ? (
+                          <span
+                            className="mr-1"
+                            style={{
+                              fontWeight: "bold",
+                              textTransform: "none"
+                            }}
+                          >
+                            M.{" "}
+                          </span>
+                        ) : (
+                          <span
+                            className="mr-1"
+                            style={{
+                              fontWeight: "bold",
+                              textTransform: "none"
+                            }}
+                          >
+                            Mme.{" "}
+                          </span>
+                        )}
                         {this.state.data.infos.Lname +
                           " " +
                           this.state.data.infos.Fname}
-                        {this.state.data.infos.Sex === "M" ? (
-                          <i className="fas fa-male fa-lg ml-3"></i>
-                        ) : (
-                          <i className="fas fa-female fa-lg ml-3"></i>
-                        )}
                       </h3>
 
                       <p

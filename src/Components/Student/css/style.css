@@ -811,7 +811,7 @@ main {
   margin: 0 auto;
   margin-bottom: -48px;
 }
-.usr-pic > img {
+.usr-pic > a > img {
   float: none;
   border: 5px solid #fff;
   -webkit-border-radius: 100px;
@@ -919,9 +919,12 @@ main {
   float: left;
   padding-left: 10px;
 }
-.sgt-text h4 {
-  color: #000000;
-  font-size: 14px;
+.sgt-text h1 {
+  color: #4020b3;
+  display: list-item;
+  font-family: Calibri;
+  list-style: inside;
+  font-size: 20px;
   font-weight: 700;
   margin-bottom: 4px;
 }

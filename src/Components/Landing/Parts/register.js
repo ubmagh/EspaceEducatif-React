@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import axios from "axios";
 import MyModal from "../../Common/Modal";
 import moment from "moment";
+import { ApiHost } from "../../Common/Config";
 
 const RegisterSchema = Yup.object().shape({
   Fname: Yup.string()
@@ -104,7 +105,7 @@ class Register extends React.Component {
                   //// Envoie des données vers la BD utilisant axios ( =: ajax ) sans actualiser
                   axios({
                     method: "post",
-                    url: "http://127.0.0.1:8000/api/register",
+                    url: ApiHost + "/api/register",
                     data: mydata,
                     headers: { "Content-Type": "application/json" }
                   })

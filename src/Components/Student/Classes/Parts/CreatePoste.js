@@ -3,6 +3,9 @@ import { Tooltip, OverlayTrigger } from "react-bootstrap";
 import { Form, Formik, Field } from "formik";
 import FormatFileSize from "../../../Common/FileSizeFormat";
 import validateToken from "../../../Common/tokenValidate";
+import { ApiHost } from "../../../Common/Config";
+import axios from "axios";
+
 //// pictures
 import pictureIcon from "../../../Common/images/picture.png";
 import pdfIcon from "../../../Common/images/pdf.png";
@@ -12,7 +15,6 @@ import xlsIcon from "../../../Common/images/xls.png";
 import zipIcon from "../../../Common/images/zip.png";
 import audioIcon from "../../../Common/images/audio.png";
 import videoIcon from "../../../Common/images/video.png";
-import axios from "axios";
 
 /// those validation lines won't be shown !
 
@@ -454,7 +456,7 @@ class CreatePoste extends React.Component {
 
               axios({
                 method: "post",
-                url: "http://localhost:8000/api/Postes/newIntoClasse",
+                url: ApiHost + "/api/Postes/newIntoClasse",
                 params: { token: localStorage.getItem("LogToken") },
                 data: fd,
                 onUploadProgress: this.progressELevator.bind(this)

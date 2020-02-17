@@ -42,12 +42,22 @@ class ProfPro extends React.Component {
                 <div className="col-lg-7 ml-sm-n5 ml-md-0">
                   <div className="personal_text mx-sm-auto d-sm-inline-block ">
                     <h3 className="text-nowrap ml-sm-n5 ml-md-0">
-                      {this.state.data.name}
                       {this.state.data.Sex === "M" ? (
-                        <i className="fas fa-male fa-lg ml-3"></i>
+                        <span
+                          className="mr-1"
+                          style={{ fontWeight: "bold", textTransform: "none" }}
+                        >
+                          M.{" "}
+                        </span>
                       ) : (
-                        <i className="fas fa-female fa-lg ml-3"></i>
+                        <span
+                          className="mr-1"
+                          style={{ fontWeight: "bold", textTransform: "none" }}
+                        >
+                          Mme.{" "}
+                        </span>
                       )}
+                      {this.state.data.name}
                     </h3>
 
                     <p
