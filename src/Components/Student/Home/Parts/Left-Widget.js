@@ -54,7 +54,7 @@ class LeftWidget extends React.Component {
           to={"/Classes/" + this.state.data[i].id}
           key={"classe:" + this.state.data[i].id}
         >
-          <h1 key={this.state.data[i].id} className="text-center py-2 mx-auto">
+          <h1 key={this.state.data[i].id} className="text-left py-2 mx-auto">
             {" "}
             {this.state.data[i].ClasseName}{" "}
           </h1>
@@ -67,7 +67,7 @@ class LeftWidget extends React.Component {
 
   render() {
     return (
-      <div className="col-lg-3 col-md-4 pd-left-none no-pd">
+      <div className="col-lg-3 pd-left-none no-pd">
         <div className="main-left-sidebar no-margin">
           <div className="user-data full-width">
             <div className="user-profile">

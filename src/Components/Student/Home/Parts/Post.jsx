@@ -25,6 +25,7 @@ class Post extends React.Component {
       post: props.Post,
       media: props.Media,
       comment: props.Comment,
+      Classe: props.Classe,
       myComments: [],
       Liked: props.Like ? true : false
     };
@@ -169,7 +170,7 @@ class Post extends React.Component {
         return (
           <div
             className="d-inline-block w-100 mt-2 rounded"
-            style={{ backgroundColor: "#b68eae" }}
+            style={{ backgroundColor: "#edf3f4" }}
             key={FileName}
           >
             <img
@@ -206,7 +207,7 @@ class Post extends React.Component {
         return (
           <div
             className="d-inline-block w-100 mt-2 rounded"
-            style={{ backgroundColor: "#fba2a2" }}
+            style={{ backgroundColor: "#edf3f4" }}
             key={FileName}
           >
             <img
@@ -238,7 +239,7 @@ class Post extends React.Component {
         return (
           <div
             className="d-inline-block w-100 mt-2 rounded"
-            style={{ backgroundColor: "#e8997a" }}
+            style={{ backgroundColor: "#edf3f4" }}
             key={FileName}
           >
             <img
@@ -303,7 +304,7 @@ class Post extends React.Component {
         return (
           <div
             className="d-inline-block w-100 mt-2 rounded"
-            style={{ backgroundColor: "#cbe0cb" }}
+            style={{ backgroundColor: "#edf3f4" }}
             key={FileName}
           >
             <img
@@ -336,7 +337,7 @@ class Post extends React.Component {
         return (
           <div
             className="d-inline-block w-100 mt-2 rounded"
-            style={{ backgroundColor: "#eefec8" }}
+            style={{ backgroundColor: "#edf3f4" }}
             key={FileName}
           >
             <img
@@ -369,7 +370,7 @@ class Post extends React.Component {
         return (
           <div
             className="d-inline-block w-100 mt-2 rounded"
-            style={{ backgroundColor: "#d0d1d0" }}
+            style={{ backgroundColor: "#edf3f4" }}
             key={FileName}
           >
             <img
@@ -402,7 +403,7 @@ class Post extends React.Component {
         return (
           <div
             className="d-inline-block w-100 mt-2 rounded"
-            style={{ backgroundColor: "#fcff73" }}
+            style={{ backgroundColor: "#edf3f4" }}
             key={FileName}
           >
             <img
@@ -543,10 +544,33 @@ class Post extends React.Component {
                   />
                 </Link>
                 <div className="usy-name">
-                  <Link to={"/Profile/" + this.state.poster.id}>
-                    {" "}
-                    <h3>{this.state.poster.name}</h3>{" "}
-                  </Link>
+                  {" "}
+                  <h3>
+                    <Link
+                      to={"/Profile/" + this.state.poster.id}
+                      style={{ textDecoration: "none", color: "black" }}
+                    >
+                      {this.state.poster.name}
+                    </Link>
+                    <span
+                      style={{
+                        color: "orange",
+                        fontSize: "19px",
+                        marginLeft: "3px"
+                      }}
+                    >
+                      {" "}
+                      ►{" "}
+                    </span>
+                    <span>
+                      <Link
+                        to={"/Classes/" + this.state.Classe.id}
+                        className="classLink"
+                      >
+                        {" " + this.state.Classe.name}
+                      </Link>
+                    </span>
+                  </h3>{" "}
                   <span>
                     <i className="far fa-clock text-secondary"></i>{" "}
                     {moment(
