@@ -14,7 +14,7 @@ class RightWidget extends React.Component {
       id: "",
       the6: []
     };
-
+    this.ShowIt = this.props.ShowItOrNot;
     Axios({
       method: "get",
       url: ApiHost + "/api/Classes/GetClassesProf",
@@ -143,9 +143,14 @@ class RightWidget extends React.Component {
             <div className="pf-gallery">
               <ul>{tab}</ul>
               <div className="view-more">
-                <a href="#a" title="true">
-                  Voir plus
-                </a>
+                <h4
+                  onClick={e => this.ShowIt(true)}
+                  style={{ cursor: "pointer" }}
+                  className="text-primary"
+                >
+                  Voir Tout{" "}
+                  <i className="fa fa-arrow-right mt-1" aria-hidden="true" />
+                </h4>
               </div>
             </div>
             {/*pf-gallery end*/}

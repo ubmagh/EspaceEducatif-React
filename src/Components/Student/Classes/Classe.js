@@ -6,6 +6,7 @@ import { Redirect } from "react-router-dom";
 import TabAffichage from "./Parts/TabAffichage";
 import CreatePoste from "./Parts/CreatePoste";
 import PostsSection from "./Parts/PostsSection";
+import ClassMatesCo from "./Parts/ClasseMates";
 import RightWidget from "./Parts/RightWidget";
 import { ApiHost } from "../../Common/Config";
 
@@ -19,9 +20,22 @@ class Classe extends React.Component {
       showMod: false,
       Goback: false,
       classeData: "",
-      profName: ""
+      profName: "",
+      ClassMates: false
     };
-
+    if (isNaN(this.props.match.params.classID)) {
+      this.state = {
+        classID: this.props.match.params.classID,
+        heading: "",
+        body: "",
+        showMod: false,
+        Goback: true,
+        classeData: "",
+        profName: "",
+        ClassMates: false
+      };
+      return;
+    }
     axios({
       url: ApiHost + "/api/Classes/ClassInfo",
       method: "get",
@@ -84,6 +98,10 @@ class Classe extends React.Component {
     this.setState({ heading: h, body: b, showMod: show });
   }
 
+  ToggleClassMates(bool) {
+    this.setState({ ClassMates: bool });
+  }
+
   render() {
     if (this.state.Goback) return <Redirect to="/Classes" />;
     return (
@@ -114,51 +132,74 @@ class Classe extends React.Component {
                   <div className="row">
                     <div className="col-lg-4">
                       <TabAffichage />
-
-                      {/*main-left-sidebar end*/}
                     </div>
                     <div className="col-lg-6">
                       <div className="main-ws-sec">
-                        <div className="user-tab-sec">
-                          <h3 className="text-nowrap text-center display-2 mb-n3 mt-3">
-                            {this.state.classeData.ClasseName}
-                          </h3>
-                          <div className=" text-nowrap text-center star-descp">
-                            <span
-                              className="txt mx-auto"
-                              style={{
-                                float: "none",
-                                textAlign: "center !important"
-                              }}
-                            ></span>
-                          </div>
-                          {/*star-descp end*/}
+                        {this.state.ClassMates ? (
+                          <>
+                            <div className="user-tab-sec">
+                              <h3 className="text-nowrap text-center display-2 mb-n3 mt-3">
+                                {this.state.classeData.ClasseName}
+                              </h3>
+                              <div className=" text-nowrap text-center star-descp">
+                                <span
+                                  className="txt mx-auto"
+                                  style={{
+                                    float: "none",
+                                    textAlign: "center !important"
+                                  }}
+                                ></span>
+                              </div>
+                            </div>
+                            <ClassMatesCo
+                              ShowItOrNot={this.ToggleClassMates.bind(this)}
+                              classID = {this.state.classID}
+                              Usemodal={this.UseModal.bind(this)}
 
-                          <CreatePoste
-                            Usemodal={this.UseModal.bind(this)}
-                            classID={this.state.classID}
-                          />
-
-                          {/*post-topbar end*/}
-                        </div>
-                        {/*user-tab-sec end*/}
-                        <div className="product-feed-tab current" id="feed-dd">
-                          <div className="posts-section">
-                            <PostsSection
-                              classID={this.state.classID}
-                              useModal={this.UseModal.bind(this)}
                             />
+                          </>
+                        ) : (
+                          <>
+                            <div className="user-tab-sec">
+                              <h3 className="text-nowrap text-center display-2 mb-n3 mt-3">
+                                {this.state.classeData.ClasseName}
+                              </h3>
+                              <div className=" text-nowrap text-center star-descp">
+                                <span
+                                  className="txt mx-auto"
+                                  style={{
+                                    float: "none",
+                                    textAlign: "center !important"
+                                  }}
+                                ></span>
+                              </div>
 
-                            {/*process-comm end*/}
-                          </div>
-                          {/*posts-section end*/}
-                        </div>
-                        {/*product-feed-tab end*/}
+                              <CreatePoste
+                                Usemodal={this.UseModal.bind(this)}
+                                classID={this.state.classID}
+                              />
+                            </div>
+                            <div
+                              className="product-feed-tab current"
+                              id="feed-dd"
+                            >
+                              <div className="posts-section">
+                                <PostsSection
+                                  classID={this.state.classID}
+                                  useModal={this.UseModal.bind(this)}
+                                />
+                              </div>
+                            </div>
+                          </>
+                        )}
                       </div>
                       {/*main-ws-sec end*/}
                     </div>
                     <div className="col-xl-2 col-lg-4">
-                      <RightWidget classID={this.state.classID} />
+                      <RightWidget
+                        classID={this.state.classID}
+                        ShowItOrNot={this.ToggleClassMates.bind(this)}
+                      />
                       {/*right-sidebar end*/}
                     </div>
                   </div>
