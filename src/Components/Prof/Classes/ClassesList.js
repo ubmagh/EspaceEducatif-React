@@ -1,6 +1,7 @@
 import React from "react";
 import RightWidget from "../Home/Parts/Right-Widget";
 import LeftWidget from "../Home/Parts/Left-Widget";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { ApiHost } from "../../Common/Config";
 
@@ -56,7 +57,10 @@ class ClassesList extends React.Component {
       rows.push(
         <tr key={this.state.data[i].id} className="py-3">
           <th scope="row" className="text-left py-3">
-            {this.state.data[i].ClasseName}
+            <Link to={"/Classes/" + this.state.data[i].id + ""}>
+              {" "}
+              {this.state.data[i].ClasseName}
+            </Link>
           </th>
           <td className="text-center py-3"> {Filiere} </td>
           <td className="text-center py-3"> {Annee} </td>

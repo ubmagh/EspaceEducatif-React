@@ -23,6 +23,7 @@ class CreatePoste extends React.Component {
     super(props);
     this.state = { attachedFiles: [], classID: props.classID, Progress: 0 };
     this.UseModal = props.Usemodal;
+    this.manageState = props.manageState;
   }
 
   componentDidMount() {
@@ -428,6 +429,18 @@ class CreatePoste extends React.Component {
     this.setState({ Progress: percentCompleted });
   }
 
+  addPOst(content) {
+    var mY___qsd = content.Posters;
+    mY___qsd.pic = ApiHost + mY___qsd.pic;
+    this.manageState(
+      content.Posts,
+      mY___qsd,
+      content.medias,
+      content.Likes,
+      content.LastComms
+    );
+  }
+
   render() {
     return (
       <div className="post-topbar">
@@ -469,11 +482,9 @@ class CreatePoste extends React.Component {
                     validateToken(res.data);
 
                     if (res.data.status === "Succes") {
-                      this.UseModal(
-                        "s",
-                        "Bien Publié ! à l'attente du confirmation",
-                        true
-                      );
+                      this.UseModal("s", "Bien Publié ! ", true);
+
+                      this.addPOst(res.data.content);
                     } else if (res.data.status === "NonAuth") {
                       this.UseModal(
                         "w",

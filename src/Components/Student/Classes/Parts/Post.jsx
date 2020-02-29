@@ -527,6 +527,68 @@ class Post extends React.Component {
         this.useModal("d", "Erreur : " + err, true);
       });
   }
+  postHeader(PosterType) {
+    if (PosterType === "prof")
+      return (
+        <div className="usy-dt">
+          <Link to={"/Profile/" + this.state.poster.id}>
+            <img
+              src={this.state.poster.pic}
+              alt="postOwner Avatar"
+              style={{ maxHeight: "50px", maxWidth: "50px" }}
+            />
+          </Link>
+          <div className="usy-name ">
+            <Link to={"/Profile/" + this.state.poster.id}>
+              {" "}
+              <h3>
+                <span
+                  className="text-success display-3"
+                  style={{ fontSize: "20px" }}
+                >
+                  {" "}
+                  ●{" "}
+                </span>{" "}
+                {this.state.poster.name}
+                <span
+                  className="text-success display-4"
+                  style={{ fontSize: "20px" }}
+                >
+                  {" "}
+                  ●{" "}
+                </span>{" "}
+              </h3>{" "}
+            </Link>
+            <span>
+              <i className="far fa-clock text-secondary"></i>{" "}
+              {moment(this.state.post.date, "YYYY-MM-DD HH:mm:ss").fromNow()}
+            </span>
+          </div>
+        </div>
+      );
+
+    return (
+      <div className="usy-dt">
+        <Link to={"/Profile/" + this.state.poster.id}>
+          <img
+            src={this.state.poster.pic}
+            alt="postOwner Avatar"
+            style={{ maxHeight: "50px", maxWidth: "50px" }}
+          />
+        </Link>
+        <div className="usy-name">
+          <Link to={"/Profile/" + this.state.poster.id}>
+            {" "}
+            <h3>{this.state.poster.name}</h3>{" "}
+          </Link>
+          <span>
+            <i className="far fa-clock text-secondary"></i>{" "}
+            {moment(this.state.post.date, "YYYY-MM-DD HH:mm:ss").fromNow()}
+          </span>
+        </div>
+      </div>
+    );
+  }
 
   render() {
     return (
@@ -534,28 +596,7 @@ class Post extends React.Component {
         <div className="posty">
           <div className="post-bar no-margin">
             <div className="post_topbar">
-              <div className="usy-dt">
-                <Link to={"/Profile/" + this.state.poster.id}>
-                  <img
-                    src={this.state.poster.pic}
-                    alt="postOwner Avatar"
-                    style={{ maxHeight: "50px", maxWidth: "50px" }}
-                  />
-                </Link>
-                <div className="usy-name">
-                  <Link to={"/Profile/" + this.state.poster.id}>
-                    {" "}
-                    <h3>{this.state.poster.name}</h3>{" "}
-                  </Link>
-                  <span>
-                    <i className="far fa-clock text-secondary"></i>{" "}
-                    {moment(
-                      this.state.post.date,
-                      "YYYY-MM-DD HH:mm:ss"
-                    ).fromNow()}
-                  </span>
-                </div>
-              </div>
+              {this.postHeader(this.state.poster.type)}
             </div>
             <div className="job_descp">
               <p style={{ whiteSpace: "pre-line" }}>{this.state.post.text}</p>

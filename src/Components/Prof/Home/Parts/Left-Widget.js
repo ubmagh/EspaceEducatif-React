@@ -50,10 +50,15 @@ class LeftWidget extends React.Component {
 
     for (let i = 0; i < this.state.data.length; i++) {
       rows.push(
-        <h1 key={this.state.data[i].id} className="text-center py-2">
-          {" "}
-          {this.state.data[i].ClasseName}{" "}
-        </h1>
+        <Link
+          to={"/Classes/" + this.state.data[i].id}
+          key={"classe:" + this.state.data[i].id}
+        >
+          <h1 key={this.state.data[i].id} className="text-left py-2 mx-auto">
+            {" "}
+            {this.state.data[i].ClasseName}{" "}
+          </h1>
+        </Link>
       );
     }
 
@@ -68,22 +73,26 @@ class LeftWidget extends React.Component {
             <div className="user-profile">
               <div className="username-dt">
                 <div className="usr-pic">
-                  <img
-                    src={this.state.details.AvatarPath}
-                    style={{
-                      backgroundColor: "white",
-                      height: "100px",
-                      width: "100px"
-                    }}
-                    alt="qsd"
-                  />
+                  <Link to={"/Profile"}>
+                    <img
+                      src={this.state.details.AvatarPath}
+                      style={{
+                        backgroundColor: "white",
+                        height: "100px",
+                        width: "100px"
+                      }}
+                      alt="qsd"
+                    />
+                  </Link>
                 </div>
               </div>
               {/*username-dt end*/}
               <div className="user-specs">
-                <h3>
-                  {this.state.details.Lname + " " + this.state.details.Fname}
-                </h3>
+                <Link to={"/Profile"}>
+                  <h3>
+                    {this.state.details.Lname + " " + this.state.details.Fname}
+                  </h3>
+                </Link>
                 <span>
                   {this.state.details.Filiere + " - "}{" "}
                   {this.state.details.Matiere}

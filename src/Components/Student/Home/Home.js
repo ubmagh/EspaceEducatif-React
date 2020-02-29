@@ -38,11 +38,7 @@ class Home extends React.Component {
           >
             <div className="row mt-3" style={{ Height: "100%" }}>
               <LeftWidget />
-              <Posts
-                Filiere={this.state.Filiere}
-                Annee={this.state.Annee}
-                useModal={this.UseModal.bind(this)}
-              />
+              <Posts useModal={this.UseModal.bind(this)} />
               <RightWidget />
             </div>
           </div>

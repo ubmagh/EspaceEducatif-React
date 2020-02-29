@@ -39,20 +39,9 @@ class ClassesList extends React.Component {
 
     for (let i = 0; i < this.state.data.length; i++) {
       let Annee = "";
-      let Filiere = "";
       if (this.state.data[i].Annee + "" === "2") Annee = "2éme Année";
       else Annee = "1er Année";
-
-      switch (this.state.data[i].Filiere) {
-        case "GI":
-          Filiere = "Génie Informatique";
-          break;
-        case "GE":
-          Filiere = "Génie Eléctrique";
-          break;
-        default:
-          Filiere = "Undefined";
-      }
+      let Filiere = this.state.data[i].Filiere + ": ";
 
       rows.push(
         <tr key={this.state.data[i].id} className="py-3">
@@ -62,8 +51,20 @@ class ClassesList extends React.Component {
               {this.state.data[i].ClasseName}
             </Link>
           </th>
-          <td className="text-center py-3"> {Filiere} </td>
-          <td className="text-center py-3"> {Annee} </td>
+          <td className="text-center py-3">
+            {" "}
+            <Link
+              to={"Profile/" + this.state.data[i].ProfID.id}
+              className="text-dark"
+            >
+              {" "}
+              {this.state.data[i].ProfID.name}{" "}
+            </Link>{" "}
+          </td>
+          <td className="text-center py-3 text-secondary">
+            {" "}
+            {Filiere + Annee}{" "}
+          </td>
         </tr>
       );
     }
@@ -92,10 +93,10 @@ class ClassesList extends React.Component {
                               Classe
                             </th>
                             <th scope="col" className=" text-center py-4">
-                              Filiere
+                              Professeur
                             </th>
                             <th scope="col" className=" text-center py-4">
-                              Année
+                              Filiere et Année
                             </th>
                           </tr>
                         </thead>

@@ -25,7 +25,6 @@ class Post extends React.Component {
       post: props.Post,
       media: props.Media,
       comment: props.Comment,
-      Classe: props.Classe,
       myComments: [],
       Liked: props.Like ? true : false
     };
@@ -170,7 +169,7 @@ class Post extends React.Component {
         return (
           <div
             className="d-inline-block w-100 mt-2 rounded"
-            style={{ backgroundColor: "#edf3f4" }}
+            style={{ backgroundColor: "#b68eae" }}
             key={FileName}
           >
             <img
@@ -207,7 +206,7 @@ class Post extends React.Component {
         return (
           <div
             className="d-inline-block w-100 mt-2 rounded"
-            style={{ backgroundColor: "#edf3f4" }}
+            style={{ backgroundColor: "#fba2a2" }}
             key={FileName}
           >
             <img
@@ -239,7 +238,7 @@ class Post extends React.Component {
         return (
           <div
             className="d-inline-block w-100 mt-2 rounded"
-            style={{ backgroundColor: "#edf3f4" }}
+            style={{ backgroundColor: "#e8997a" }}
             key={FileName}
           >
             <img
@@ -304,7 +303,7 @@ class Post extends React.Component {
         return (
           <div
             className="d-inline-block w-100 mt-2 rounded"
-            style={{ backgroundColor: "#edf3f4" }}
+            style={{ backgroundColor: "#cbe0cb" }}
             key={FileName}
           >
             <img
@@ -337,7 +336,7 @@ class Post extends React.Component {
         return (
           <div
             className="d-inline-block w-100 mt-2 rounded"
-            style={{ backgroundColor: "#edf3f4" }}
+            style={{ backgroundColor: "#eefec8" }}
             key={FileName}
           >
             <img
@@ -370,7 +369,7 @@ class Post extends React.Component {
         return (
           <div
             className="d-inline-block w-100 mt-2 rounded"
-            style={{ backgroundColor: "#edf3f4" }}
+            style={{ backgroundColor: "#d0d1d0" }}
             key={FileName}
           >
             <img
@@ -403,7 +402,7 @@ class Post extends React.Component {
         return (
           <div
             className="d-inline-block w-100 mt-2 rounded"
-            style={{ backgroundColor: "#edf3f4" }}
+            style={{ backgroundColor: "#fcff73" }}
             key={FileName}
           >
             <img
@@ -528,6 +527,7 @@ class Post extends React.Component {
         this.useModal("d", "Erreur : " + err, true);
       });
   }
+
   postHeader(PosterType) {
     if (PosterType === "prof")
       return (
@@ -590,6 +590,7 @@ class Post extends React.Component {
       </div>
     );
   }
+
   render() {
     return (
       <div className="post-bar">

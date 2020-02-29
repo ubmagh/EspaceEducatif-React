@@ -528,8 +528,9 @@ class Post extends React.Component {
         this.useModal("d", "Erreur : " + err, true);
       });
   }
-  postHeader(PosterType) {
-    if (PosterType === "prof")
+
+  postHeader(UserType) {
+    if (UserType === "prof")
       return (
         <div className="usy-dt">
           <Link to={"/Profile/" + this.state.poster.id}>
@@ -539,27 +540,48 @@ class Post extends React.Component {
               style={{ maxHeight: "50px", maxWidth: "50px" }}
             />
           </Link>
-          <div className="usy-name ">
-            <Link to={"/Profile/" + this.state.poster.id}>
-              {" "}
-              <h3>
+          <div className="usy-name">
+            {" "}
+            <h3>
+              <Link
+                to={"/Profile/" + this.state.poster.id}
+                style={{ textDecoration: "none", color: "black" }}
+              >
                 <span
                   className="text-success display-3"
                   style={{ fontSize: "20px" }}
                 >
                   {" "}
                   ●{" "}
-                </span>{" "}
+                </span>
                 {this.state.poster.name}
                 <span
-                  className="text-success display-4"
+                  className="text-success display-3"
                   style={{ fontSize: "20px" }}
                 >
                   {" "}
                   ●{" "}
-                </span>{" "}
-              </h3>{" "}
-            </Link>
+                </span>
+              </Link>
+              <span
+                style={{
+                  color: "orange",
+                  fontSize: "19px",
+                  marginLeft: "3px"
+                }}
+              >
+                {" "}
+                ►{" "}
+              </span>
+              <span>
+                <Link
+                  to={"/Classes/" + this.state.Classe.id}
+                  className="classLink"
+                >
+                  {" " + this.state.Classe.name}
+                </Link>
+              </span>
+            </h3>{" "}
             <span>
               <i className="far fa-clock text-secondary"></i>{" "}
               {moment(this.state.post.date, "YYYY-MM-DD HH:mm:ss").fromNow()}
@@ -567,7 +589,6 @@ class Post extends React.Component {
           </div>
         </div>
       );
-
     return (
       <div className="usy-dt">
         <Link to={"/Profile/" + this.state.poster.id}>
@@ -578,10 +599,33 @@ class Post extends React.Component {
           />
         </Link>
         <div className="usy-name">
-          <Link to={"/Profile/" + this.state.poster.id}>
-            {" "}
-            <h3>{this.state.poster.name}</h3>{" "}
-          </Link>
+          {" "}
+          <h3>
+            <Link
+              to={"/Profile/" + this.state.poster.id}
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              {this.state.poster.name}
+            </Link>
+            <span
+              style={{
+                color: "orange",
+                fontSize: "19px",
+                marginLeft: "3px"
+              }}
+            >
+              {" "}
+              ►{" "}
+            </span>
+            <span>
+              <Link
+                to={"/Classes/" + this.state.Classe.id}
+                className="classLink"
+              >
+                {" " + this.state.Classe.name}
+              </Link>
+            </span>
+          </h3>{" "}
           <span>
             <i className="far fa-clock text-secondary"></i>{" "}
             {moment(this.state.post.date, "YYYY-MM-DD HH:mm:ss").fromNow()}
@@ -590,6 +634,7 @@ class Post extends React.Component {
       </div>
     );
   }
+
   render() {
     return (
       <div className="post-bar">

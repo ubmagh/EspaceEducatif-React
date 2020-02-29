@@ -6,6 +6,9 @@ import Home from "./Home/Home";
 import ClassesList from "./Classes/ClassesList";
 import Settings from "../Common/Settings";
 import Aide from "../Common/Aide";
+import MyProfile from "../Profile/MyProfile";
+import Profile from "../Profile/Profile";
+import Classe from "./Classes/Classe";
 
 //// importing template css
 import "./css/style.css";
@@ -19,7 +22,7 @@ class Prof extends React.Component {
   render() {
     return (
       <Router>
-        <div className="wrapper mt-0" style={{ Height: "100%" }}>
+        <div className="wrapper mt-0 float-none" style={{ Height: "100%" }}>
           <Banner />
 
           <Switch>
@@ -27,9 +30,17 @@ class Prof extends React.Component {
               <Home />
             </Route>
 
-            <Route path="/Classes">
+            <Route exact path="/Classes">
               <ClassesList />
             </Route>
+
+            <Route path="/Classes/:classID" component={Classe} />
+
+            <Route exact path="/Profile">
+              <MyProfile />
+            </Route>
+
+            <Route path="/Profile/:UserId" component={Profile} />
 
             <Route exact path="/Settings">
               <Settings />

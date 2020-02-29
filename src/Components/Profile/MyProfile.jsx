@@ -229,7 +229,110 @@ class MyProfile extends React.Component {
           </section>
         </>
       );
+    else if (this.state.userType === "prof")
+      return (
+        <>
+          <section className="profile_area">
+            <div className="container">
+              <div className="profile_inner p_120">
+                <div className="row">
+                  <div className="col-lg-5 ">
+                    <img
+                      className="ot float-lg-right float-sm-none d-sm-block mx-sm-auto rounded "
+                      src={this.state.data.infos.AvatarPath}
+                      alt={"prof" + this.state.data.infos.id}
+                      style={{
+                        backgroundColor: "#eaf2f3",
+                        border: "1px solid #eaf2f3 "
+                      }}
+                    />
+                  </div>
+                  <div className="col-lg-7 ml-sm-n5 ml-md-0">
+                    <div className="personal_text mx-sm-auto d-sm-inline-block ">
+                      <h3 className="text-nowrap ml-sm-n5 ml-md-0">
+                        {this.state.data.infos.Sex === "M" ? (
+                          <span
+                            className="mr-1"
+                            style={{
+                              fontWeight: "bold",
+                              textTransform: "none"
+                            }}
+                          >
+                            M.{" "}
+                          </span>
+                        ) : (
+                          <span
+                            className="mr-1"
+                            style={{
+                              fontWeight: "bold",
+                              textTransform: "none"
+                            }}
+                          >
+                            Mme.{" "}
+                          </span>
+                        )}
+                        {this.state.data.infos.Lname +
+                          " " +
+                          this.state.data.infos.Fname}
+                      </h3>
 
+                      <p
+                        className="ml-sm-5 ml-md-0"
+                        style={{
+                          fontFamily: "Source Sans Pro",
+                          fontSize: "22px",
+                          textAlign: "center"
+                        }}
+                      >
+                        {" "}
+                        <span className="text-success">
+                          <u>{" " + this.state.data.infos.Matiere + " "}</u>
+                        </span>{" "}
+                      </p>
+                      <ul className="list basic_info">
+                        <li>
+                          <a href="#Departement">
+                            <i
+                              className="fab fa-font-awesome-flag fa-lg"
+                              id="Departement"
+                            >
+                              {" "}
+                            </i>{" "}
+                            {this.Filiere(this.state.data.infos.Filiere)}
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            href={"mailto:" + this.state.data.infos.email}
+                          >
+                            <i className="far fa-envelope fa-lg"> </i>
+                            {" " + this.state.data.infos.email}
+                          </a>
+                        </li>
+                        <li>
+                          <a href={"#Joined"} style={{ wordSpacing: "2px" }}>
+                            <i
+                              className="fas fa-sign-in-alt fa-lg"
+                              id="Joined"
+                            ></i>{" "}
+                            {"rejoint à: " +
+                              moment(
+                                this.state.data.Joined,
+                                "YYYY-MM-DD"
+                              ).format("LL")}
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </>
+      );
     return <Loading />;
   }
 }

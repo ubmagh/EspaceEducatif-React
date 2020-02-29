@@ -1,17 +1,14 @@
-
 @font-face {
-font-family: "OpenSans";
-src: url("./OpenSans-Light.ttf") ;
+  font-family: "OpenSans";
+  src: local("./OpenSans-Light.ttf");
 }
 
 @font-face {
-    font-family: "OpenSans";
-    src: url("./OpenSans-Regular.ttf");
-    }
+  font-family: "OpenSans";
+  src: local("./OpenSans-Regular.ttf");
+}
 
 @font-face {
-    font-family: "Gelasio";
-    src: url("./Gelasio-Regular.ttf");
-    }
-
-
+  font-family: "Gelasio";
+  src: local("./Gelasio-Regular.ttf");
+}

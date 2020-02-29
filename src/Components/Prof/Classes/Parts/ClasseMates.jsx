@@ -8,15 +8,11 @@ function ClassMateThumb(imgsrc, id, name) {
   return (
     <div className="col-lg-3 col-md-4 col-sm-6 col-12" key={"mate:" + id}>
       <div className="company_profile_info">
-        <div className="company-up-info mb-0">
+        <div className="company-up-info">
           <img src={imgsrc} alt="." />
-          <h3 className="mb-0">{name}</h3>
+          <h3>{name}</h3>
         </div>
-        <Link
-          to={"/Profile/" + id}
-          title={name}
-          className="view-more-pro text-info"
-        >
+        <Link to={"/Profile/" + id} title={name} className="view-more-pro">
           Voir le profile
         </Link>
       </div>
@@ -73,7 +69,7 @@ class ClassMates extends React.Component {
       <div className="wrapper mt-n3 ">
         <section className="companies-info pt-1">
           <div className="company-title">
-            <h3 className="h2 d-block text-center ">ClasseMates</h3>
+            <h3 className="h2 d-block text-center ">Etudiants</h3>
 
             <div className="d-block w-100">
               <h3
