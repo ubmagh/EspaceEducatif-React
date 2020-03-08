@@ -7,6 +7,7 @@ import TabAffichage from "./Parts/TabAffichage";
 import PostsSection from "./Parts/PostsSection";
 import ClassMatesCo from "./Parts/ClasseMates";
 import RightWidget from "./Parts/RightWidget";
+import CoverChange from "./Parts/Cover_modal";
 import { ApiHost } from "../../Common/Config";
 
 class Classe extends React.Component {
@@ -20,7 +21,8 @@ class Classe extends React.Component {
       Goback: false,
       classeData: "",
       profName: "",
-      ClassMates: false
+      ClassMates: false,
+      Toggle_cover_change: false
     };
     if (isNaN(this.props.match.params.classID)) {
       this.state = {
@@ -31,7 +33,8 @@ class Classe extends React.Component {
         Goback: true,
         classeData: "",
         profName: "",
-        ClassMates: false
+        ClassMates: false,
+        Toggle_cover_change: false
       };
       return;
     }
@@ -101,6 +104,15 @@ class Classe extends React.Component {
     this.setState({ ClassMates: bool });
   }
 
+  toggleCoverChange(bool) {
+    this.setState({ Toggle_cover_change: bool });
+  }
+
+  changeCover(e) {
+    e.preventDefault();
+    this.toggleCoverChange(true);
+  }
+
   render() {
     if (this.state.Goback) return <Redirect to="/Classes" />;
     return (
@@ -112,9 +124,12 @@ class Classe extends React.Component {
           >
             <img
               src={this.state.classeData.ImagePath}
-              alt=""
+              alt="Cover"
               style={{ height: "100%", width: "100%" }}
             />
+            <a href="#GO0oD" onClick={this.changeCover.bind(this)}>
+              <i className="fa fa-camera" /> Changer l'image
+            </a>
           </section>
 
           <Modal
@@ -122,6 +137,12 @@ class Classe extends React.Component {
             setShowOrNot={this.HandleShowModal.bind(this)}
             Heading={this.state.heading}
             body={this.state.body}
+          />
+          <CoverChange
+            setShowOrNot={this.toggleCoverChange.bind(this)}
+            ShowOrNot={this.state.Toggle_cover_change}
+            classID={this.state.classID}
+            UseModal={this.UseModal.bind(this)}
           />
 
           <main style={{ paddingTop: "20px" }}>

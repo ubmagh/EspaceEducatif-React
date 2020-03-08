@@ -448,7 +448,6 @@ class CreatePoste extends React.Component {
           <Formik
             initialValues={{ pub: "", attachedFiles: [] }}
             onSubmit={(data, { setSubmitting, resetForm }) => {
-              let fd = new FormData();
               if (
                 this.state.attachedFiles.length === 0 &&
                 data.pub.length === 0
@@ -457,6 +456,7 @@ class CreatePoste extends React.Component {
                 setSubmitting(false);
                 return;
               }
+              let fd = new FormData();
 
               setSubmitting(true);
 
