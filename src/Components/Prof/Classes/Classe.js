@@ -6,6 +6,7 @@ import { Redirect } from "react-router-dom";
 import TabAffichage from "./Parts/TabAffichage";
 import PostsSection from "./Parts/PostsSection";
 import ClassMatesCo from "./Parts/ClasseMates";
+import Affichage from "./Parts/Affichage";
 import RightWidget from "./Parts/RightWidget";
 import CoverChange from "./Parts/Cover_modal";
 import { ApiHost } from "../../Common/Config";
@@ -33,7 +34,7 @@ class Classe extends React.Component {
         Goback: true,
         classeData: "",
         profName: "",
-        ClassMates: false,
+        Section: "main",
         Toggle_cover_change: false
       };
       return;
@@ -100,8 +101,8 @@ class Classe extends React.Component {
     this.setState({ heading: h, body: b, showMod: show });
   }
 
-  ToggleClassMates(bool) {
-    this.setState({ ClassMates: bool });
+  ToggleMainSection(section) {
+    this.setState({ Section: section });
   }
 
   toggleCoverChange(bool) {
@@ -111,6 +112,69 @@ class Classe extends React.Component {
   changeCover(e) {
     e.preventDefault();
     this.toggleCoverChange(true);
+  }
+
+  RenderMainSection() {
+    switch (this.state.Section) {
+      case "affichage":
+        return (
+          <>
+            <div className="user-tab-sec">
+              <h3 className="text-nowrap text-center display-2 mb-n3 mt-3">
+                {this.state.classeData.ClasseName}
+              </h3>
+              <div className=" text-nowrap text-center star-descp">
+                <span
+                  className="txt mx-auto"
+                  style={{
+                    float: "none",
+                    textAlign: "center !important"
+                  }}
+                ></span>
+              </div>
+            </div>
+            <Affichage
+              ToggleMainSection={this.ToggleMainSection.bind(this)}
+              classID={this.state.classID}
+              Usemodal={this.UseModal.bind(this)}
+            />
+          </>
+        );
+      case "ClassMates":
+        return (
+          <>
+            <div className="user-tab-sec">
+              <h3 className="text-nowrap text-center display-2 mb-n3 mt-3">
+                {this.state.classeData.ClasseName}
+              </h3>
+              <div className=" text-nowrap text-center star-descp">
+                <span
+                  className="txt mx-auto"
+                  style={{
+                    float: "none",
+                    textAlign: "center !important"
+                  }}
+                ></span>
+              </div>
+            </div>
+            <ClassMatesCo
+              ToggleMainSection={this.ToggleMainSection.bind(this)}
+              classID={this.state.classID}
+              Usemodal={this.UseModal.bind(this)}
+            />
+          </>
+        );
+      default:
+        return (
+          <>
+            <PostsSection
+              classID={this.state.classID}
+              useModal={this.UseModal.bind(this)}
+              classeName={this.state.classeData.ClasseName}
+            />
+          </>
+        );
+    }
   }
 
   render() {
@@ -151,48 +215,22 @@ class Classe extends React.Component {
                 <div className="main-section-data">
                   <div className="row">
                     <div className="col-lg-4">
-                      <TabAffichage />
+                      <TabAffichage
+                        ToggleMainSection={this.ToggleMainSection.bind(this)}
+                        classID={this.state.classID}
+                        UseModal={this.UseModal.bind(this)}
+                      />
                     </div>
                     <div className="col-lg-6">
                       <div className="main-ws-sec">
-                        {this.state.ClassMates ? (
-                          <>
-                            <div className="user-tab-sec">
-                              <h3 className="text-nowrap text-center display-2 mb-n3 mt-3">
-                                {this.state.classeData.ClasseName}
-                              </h3>
-                              <div className=" text-nowrap text-center star-descp">
-                                <span
-                                  className="txt mx-auto"
-                                  style={{
-                                    float: "none",
-                                    textAlign: "center !important"
-                                  }}
-                                ></span>
-                              </div>
-                            </div>
-                            <ClassMatesCo
-                              ShowItOrNot={this.ToggleClassMates.bind(this)}
-                              classID={this.state.classID}
-                              Usemodal={this.UseModal.bind(this)}
-                            />
-                          </>
-                        ) : (
-                          <>
-                            <PostsSection
-                              classID={this.state.classID}
-                              useModal={this.UseModal.bind(this)}
-                              classeName={this.state.classeData.ClasseName}
-                            />
-                          </>
-                        )}
+                        {this.RenderMainSection()}
                       </div>
                       {/*main-ws-sec end*/}
                     </div>
                     <div className="col-xl-2 col-lg-4">
                       <RightWidget
                         classID={this.state.classID}
-                        ShowItOrNot={this.ToggleClassMates.bind(this)}
+                        ToggleMainSection={this.ToggleMainSection.bind(this)}
                       />
                       {/*right-sidebar end*/}
                     </div>

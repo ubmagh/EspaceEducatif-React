@@ -23,7 +23,7 @@ function ClassMateThumb(imgsrc, id, name) {
 class ClassMates extends React.Component {
   constructor(props) {
     super(props);
-    this.BackToClasse = this.props.ShowItOrNot;
+    this.ToggleMainSection = this.props.ToggleMainSection;
     this.state = { classID: this.props.classID, data: [] };
     this.Usemodal = this.props.Usemodal;
     Axios({
@@ -73,7 +73,7 @@ class ClassMates extends React.Component {
 
             <div className="d-block w-100">
               <h3
-                onClick={e => this.BackToClasse(false)}
+                onClick={e => this.ToggleMainSection("main")}
                 className="float-left text-primary "
                 style={{ cursor: "pointer" }}
               >

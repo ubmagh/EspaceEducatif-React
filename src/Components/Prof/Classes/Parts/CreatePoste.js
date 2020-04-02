@@ -375,47 +375,42 @@ class CreatePoste extends React.Component {
     for (let i = 0; i < files.length; i++) {
       //check image
       ele = null;
-      if (files[i].type.length > 0) {
-        if (files[i].type.search("image") !== -1) {
-          ele = this.file_Thumbnail("image", files[i].name, files[i].size, i);
-        } else if (files[i].type.search("pdf") !== -1) {
-          ele = this.file_Thumbnail("pdf", files[i].name, files[i].size, i);
-        } else if (files[i].type.search("presentation") !== -1) {
-          ele = this.file_Thumbnail(
-            "presentation",
-            files[i].name,
-            files[i].size,
-            i
-          );
-        } else if (files[i].type.search("word") !== -1) {
-          ele = this.file_Thumbnail("doc", files[i].name, files[i].size, i);
-        } else if (files[i].type.search("sheet") !== -1) {
-          ele = this.file_Thumbnail("xls", files[i].name, files[i].size, i);
-        } else if (files[i].type.search("audio") !== -1) {
-          ele = this.file_Thumbnail("audio", files[i].name, files[i].size, i);
-        } else if (files[i].type.search("video") !== -1) {
-          ele = this.file_Thumbnail("video", files[i].name, files[i].size, i);
-        } else if (files[i].name.split(".").pop() === "ppt") {
-          ele = this.file_Thumbnail(
-            "presentation",
-            files[i].name,
-            files[i].size,
-            i
-          );
-        } else if (
-          files[i].name.split(".").pop() === "doc" ||
-          files[i].name.split(".").pop() === "rtf"
-        ) {
-          ele = this.file_Thumbnail("doc", files[i].name, files[i].size, i);
-        }
-      } else {
-        if (files[i].name.split(".").pop() === "rar") {
-          ele = this.file_Thumbnail("zip", files[i].name, files[i].size, i);
-        } else if (files[i].name.split(".").pop() === "zip") {
-          ele = this.file_Thumbnail("zip", files[i].name, files[i].size, i);
-        }
+      if (files[i].type.search("image") !== -1) {
+        ele = this.file_Thumbnail("image", files[i].name, files[i].size, i);
+      } else if (files[i].type.search("pdf") !== -1) {
+        ele = this.file_Thumbnail("pdf", files[i].name, files[i].size, i);
+      } else if (files[i].type.search("presentation") !== -1) {
+        ele = this.file_Thumbnail(
+          "presentation",
+          files[i].name,
+          files[i].size,
+          i
+        );
+      } else if (files[i].type.search("word") !== -1) {
+        ele = this.file_Thumbnail("doc", files[i].name, files[i].size, i);
+      } else if (files[i].type.search("sheet") !== -1) {
+        ele = this.file_Thumbnail("xls", files[i].name, files[i].size, i);
+      } else if (files[i].type.search("audio") !== -1) {
+        ele = this.file_Thumbnail("audio", files[i].name, files[i].size, i);
+      } else if (files[i].type.search("video") !== -1) {
+        ele = this.file_Thumbnail("video", files[i].name, files[i].size, i);
+      } else if (files[i].name.split(".").pop() === "ppt") {
+        ele = this.file_Thumbnail(
+          "presentation",
+          files[i].name,
+          files[i].size,
+          i
+        );
+      } else if (
+        files[i].name.split(".").pop() === "doc" ||
+        files[i].name.split(".").pop() === "rtf"
+      ) {
+        ele = this.file_Thumbnail("doc", files[i].name, files[i].size, i);
+      } else if (files[i].name.split(".").pop() === "rar") {
+        ele = this.file_Thumbnail("zip", files[i].name, files[i].size, i);
+      } else if (files[i].name.split(".").pop() === "zip") {
+        ele = this.file_Thumbnail("zip", files[i].name, files[i].size, i);
       }
-
       Table.push(ele);
     }
 

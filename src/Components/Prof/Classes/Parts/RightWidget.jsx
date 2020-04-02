@@ -14,7 +14,7 @@ class RightWidget extends React.Component {
       id: "",
       the6: []
     };
-    this.ShowIt = this.props.ShowItOrNot;
+    this.ToggleMainSection = this.props.ToggleMainSection;
     Axios({
       method: "get",
       url: ApiHost + "/api/Classes/GetClassesProf",
@@ -123,7 +123,11 @@ class RightWidget extends React.Component {
             <div className="w-100 mt-n2 border border-top-0 border-bottom-0 border-right-0 border-left-0">
               <div className="d-inline position-relative mt-0 pt-1 border border-secondary">
                 <hr className="my-0" />
-                <h3 className="text-center h5 mt-2 mb-0 text-dark">
+                <h3
+                  className="text-center h5 mt-2 mb-0 text-dark"
+                  onClick={e => this.ToggleMainSection("affichage")}
+                  style={{ cursor: "pointer" }}
+                >
                   {" "}
                   Afficher Aux Etudiants{" "}
                 </h3>
@@ -165,12 +169,15 @@ class RightWidget extends React.Component {
               <ul>{tab}</ul>
               <div className="view-more">
                 <h4
-                  onClick={e => this.ShowIt(true)}
+                  onClick={e => this.ToggleMainSection("ClassMates")}
                   style={{ cursor: "pointer" }}
-                  className="text-primary"
+                  className="text-primary h5 mb-n2 font-weight-bold"
                 >
                   Voir Tout{" "}
-                  <i className="fa fa-arrow-right mt-1" aria-hidden="true" />
+                  <i
+                    className="fa fa-arrow-right mt-1 fa-lg ml-1 mr-n1"
+                    aria-hidden="true"
+                  />
                 </h4>
               </div>
             </div>
