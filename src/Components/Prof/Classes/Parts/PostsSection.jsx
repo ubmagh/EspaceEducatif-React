@@ -18,8 +18,7 @@ class PostsSection extends React.Component {
       Comments: "",
       Offset: 0,
       more: true,
-      Likes: "",
-      classeData: this.props.classeData
+      Likes: ""
     };
     this.useModal = props.useModal;
     var fd = new FormData();

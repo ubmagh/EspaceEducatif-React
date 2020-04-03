@@ -3,7 +3,7 @@ import axios from "axios";
 import TokenValidate from "../../Common/tokenValidate";
 import Modal from "../../Common/Modal";
 import { Redirect } from "react-router-dom";
-import TabAffichage from "./Parts/TabAffichage";
+import TabAffichage from "../../Common/TabAffichage";
 import PostsSection from "./Parts/PostsSection";
 import ClassMatesCo from "./Parts/ClasseMates";
 import Affichage from "./Parts/Affichage";
@@ -90,8 +90,6 @@ class Classe extends React.Component {
         });
       });
   }
-
-  componentDidMount() {}
 
   HandleShowModal(t) {
     this.setState({ heading: "", body: "", showMod: false });

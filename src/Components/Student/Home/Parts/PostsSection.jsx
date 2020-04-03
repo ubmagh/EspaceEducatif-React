@@ -161,8 +161,8 @@ class PostsSection extends React.Component {
             ) : (
               <h2 className="h3  mt-n4 mb-4  ">
                 {" "}
-                <i className="fas fa-exclamation-circle"></i> C'est tout pour le
-                moment{" "}
+                <i className="fas fa-exclamation-circle"></i> Il n'y a plus de
+                publications{" "}
               </h2>
             )}
           </div>
