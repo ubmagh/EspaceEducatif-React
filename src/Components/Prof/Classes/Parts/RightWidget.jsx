@@ -12,7 +12,7 @@ class RightWidget extends React.Component {
       profName: "",
       profLink: "",
       id: "",
-      the6: []
+      the6: [],
     };
     this.ToggleMainSection = this.props.ToggleMainSection;
     Axios({
@@ -21,31 +21,31 @@ class RightWidget extends React.Component {
       header: { "Content-Type": "application/json" },
       params: {
         token: "" + localStorage.getItem("LogToken"),
-        classID: this.state.classID + ""
-      }
+        classID: this.state.classID + "",
+      },
     })
-      .then(res => {
+      .then((res) => {
         if (res.data.status === "succeded") {
           this.setState({
             Profimg: ApiHost + res.data.content.pic,
             profName: "" + res.data.content.name,
             profLink: "" + res.data.content.idProf,
             id: "" + res.data.content.id,
-            the6: res.data.the6
+            the6: res.data.the6,
           });
         } else {
           this.setState({
             Profimg: "http://via.placeholder.com/120x120",
             profName: "",
-            profLink: ""
+            profLink: "",
           });
         }
       })
-      .catch(err =>
+      .catch((err) =>
         this.setState({
           Profimg: "http://via.placeholder.com/120x120",
           profName: " <span class='text-danger'>Erreure :</span> <br /> " + err,
-          profLink: ""
+          profLink: "",
         })
       );
   }
@@ -84,7 +84,7 @@ class RightWidget extends React.Component {
               <h3>Professeur</h3>
               <i className="fas fa-chalkboard-teacher float-right d-inline-block fa-lg" />
             </div>
-            <div className="pf-gallery">
+            <div className="pf-gallery mb-n3 ">
               <div className="float-none col-md-11 mx-auto mb-1">
                 <Link to={"/Profile/" + this.state.id}>
                   <img
@@ -94,7 +94,7 @@ class RightWidget extends React.Component {
                       height: "120px",
                       width: "120px",
                       borderRadius: "100%",
-                      backgroundColor: "#a1bff3"
+                      backgroundColor: "#a1bff3",
                     }}
                     alt="."
                   />
@@ -106,44 +106,43 @@ class RightWidget extends React.Component {
                   style={{ textDecoration: "none" }}
                 >
                   <h2
-                    className="text-nowrap text-center mb-n3 "
+                    className="text-nowrap text-center  "
                     style={{
                       fontFamily: "Source Sans Pro",
                       fontSize: "20px",
                       fontWeight: "bold",
                       textDecoration: "none",
-                      color: "black"
+                      color: "black",
                     }}
                   >
                     {this.state.profName}
                   </h2>
                 </Link>
               </div>
+              <hr />
             </div>
-            <div className="w-100 mt-n2 border border-top-0 border-bottom-0 border-right-0 border-left-0">
-              <div className="d-inline position-relative mt-0 pt-1 border border-secondary">
+
+            <div className="w-100  d-block  mt-n3 mb-3">
+              <div className="d-inline position-relative ">
                 <hr className="my-0" />
                 <h3
-                  className="text-center h5 mt-2 mb-0 text-dark"
-                  onClick={e => this.ToggleMainSection("affichage")}
+                  className="text-center h5 mt-3 mb-0 py-3 text-dark"
+                  onClick={(e) => this.ToggleMainSection("affichage")}
                   style={{ cursor: "pointer" }}
                 >
                   {" "}
                   Afficher Aux Etudiants{" "}
                 </h3>
               </div>
-              <div className="d-inline position-relative mt-0 border border-secondary">
+              <div className="d-inline position-relative mt-0 py-3 ">
                 <hr className="my-0" />
-                <h3 className="text-center h5 mt-2 mb-0 text-dark">
+                <h3
+                  className="text-center h5 mt-2 mb-0 text-dark"
+                  onClick={(e) => this.ToggleMainSection("newposts")}
+                  style={{ cursor: "pointer" }}
+                >
                   {" "}
                   Les nouvelles publications{" "}
-                </h3>
-              </div>
-              <div className="d-inline position-relative mt-0 border border-secondary">
-                <hr className="my-0" />
-                <h3 className="text-center h5 mt-2 mb-0 text-dark">
-                  {" "}
-                  Outils3{" "}
                 </h3>
               </div>
             </div>
@@ -169,7 +168,7 @@ class RightWidget extends React.Component {
               <ul>{tab}</ul>
               <div className="view-more">
                 <h4
-                  onClick={e => this.ToggleMainSection("ClassMates")}
+                  onClick={(e) => this.ToggleMainSection("ClassMates")}
                   style={{ cursor: "pointer" }}
                   className="text-primary h5 mb-n2 font-weight-bold"
                 >

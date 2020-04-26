@@ -9,6 +9,7 @@ import ClassMatesCo from "./Parts/ClasseMates";
 import Affichage from "./Parts/Affichage";
 import RightWidget from "./Parts/RightWidget";
 import CoverChange from "./Parts/Cover_modal";
+import NewPosts from "./Parts/NewPostsApp";
 import { ApiHost } from "../../Common/Config";
 
 class Classe extends React.Component {
@@ -23,7 +24,7 @@ class Classe extends React.Component {
       classeData: "",
       profName: "",
       ClassMates: false,
-      Toggle_cover_change: false
+      Toggle_cover_change: false,
     };
     if (isNaN(this.props.match.params.classID)) {
       this.state = {
@@ -35,7 +36,7 @@ class Classe extends React.Component {
         classeData: "",
         profName: "",
         Section: "main",
-        Toggle_cover_change: false
+        Toggle_cover_change: false,
       };
       return;
     }
@@ -45,10 +46,10 @@ class Classe extends React.Component {
       headers: { "Content-Type": "application/json" },
       params: {
         token: localStorage.getItem("LogToken"),
-        ClasseID: "" + this.state.classID
-      }
+        ClasseID: "" + this.state.classID,
+      },
     })
-      .then(res => {
+      .then((res) => {
         TokenValidate(res.data);
 
         if (res.data.error + "" === "ValidationError") {
@@ -56,14 +57,14 @@ class Classe extends React.Component {
             heading: "w",
             body:
               "Erreur des données fournies au serveur ! vous ne pouvez pas accéder à ce classe",
-            showMod: true
+            showMod: true,
           });
           setTimeout(() => this.setState({ Goback: true }), 3000);
         } else if (res.data.error + "" === "Access Forbidden") {
           this.setState({
             heading: "w",
             body: "Accès Interdit ou Classe introuvable !",
-            showMod: true
+            showMod: true,
           });
           setTimeout(() => this.setState({ Goback: true }), 3000);
         } else if (res.data.error + "" === "none") {
@@ -71,22 +72,22 @@ class Classe extends React.Component {
           classData.ImagePath = ApiHost + classData.ImagePath;
           this.setState({
             classeData: classData,
-            profName: res.data.data.profName
+            profName: res.data.data.profName,
           });
         } else {
           this.setState({
             heading: "d",
             body: "Une erreur internale s'est servenue Réssayez plus-tard !",
-            showMod: true
+            showMod: true,
           });
           setTimeout(() => this.setState({ Goback: true }), 3000);
         }
       })
-      .catch(e => {
+      .catch((e) => {
         this.setState({
           heading: "d",
           body: " erreur : " + e,
-          showMod: true
+          showMod: true,
         });
       });
   }
@@ -126,7 +127,7 @@ class Classe extends React.Component {
                   className="txt mx-auto"
                   style={{
                     float: "none",
-                    textAlign: "center !important"
+                    textAlign: "center !important",
                   }}
                 ></span>
               </div>
@@ -150,7 +151,7 @@ class Classe extends React.Component {
                   className="txt mx-auto"
                   style={{
                     float: "none",
-                    textAlign: "center !important"
+                    textAlign: "center !important",
                   }}
                 ></span>
               </div>
@@ -159,6 +160,30 @@ class Classe extends React.Component {
               ToggleMainSection={this.ToggleMainSection.bind(this)}
               classID={this.state.classID}
               Usemodal={this.UseModal.bind(this)}
+            />
+          </>
+        );
+      case "newposts":
+        return (
+          <>
+            <div className="user-tab-sec">
+              <h3 className="text-nowrap text-center display-2 mb-n3 mt-3">
+                {this.state.classeData.ClasseName}
+              </h3>
+              <div className=" text-nowrap text-center star-descp">
+                <span
+                  className="txt mx-auto"
+                  style={{
+                    float: "none",
+                    textAlign: "center !important",
+                  }}
+                ></span>
+              </div>
+            </div>
+            <NewPosts
+              ToggleMainSection={this.ToggleMainSection.bind(this)}
+              classID={this.state.classID}
+              UseModal={this.UseModal.bind(this)}
             />
           </>
         );
