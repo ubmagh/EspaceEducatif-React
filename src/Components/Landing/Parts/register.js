@@ -14,7 +14,7 @@ const RegisterSchema = Yup.object().shape({
     .required("Entrez Votre Prénom ")
     .matches(
       /^[a-z A-Z éèà]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/,
-      "Préom Invalide !"
+      "Prénom Invalide !"
     ),
   Lname: Yup.string()
     .max(30, "C'est trop pour un Nom")

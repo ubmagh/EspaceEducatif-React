@@ -12,7 +12,7 @@ const LoginSchema = Yup.object().shape({
   password: Yup.string()
     .min(6, "Mot De Passe invalide >6!")
     .required("Entrez Votre Mot De Passe !"),
-  save: Yup.boolean("élément invalide : save").required("info manquante: save")
+  save: Yup.boolean("élément invalide : save").required("info manquante: save"),
 });
 
 class StudentLog extends React.Component {
@@ -49,7 +49,7 @@ class StudentLog extends React.Component {
                 email: "",
                 password: "",
                 type: "etud",
-                save: false
+                save: false,
               }}
               validationSchema={LoginSchema}
               onSubmit={(data, { setSubmitting, resetForm }) => {
@@ -61,34 +61,34 @@ class StudentLog extends React.Component {
                   method: "post",
                   url: ApiHost + "/api/login",
                   data: mydata,
-                  headers: { "Content-Type": "application/json" }
+                  headers: { "Content-Type": "application/json" },
                 })
-                  .then(res => {
+                  .then((res) => {
                     if (res.data.status + "" === "disactivated") {
                       this.setState({
                         heading: "w",
                         body:
                           " Votre Compte est suspendue ou en attente d'activation par l'administration.",
-                        showMod: true
+                        showMod: true,
                       });
                     } else if (res.data.status + "" === "CredErr")
                       this.setState({
                         heading: "d",
                         body: " Email ou Mot de passe incorrecte ",
-                        showMod: true
+                        showMod: true,
                       });
                     else if (res.data.status + "" === "TokErr")
                       this.setState({
                         heading: "d",
                         body:
                           " Token_Err: Veuillez réssayer plusTard ou contactez l'administration ",
-                        showMod: true
+                        showMod: true,
                       });
                     else if (res.data.status + "" === "Success") {
                       this.setState({
                         heading: "s",
                         body: " Connexion succès ",
-                        showMod: true
+                        showMod: true,
                       });
                       localStorage.setItem("LastLogDate", res.data.LogDate);
                       localStorage.setItem("LogToken", res.data.token);
@@ -99,11 +99,11 @@ class StudentLog extends React.Component {
                       //+ ':' + getUrl.port +
                     }
                   })
-                  .catch(err => {
+                  .catch((err) => {
                     this.setState({
                       heading: "d",
                       body: "erreur de Connexion au serveur ! " + err,
-                      showMod: true
+                      showMod: true,
                     });
                   });
                 resetForm({});
@@ -116,7 +116,7 @@ class StudentLog extends React.Component {
                 handleChange,
                 isSubmitting,
                 errors,
-                touched
+                touched,
               }) => (
                 <Form className="col-8 mx-auto text-center mt-5 mb-md-n5">
                   <div className="form-group d-block mx-auto">
@@ -177,9 +177,11 @@ class StudentLog extends React.Component {
                     type="submit"
                     disabled={
                       isSubmitting ||
-                      errors.email || errors.password || errors.save
+                      errors.email ||
+                      errors.password ||
+                      errors.save
                     }
-                    className="btn btn-primary col-md-5 mt-4 mb-md-n5"
+                    className="btn btn-primary col-md-5 mt-5 mb-md-n5"
                   >
                     <i className="fas fa-sign-in-alt text-light mr-1 ml-n1">
                       {" "}
@@ -189,6 +191,13 @@ class StudentLog extends React.Component {
                 </Form>
               )}
             </Formik>
+            <div className="row mt-4 w-100">
+              <a href="resetPwd" className="d-block mx-auto mt-1">
+                {" "}
+                <i className="fa fa-question" aria-hidden="true"></i> mot de
+                passe Oublié ?{" "}
+              </a>
+            </div>
           </div>
         </div>
       </>
@@ -230,7 +239,7 @@ class TeacherLog extends React.Component {
                 email: "",
                 password: "",
                 type: "prof",
-                save: false
+                save: false,
               }}
               validationSchema={LoginSchema}
               onSubmit={(data, { setSubmitting, resetForm }) => {
@@ -242,34 +251,34 @@ class TeacherLog extends React.Component {
                   method: "post",
                   url: ApiHost + "/api/login",
                   data: mydata,
-                  headers: { "Content-Type": "application/json" }
+                  headers: { "Content-Type": "application/json" },
                 })
-                  .then(res => {
+                  .then((res) => {
                     if (res.data.status + "" === "disactivated") {
                       this.setState({
                         heading: "w",
                         body:
                           " Votre Compte est suspendue ou en attente d'activation par l'administration.",
-                        showMod: true
+                        showMod: true,
                       });
                     } else if (res.data.status + "" === "CredErr")
                       this.setState({
                         heading: "d",
                         body: " Email ou Mot de passe incorrecte ",
-                        showMod: true
+                        showMod: true,
                       });
                     else if (res.data.status + "" === "TokErr")
                       this.setState({
                         heading: "d",
                         body:
                           " Token_Err: Veuillez réssayer plusTard ou contactez l'administration ",
-                        showMod: true
+                        showMod: true,
                       });
                     else if (res.data.status + "" === "Success") {
                       this.setState({
                         heading: "s",
                         body: " Connexion succès ",
-                        showMod: true
+                        showMod: true,
                       });
                       localStorage.setItem("LastLogDate", res.data.LogDate);
                       localStorage.setItem("LogToken", res.data.token);
@@ -279,11 +288,11 @@ class TeacherLog extends React.Component {
                       window.location = baseUrl;
                     }
                   })
-                  .catch(err => {
+                  .catch((err) => {
                     this.setState({
                       heading: "d",
                       body: "erreur de Connexion au serveur ! " + err,
-                      showMod: true
+                      showMod: true,
                     });
                   });
                 resetForm({});
@@ -296,7 +305,7 @@ class TeacherLog extends React.Component {
                 handleChange,
                 isSubmitting,
                 errors,
-                touched
+                touched,
               }) => (
                 <Form className="col-8 mx-auto text-center mt-5 mb-md-n5">
                   <div className="form-group">
@@ -357,9 +366,11 @@ class TeacherLog extends React.Component {
                     type="submit"
                     disabled={
                       isSubmitting ||
-                      errors.email || errors.password || errors.save
+                      errors.email ||
+                      errors.password ||
+                      errors.save
                     }
-                    className="btn btn-primary col-md-5 mt-4 mb-md-n5"
+                    className="btn btn-primary col-md-5 mt-5 mb-md-n5"
                   >
                     <i className="fas fa-sign-in-alt text-light mr-1 ml-n1">
                       {" "}
@@ -369,6 +380,13 @@ class TeacherLog extends React.Component {
                 </Form>
               )}
             </Formik>
+            <div className="row mt-4 w-100">
+              <a href="resetPwd" className="d-block mx-auto mt-1">
+                {" "}
+                <i className="fa fa-question" aria-hidden="true"></i> mot de
+                passe Oublié ?{" "}
+              </a>
+            </div>
           </div>
         </div>
       </>

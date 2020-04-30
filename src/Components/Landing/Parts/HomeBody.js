@@ -35,7 +35,7 @@ function Body() {
                   fontFamily: " Source Sans Pro ",
                   fontSize: "57px",
                   fontWeight: "bolder",
-                  color: "rgb(16,16,141)"
+                  color: "rgb(16,16,141)",
                 }}
               >
                 {" "}
@@ -47,13 +47,13 @@ function Body() {
                   fontFamily: " Source Sans Pro ",
                   fontSize: "30px",
                   fontWeight: "lighter",
-                  color: "rgb(20,25,110)"
+                  color: "rgb(20,25,110)",
                 }}
               >
                 {" "}
                 Un Réseau éducatif privé aux étudiants de l'école supérieure de
-                Technologie Agadir et offrant des outils puissantes pour les
-                professeurs.{" "}
+                Technologie Agadir et offrant une solution pour la communication
+                entre l'etablissement et ses etudiants.{" "}
               </h6>
               <p
                 className="text-center mx-auto text-justify mt-md-3 mb-xs-3"
@@ -61,7 +61,7 @@ function Body() {
                   fontFamily: " Source Sans Pro ",
                   fontSize: "20px",
                   fontWeight: "normal",
-                  color: "rgb(20,35,100)"
+                  color: "rgb(20,35,100)",
                 }}
               >
                 Un internaute ? Connectez-vous !

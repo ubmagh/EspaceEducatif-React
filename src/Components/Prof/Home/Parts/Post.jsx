@@ -27,7 +27,7 @@ class Post extends React.Component {
       comment: props.Comment,
       Classe: props.Classe,
       myComments: [],
-      Liked: props.Like ? true : false
+      Liked: props.Like ? true : false,
     };
     this.useModal = props.useModal;
     moment.updateLocale("en", {
@@ -45,8 +45,8 @@ class Post extends React.Component {
         M: "un mois",
         MM: "%d mois",
         y: "une année",
-        yy: "%d années"
-      }
+        yy: "%d années",
+      },
     });
   }
 
@@ -57,10 +57,10 @@ class Post extends React.Component {
       header: { "Content-Type": "application/json" },
       params: {
         token: "" + localStorage.getItem("LogToken"),
-        MediaID: indice + ""
-      }
+        MediaID: indice + "",
+      },
     })
-      .then(res => {
+      .then((res) => {
         /// if there is no error i would open the request again but receive the file this time
         if (res.data.status + "" === "Exist") {
           const token = localStorage.getItem("LogToken") + "";
@@ -81,7 +81,7 @@ class Post extends React.Component {
           this.useModal("w", "Vous n'avez pas l'accès à ce fichier ! ", true);
         }
       })
-      .catch(err => this.useModal("d", "Erreure: " + err, true));
+      .catch((err) => this.useModal("d", "Erreure: " + err, true));
   }
 
   mediaRender() {
@@ -181,14 +181,14 @@ class Post extends React.Component {
                 height: "90px",
                 width: "120px",
                 marginRight: "-1px",
-                marginLeft: "2rem"
+                marginLeft: "2rem",
               }}
             />
             <span
               className="float-right mr-1 mt-1"
               style={{ cursor: "pointer" }}
               title="Télécharger ce fichier"
-              onClick={e => {
+              onClick={(e) => {
                 this.Download(indice);
               }}
             >
@@ -220,7 +220,7 @@ class Post extends React.Component {
               className="float-right mr-1 mt-1"
               style={{ cursor: "pointer" }}
               title="Télécharger ce fichier"
-              onClick={e => {
+              onClick={(e) => {
                 this.Download(indice);
               }}
             >
@@ -252,7 +252,7 @@ class Post extends React.Component {
               className="float-right mr-1 mt-1"
               style={{ cursor: "pointer" }}
               title="Télécharger ce fichier"
-              onClick={e => {
+              onClick={(e) => {
                 this.Download(indice);
               }}
             >
@@ -284,7 +284,7 @@ class Post extends React.Component {
               className="float-right mr-1 mt-1"
               style={{ cursor: "pointer" }}
               title="Télécharger ce fichier"
-              onClick={e => {
+              onClick={(e) => {
                 this.Download(indice);
               }}
             >
@@ -317,7 +317,7 @@ class Post extends React.Component {
               className="float-right mr-1 mt-1"
               style={{ cursor: "pointer" }}
               title="Télécharger ce fichier"
-              onClick={e => {
+              onClick={(e) => {
                 this.Download(indice);
               }}
             >
@@ -350,7 +350,7 @@ class Post extends React.Component {
               className="float-right mr-1 mt-1"
               style={{ cursor: "pointer" }}
               title="Télécharger ce fichier"
-              onClick={e => {
+              onClick={(e) => {
                 this.Download(indice);
               }}
             >
@@ -383,7 +383,7 @@ class Post extends React.Component {
               className="float-right mr-1 mt-1"
               style={{ cursor: "pointer" }}
               title="Télécharger ce fichier"
-              onClick={e => {
+              onClick={(e) => {
                 this.Download(indice);
               }}
             >
@@ -414,14 +414,14 @@ class Post extends React.Component {
                 height: "90px",
                 width: "120px",
                 marginRight: "-1px",
-                marginLeft: "2rem"
+                marginLeft: "2rem",
               }}
             />
             <span
               className="float-right mr-1 mt-1"
               style={{ cursor: "pointer" }}
               title="Télécharger ce fichier"
-              onClick={e => {
+              onClick={(e) => {
                 this.Download(indice);
               }}
             >
@@ -486,7 +486,7 @@ class Post extends React.Component {
   AfficherMesCommentaires() {
     var tab = [];
     var tr = null;
-    this.state.myComments.forEach(element => {
+    this.state.myComments.forEach((element) => {
       tr = this.comment(element.Text, element.date, element.id);
       tab.push(tr);
     });
@@ -501,10 +501,10 @@ class Post extends React.Component {
       header: { "Content-Type": "application/json" },
       params: {
         token: "" + localStorage.getItem("LogToken"),
-        postID: this.state.post.PostID + ""
-      }
+        postID: this.state.post.PostID + "",
+      },
     })
-      .then(res => {
+      .then((res) => {
         TokenValidator(res.data);
         if (res.data.status === "NotPermitted") {
           this.useModal("w", "Action de Like refusée !", true);
@@ -524,7 +524,7 @@ class Post extends React.Component {
           /////
         }
       })
-      .catch(err => {
+      .catch((err) => {
         this.useModal("d", "Erreur : " + err, true);
       });
   }
@@ -567,7 +567,7 @@ class Post extends React.Component {
                 style={{
                   color: "orange",
                   fontSize: "19px",
-                  marginLeft: "3px"
+                  marginLeft: "3px",
                 }}
               >
                 {" "}
@@ -578,7 +578,7 @@ class Post extends React.Component {
                   to={"/Classes/" + this.state.Classe.id}
                   className="classLink"
                 >
-                  {" " + this.state.Classe.name}
+                  {this.state.Classe.ids + ":" + this.state.Classe.name}
                 </Link>
               </span>
             </h3>{" "}
@@ -611,7 +611,7 @@ class Post extends React.Component {
               style={{
                 color: "orange",
                 fontSize: "19px",
-                marginLeft: "3px"
+                marginLeft: "3px",
               }}
             >
               {" "}
@@ -622,7 +622,7 @@ class Post extends React.Component {
                 to={"/Classes/" + this.state.Classe.id}
                 className="classLink"
               >
-                {" " + this.state.Classe.name}
+                {this.state.Classe.ids + ":" + this.state.Classe.name}
               </Link>
             </span>
           </h3>{" "}
@@ -656,7 +656,7 @@ class Post extends React.Component {
                     style={{
                       backgroundColor: "inherit",
                       border: "inherit",
-                      outline: "inherit"
+                      outline: "inherit",
                     }}
                     onClick={this.LikeIt.bind(this)}
                   >
@@ -678,10 +678,10 @@ class Post extends React.Component {
                     style={{
                       backgroundColor: "inherit",
                       border: "inherit",
-                      outline: "inherit"
+                      outline: "inherit",
                     }}
                     className="com"
-                    onClick={e => {
+                    onClick={(e) => {
                       document
                         .getElementById("GoComment" + this.state.post.PostID)
                         .focus();
@@ -769,7 +769,7 @@ class Post extends React.Component {
                 <Formik
                   initialValues={{
                     postID: this.state.post.PostID,
-                    Comment: ""
+                    Comment: "",
                   }}
                   onSubmit={(data, { setSubmitting, resetForm }) => {
                     if (data.Comment.length === 0) {
@@ -784,10 +784,10 @@ class Post extends React.Component {
                       params: {
                         token: "" + localStorage.getItem("LogToken"),
                         postID: this.state.post.PostID + "",
-                        Comment: data.Comment + ""
-                      }
+                        Comment: data.Comment + "",
+                      },
                     })
-                      .then(res => {
+                      .then((res) => {
                         TokenValidator(res.data);
                         if (res.data.status === "NotPermitted") {
                           this.useModal(
@@ -808,7 +808,7 @@ class Post extends React.Component {
                           resetForm();
                         }
                       })
-                      .catch(err => {
+                      .catch((err) => {
                         this.useModal("d", "Erreure : " + err, true);
                       });
                     setSubmitting(false);
@@ -821,7 +821,7 @@ class Post extends React.Component {
                     isSubmitting,
                     errors,
                     touched,
-                    resetForm
+                    resetForm,
                   }) => (
                     <Form>
                       <Field

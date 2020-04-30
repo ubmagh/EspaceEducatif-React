@@ -8,18 +8,18 @@ class LeftWidget extends React.Component {
     super(props);
     this.state = {
       details: JSON.parse(localStorage.getItem("details")),
-      data: ""
+      data: "",
     };
 
     axios({
       method: "get",
       url: ApiHost + "/api/classes/GetInitialClasses",
       params: {
-        token: localStorage.getItem("LogToken")
+        token: localStorage.getItem("LogToken"),
       },
-      headers: { "Content-Type": "application/json" }
+      headers: { "Content-Type": "application/json" },
     })
-      .then(res => {
+      .then((res) => {
         //look at reponse data for token errors
         if ((res.data.error + " ").search("token") !== -1) {
           localStorage.clear();
@@ -32,7 +32,7 @@ class LeftWidget extends React.Component {
 
         this.setState({ data: res.data });
       })
-      .catch(e => this.setState({ data: { error: "networkERr: " + e } }));
+      .catch((e) => this.setState({ data: { error: "networkERr: " + e } }));
   }
 
   Error() {
@@ -56,7 +56,10 @@ class LeftWidget extends React.Component {
         >
           <h1 key={this.state.data[i].id} className="text-left py-2 mx-auto">
             {" "}
-            {this.state.data[i].ClasseName}{" "}
+            {this.state.data[i].Filiere +
+              this.state.data[i].Annee +
+              ":" +
+              this.state.data[i].ClasseName}{" "}
           </h1>
         </Link>
       );
@@ -79,7 +82,7 @@ class LeftWidget extends React.Component {
                       style={{
                         backgroundColor: "white",
                         height: "100px",
-                        width: "100px"
+                        width: "100px",
                       }}
                       alt="qsd"
                     />
@@ -110,9 +113,10 @@ class LeftWidget extends React.Component {
             <div className="suggestions-list">
               <div className="suggestion-usd">
                 <div className="sgt-text">
-                  {this.state.data.error + "".length !== 0
-                    ? this.Succes()
-                    : this.Error() ///TODO
+                  {
+                    this.state.data.error + "".length !== 0
+                      ? this.Succes()
+                      : this.Error() ///TODO
                   }
                 </div>
               </div>
