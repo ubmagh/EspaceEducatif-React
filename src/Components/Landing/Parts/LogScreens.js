@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import axios from "axios";
 import MyModal from "../../Common/Modal";
 import { ApiHost } from "../../Common/Config";
+import { Link } from "react-router-dom";
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string()
@@ -191,12 +192,15 @@ class StudentLog extends React.Component {
                 </Form>
               )}
             </Formik>
-            <div className="row mt-4 w-100">
-              <a href="resetPwd" className="d-block mx-auto mt-1">
+            <div className="row mt-4 position-relative w-100">
+              <Link
+                to="resetPassword"
+                style={{ cursor: "pointer" }}
+                className="d-block mx-auto mt-1"
+              >
                 {" "}
-                <i className="fa fa-question" aria-hidden="true"></i> mot de
-                passe Oublié ?{" "}
-              </a>
+                <i className="fa fa-question"></i> mot de passe Oublié ?{" "}
+              </Link>
             </div>
           </div>
         </div>
@@ -380,12 +384,15 @@ class TeacherLog extends React.Component {
                 </Form>
               )}
             </Formik>
-            <div className="row mt-4 w-100">
-              <a href="resetPwd" className="d-block mx-auto mt-1">
+            <div className="row mt-4 position-relative w-100">
+              <Link
+                to="resetPassword"
+                style={{ cursor: "pointer" }}
+                className="d-block mx-auto mt-1"
+              >
                 {" "}
-                <i className="fa fa-question" aria-hidden="true"></i> mot de
-                passe Oublié ?{" "}
-              </a>
+                <i className="fa fa-question"></i> mot de passe Oublié ?{" "}
+              </Link>
             </div>
           </div>
         </div>

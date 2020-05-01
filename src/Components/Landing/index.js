@@ -8,6 +8,8 @@ import Rules from "./Parts/Rules";
 import Page404 from "./Parts/404";
 import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
 import Register from "./Parts/register";
+import PwdForgotten from "./Parts/PwdForgotten";
+import ResetPWD from "./Parts/ResetPWD";
 
 class Landing extends React.Component {
   render() {
@@ -38,6 +40,16 @@ class Landing extends React.Component {
           <Route exact path="/register">
             <Register />
           </Route>
+
+          <Route exact path="/resetPassword">
+            <PwdForgotten />
+          </Route>
+
+          <Route
+            exact
+            path="/Reset/:token/:encmail"
+            component={ResetPWD}
+          ></Route>
 
           <Route component={Page404} />
         </Switch>
