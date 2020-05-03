@@ -1,38 +1,42 @@
 import React from "react";
 import axios from "axios";
 import moment from "moment";
-import FormatFileSize from "../../Common/FileSizeFormat";
+import FormatFileSize from "../FileSizeFormat";
 import { Form, Formik, Field } from "formik";
-import TokenValidator from "../../Common/tokenValidate";
-import { ApiHost } from "../../Common/Config";
-import Modal from "../../Common/Modal";
+import TokenValidator from "../tokenValidate";
+import { ApiHost } from "../Config";
+import Modal from "../Modal";
 import { Link } from "react-router-dom";
+import Loading from "../Loading";
 
 //// pictures
-import pictureIcon from "../../Common/images/picture.png";
-import pdfIcon from "../../Common/images/pdf.png";
-import pptxIcon from "../../Common/images/pptx.png";
-import docIcon from "../../Common/images/doc.png";
-import xlsIcon from "../../Common/images/xls.png";
-import zipIcon from "../../Common/images/zip.png";
-import audioIcon from "../../Common/images/audio.png";
-import videoIcon from "../../Common/images/video.png";
+import pictureIcon from "../images/picture.png";
+import pdfIcon from "../images/pdf.png";
+import pptxIcon from "../images/pptx.png";
+import docIcon from "../images/doc.png";
+import xlsIcon from "../images/xls.png";
+import zipIcon from "../images/zip.png";
+import audioIcon from "../images/audio.png";
+import videoIcon from "../images/video.png";
 
 class Post extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       postID: this.props.match.params.postID,
-      found: true,
+      found: false,
       heading: "",
       body: "",
       showMod: false,
-      Comments: [],
+      comments: [],
+      commentors: [],
       poster: {},
       post: {},
       media: [],
-      Classe: "",
-      Liked: false,
+      classe: "",
+      liked: false,
+      loading: true,
+      Likers: [],
     };
     moment.updateLocale("en", {
       relativeTime: {
@@ -54,16 +58,63 @@ class Post extends React.Component {
     });
     //
     axios({
-      method: "GET",
+      method: "get",
+      url: ApiHost + "/api/Post",
       params: {
         postID: this.state.postID,
-        token: "" + localStorage.getItem("LogToken"),
-        url: ApiHost + "/api/Post",
-        header: { "Content-Type": "application/json" },
+        token: localStorage.getItem("LogToken") + "",
       },
+      header: { "Content-Type": "application/json" },
     })
-      .then((res) => {})
-      .catch((err) => {});
+      .then((res) => {
+        TokenValidator(res.data);
+        if (res.data.status === "dataErr")
+          this.UseModal(
+            "w",
+            "Données Fournies au serveur sont Invalides",
+            true
+          );
+        else if (res.data.status === "unauthorized") {
+          this.UseModal(
+            "w",
+            " Vous n'etes pas autorisé pour voir cette publication! ",
+            true
+          );
+          setTimeout(function () {
+            window.history.back();
+          }, 1800);
+        } else if (res.data.status === "notFound") {
+          this.setState({ found: false, loading: false });
+        } else if (res.data.status === "succes") {
+          var Posters = res.data.Poster;
+          var commentors = res.data.commentors;
+          Posters.pic = ApiHost + Posters.pic;
+          for (let i = 0; i < commentors.length; i++) {
+            commentors[i].pic = ApiHost + commentors[i].pic;
+          }
+          this.setState({
+            post: res.data.Post,
+            poster: Posters,
+            classe: res.data.classe,
+            media: res.data.medias,
+            comments: res.data.comments,
+            commentors: commentors,
+            liked: res.data.Liked,
+            found: true,
+            loading: false,
+            Likers: res.data.Likers,
+          });
+        } else {
+          this.UseModal(
+            "w",
+            "Une erreur de chargement de la publication",
+            true
+          );
+        }
+      })
+      .catch((err) => {
+        this.UseModal("d", "erreur :" + err, true);
+      });
     //
   }
 
@@ -97,16 +148,16 @@ class Post extends React.Component {
             indice;
           window.open(url, "_blank");
         } else if (res.data.status === "err") {
-          this.useModal(
+          this.UseModal(
             "d",
             "Ce fichier n'exist plus dans la base de données",
             true
           );
         } else if (res.data.status === "Rejected") {
-          this.useModal("w", "Vous n'avez pas l'accès à ce fichier ! ", true);
+          this.UseModal("w", "Vous n'avez pas l'accès à ce fichier ! ", true);
         }
       })
-      .catch((err) => this.useModal("d", "Erreure: " + err, true));
+      .catch((err) => this.UseModal("d", "Erreure: " + err, true));
   }
 
   mediaRender() {
@@ -470,7 +521,7 @@ class Post extends React.Component {
   comment(text, date, id) {
     let myid = JSON.parse(localStorage.getItem("user")).id;
     return (
-      <div className="comment-sec">
+      <div className="comment-sec" key={"comm" + id}>
         <ul>
           <li className=" border border-top-0 border-left-0 border-right-0 mb-2 ">
             <div className="comment-list ">
@@ -494,7 +545,7 @@ class Post extends React.Component {
                 </Link>
                 <span className="mt-n2">
                   <i className="far fa-clock text-secondary"></i>{" "}
-                  {moment(date, "YYYY-DD-MM HH:mm:ss").fromNow()}
+                  {moment(date, "YYYY-MM-DD HH:mm:ss").fromNow()}
                 </span>
                 <p className="mt-n2" style={{ whiteSpace: "pre-line" }}>
                   {text}
@@ -511,7 +562,7 @@ class Post extends React.Component {
   AfficherMesCommentaires() {
     var tab = [];
     var tr = null;
-    this.state.Comments.forEach((element) => {
+    this.state.comments.forEach((element) => {
       tr = this.comment(element.Text, element.date, element.id);
       tab.push(tr);
     });
@@ -532,25 +583,20 @@ class Post extends React.Component {
       .then((res) => {
         TokenValidator(res.data);
         if (res.data.status === "NotPermitted") {
-          this.useModal("w", "Action de Like refusée !", true);
+          this.UseModal("w", "Action de Like refusée !", true);
         } else if (res.data.status === "successed") {
-          this.setState({ Liked: !this.state.Liked });
-          if (this.state.Liked)
-            document
-              .getElementById("Like" + this.state.post.PostID)
-              .classList.add("text-primary");
-          else
-            document
-              .getElementById("Like" + this.state.post.PostID)
-              .classList.remove("text-primary");
+          this.setState({ liked: !this.state.liked });
+          if (this.state.liked)
+            document.getElementById("Like").classList.add("text-primary");
+          else document.getElementById("Like").classList.remove("text-primary");
           /////
         } else if (res.data.status === "NotSuccessed") {
-          this.useModal("w", "une erreure servenue au dernier action ", true);
+          this.UseModal("w", "une erreure servenue au dernier action ", true);
           /////
         }
       })
       .catch((err) => {
-        this.useModal("d", "Erreur : " + err, true);
+        this.UseModal("d", "Erreur : " + err, true);
       });
   }
 
@@ -597,17 +643,19 @@ class Post extends React.Component {
               </span>
               <span>
                 <Link
-                  to={"/Classes/" + this.state.Classe.id}
+                  to={"/Classes/" + this.state.classe.id}
                   className="classLink text-nowrap"
                 >
-                  {this.state.Classe.ids + ": " + this.state.Classe.name}
+                  {this.state.classe.ids + ": " + this.state.classe.name}
                 </Link>
               </span>
             </h3>{" "}
-            <span>
-              <i className="far fa-clock text-secondary"></i>{" "}
-              {moment(this.state.post.date, "YYYY-MM-DD HH:mm:ss").fromNow()}
-            </span>
+            <Link to={"/Posts/" + this.state.post.postID}>
+              <span>
+                <i className="far fa-clock text-secondary"></i>{" "}
+                {moment(this.state.post.date, "YYYY-MM-DD HH:mm:ss").fromNow()}
+              </span>
+            </Link>
           </div>
         </div>
       );
@@ -626,16 +674,111 @@ class Post extends React.Component {
             {" "}
             <h3>{this.state.poster.name}</h3>{" "}
           </Link>
-          <span>
-            <i className="far fa-clock text-secondary"></i>{" "}
-            {moment(this.state.post.date, "YYYY-MM-DD HH:mm:ss").fromNow()}
-          </span>
+          <Link to={"/Posts/" + this.state.post.postID}>
+            <span>
+              <i className="far fa-clock text-secondary"></i>{" "}
+              {moment(this.state.post.date, "YYYY-MM-DD HH:mm:ss").fromNow()}
+            </span>
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  closeOneModal(modalId) {
+    // get modal
+    const modal = document.getElementById(modalId);
+
+    // change state like in hidden modal
+    modal.classList.remove("show");
+    modal.setAttribute("aria-hidden", "true");
+    modal.setAttribute("style", "display: none");
+
+    // get modal backdrop
+    const modalBackdrops = document.getElementsByClassName("modal-backdrop");
+
+    // remove opened modal backdrop
+    document.body.removeChild(modalBackdrops[0]);
+  }
+
+  LikersModal() {
+    var tmp = [];
+    const likers = this.state.Likers;
+
+    likers.forEach((el) => {
+      tmp.push(
+        <div className="comment-sec" key={"like" + el.id}>
+          <ul>
+            <li
+              className=" border border-top-0 border-left-0 border-right-0 mb-2 "
+              onClick={(e) => this.closeOneModal("exampleModal")}
+            >
+              <div className="comment-list ">
+                <div className="bg-img">
+                  <Link to={"/Profile/" + el.id}>
+                    <img
+                      src={ApiHost + el.pic}
+                      style={{ height: "50px", width: "50px" }}
+                      alt={"Commentor" + el.id}
+                    />
+                  </Link>
+                </div>
+                <div className="comment">
+                  <Link to={"/Profile/" + el.id}>
+                    <h3 className="mt-n1"> {el.name}</h3>
+                  </Link>
+                </div>
+              </div>
+              {/*comment-list end*/}
+            </li>
+          </ul>
+        </div>
+      );
+    });
+
+    return (
+      <div
+        className="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel">
+                Personnes Qui ont aimés cette publication
+              </h5>
+              <button
+                type="button"
+                className="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body">{tmp}</div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-danger"
+                data-dismiss="modal"
+              >
+                <i className="fa fa-times mr-1 ml-n1"></i>
+                Fermer
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     );
   }
 
   render() {
+    if (this.state.loading) return <Loading />;
     if (!this.state.found)
       return (
         <div className="container mt-2" style={{ minHeight: "100%" }}>
@@ -668,6 +811,8 @@ class Post extends React.Component {
           body={this.state.body}
         />
 
+        {this.LikersModal()}
+
         <div className="   py-3 my-4 col-md-6 mx-auto ">
           <div className="posty border border-secondary">
             <div className="post-bar no-margin">
@@ -675,13 +820,34 @@ class Post extends React.Component {
                 {this.postHeader(this.state.poster.type)}
               </div>
               <div className="job_descp">
-                <p style={{ whiteSpace: "pre-line" }}>{this.state.post.text}</p>
+                <p
+                  style={{ whiteSpace: "pre-line", overflowWrap: "break-word" }}
+                >
+                  {this.state.post.text}
+                </p>
                 {this.mediaRender()}
               </div>
 
               <div className="job-status-bar ">
                 <ul className="like-com ">
                   <li>
+                    {this.state.post.likes === 0 ? null : (
+                      <button
+                        className="px-2 "
+                        style={{
+                          backgroundColor: "inherit",
+                          border: "inherit",
+                          outline: "inherit",
+                          fontSize: "17px",
+                        }}
+                        type="button"
+                        data-toggle="modal"
+                        data-target="#exampleModal"
+                      >
+                        {" "}
+                        {this.state.post.likes}{" "}
+                      </button>
+                    )}
                     <button
                       className="com mr-4"
                       style={{
@@ -692,16 +858,13 @@ class Post extends React.Component {
                       onClick={this.LikeIt.bind(this)}
                     >
                       {" "}
-                      {this.state.post.likes === 0
-                        ? null
-                        : this.state.post.likes}
                       <i
                         className={
-                          this.state.Liked === true
+                          this.state.liked
                             ? "far fa-thumbs-up fa-lg ml-2 text-primary"
                             : "far fa-thumbs-up fa-lg ml-2 "
                         }
-                        id={"Like" + this.state.post.PostID}
+                        id="Like"
                       ></i>{" "}
                       Liker
                     </button>
@@ -787,7 +950,7 @@ class Post extends React.Component {
                 </>
               ) : null */}
 
-              {this.state.myComments ? this.AfficherMesCommentaires() : null}
+              {this.state.comments ? this.AfficherMesCommentaires() : null}
 
               <div className="post-comment">
                 <div className="cm_img">
@@ -805,7 +968,7 @@ class Post extends React.Component {
                     }}
                     onSubmit={(data, { setSubmitting, resetForm }) => {
                       if (data.Comment.length === 0) {
-                        this.useModal(
+                        this.UseModal(
                           "w",
                           "écrivez quelque chose d'abord",
                           true
@@ -826,26 +989,26 @@ class Post extends React.Component {
                         .then((res) => {
                           TokenValidator(res.data);
                           if (res.data.status === "NotPermitted") {
-                            this.useModal(
+                            this.UseModal(
                               "w",
                               "L'ajout du commentaire est refusé !",
                               true
                             );
                           } else if (res.data.status === "Permission") {
-                            this.useModal(
+                            this.UseModal(
                               "w",
                               "Vous ne pouvez pas commenter !",
                               true
                             );
                           } else if (res.data.status === "successed") {
-                            var mycomments = this.state.myComments;
-                            mycomments.push(res.data.content);
-                            this.setState({ myComments: mycomments });
+                            var comments = this.state.comments;
+                            comments.push(res.data.content);
+                            this.setState({ comments: comments });
                             resetForm();
                           }
                         })
                         .catch((err) => {
-                          this.useModal("d", "Erreure : " + err, true);
+                          this.UseModal("d", "Erreure : " + err, true);
                         });
                       setSubmitting(false);
                     }}

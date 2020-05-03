@@ -9,6 +9,7 @@ import Aide from "../Common/Aide";
 import MyProfile from "../Profile/MyProfile";
 import Profile from "../Profile/Profile";
 import Classe from "./Classes/Classe";
+import Post from "../Common/Posts/index";
 
 //// importing template css
 import "./css/style.css";
@@ -35,6 +36,8 @@ class Prof extends React.Component {
             </Route>
 
             <Route path="/Classes/:classID" component={Classe} />
+
+            <Route exact path="/Posts/:postID" component={Post} />
 
             <Route exact path="/Profile">
               <MyProfile />

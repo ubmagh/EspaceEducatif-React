@@ -26,7 +26,7 @@ class Post extends React.Component {
       media: props.Media,
       comment: props.Comment,
       myComments: [],
-      Liked: props.Like ? true : false
+      Liked: props.Like ? true : false,
     };
     this.useModal = props.useModal;
     moment.updateLocale("en", {
@@ -44,8 +44,8 @@ class Post extends React.Component {
         M: "un mois",
         MM: "%d mois",
         y: "une année",
-        yy: "%d années"
-      }
+        yy: "%d années",
+      },
     });
   }
 
@@ -56,10 +56,10 @@ class Post extends React.Component {
       header: { "Content-Type": "application/json" },
       params: {
         token: "" + localStorage.getItem("LogToken"),
-        MediaID: indice + ""
-      }
+        MediaID: indice + "",
+      },
     })
-      .then(res => {
+      .then((res) => {
         /// if there is no error i would open the request again but receive the file this time
         if (res.data.status + "" === "Exist") {
           const token = localStorage.getItem("LogToken") + "";
@@ -80,7 +80,7 @@ class Post extends React.Component {
           this.useModal("w", "Vous n'avez pas l'accès à ce fichier ! ", true);
         }
       })
-      .catch(err => this.useModal("d", "Erreure: " + err, true));
+      .catch((err) => this.useModal("d", "Erreure: " + err, true));
   }
 
   mediaRender() {
@@ -180,14 +180,14 @@ class Post extends React.Component {
                 height: "90px",
                 width: "120px",
                 marginRight: "-1px",
-                marginLeft: "2rem"
+                marginLeft: "2rem",
               }}
             />
             <span
               className="float-right mr-1 mt-1"
               style={{ cursor: "pointer" }}
               title="Télécharger ce fichier"
-              onClick={e => {
+              onClick={(e) => {
                 this.Download(indice);
               }}
             >
@@ -219,7 +219,7 @@ class Post extends React.Component {
               className="float-right mr-1 mt-1"
               style={{ cursor: "pointer" }}
               title="Télécharger ce fichier"
-              onClick={e => {
+              onClick={(e) => {
                 this.Download(indice);
               }}
             >
@@ -251,7 +251,7 @@ class Post extends React.Component {
               className="float-right mr-1 mt-1"
               style={{ cursor: "pointer" }}
               title="Télécharger ce fichier"
-              onClick={e => {
+              onClick={(e) => {
                 this.Download(indice);
               }}
             >
@@ -283,7 +283,7 @@ class Post extends React.Component {
               className="float-right mr-1 mt-1"
               style={{ cursor: "pointer" }}
               title="Télécharger ce fichier"
-              onClick={e => {
+              onClick={(e) => {
                 this.Download(indice);
               }}
             >
@@ -316,7 +316,7 @@ class Post extends React.Component {
               className="float-right mr-1 mt-1"
               style={{ cursor: "pointer" }}
               title="Télécharger ce fichier"
-              onClick={e => {
+              onClick={(e) => {
                 this.Download(indice);
               }}
             >
@@ -349,7 +349,7 @@ class Post extends React.Component {
               className="float-right mr-1 mt-1"
               style={{ cursor: "pointer" }}
               title="Télécharger ce fichier"
-              onClick={e => {
+              onClick={(e) => {
                 this.Download(indice);
               }}
             >
@@ -382,7 +382,7 @@ class Post extends React.Component {
               className="float-right mr-1 mt-1"
               style={{ cursor: "pointer" }}
               title="Télécharger ce fichier"
-              onClick={e => {
+              onClick={(e) => {
                 this.Download(indice);
               }}
             >
@@ -413,14 +413,14 @@ class Post extends React.Component {
                 height: "90px",
                 width: "120px",
                 marginRight: "-1px",
-                marginLeft: "2rem"
+                marginLeft: "2rem",
               }}
             />
             <span
               className="float-right mr-1 mt-1"
               style={{ cursor: "pointer" }}
               title="Télécharger ce fichier"
-              onClick={e => {
+              onClick={(e) => {
                 this.Download(indice);
               }}
             >
@@ -485,7 +485,7 @@ class Post extends React.Component {
   AfficherMesCommentaires() {
     var tab = [];
     var tr = null;
-    this.state.myComments.forEach(element => {
+    this.state.myComments.forEach((element) => {
       tr = this.comment(element.Text, element.date, element.id);
       tab.push(tr);
     });
@@ -500,10 +500,10 @@ class Post extends React.Component {
       header: { "Content-Type": "application/json" },
       params: {
         token: "" + localStorage.getItem("LogToken"),
-        postID: this.state.post.PostID + ""
-      }
+        postID: this.state.post.PostID + "",
+      },
     })
-      .then(res => {
+      .then((res) => {
         TokenValidator(res.data);
         if (res.data.status === "NotPermitted") {
           this.useModal("w", "Action de Like refusée !", true);
@@ -523,7 +523,7 @@ class Post extends React.Component {
           /////
         }
       })
-      .catch(err => {
+      .catch((err) => {
         this.useModal("d", "Erreur : " + err, true);
       });
   }
@@ -559,10 +559,12 @@ class Post extends React.Component {
                 </span>{" "}
               </h3>{" "}
             </Link>
-            <span>
-              <i className="far fa-clock text-secondary"></i>{" "}
-              {moment(this.state.post.date, "YYYY-MM-DD HH:mm:ss").fromNow()}
-            </span>
+            <Link to={"/Posts/" + this.state.post.PostID}>
+              <span>
+                <i className="far fa-clock text-secondary"></i>{" "}
+                {moment(this.state.post.date, "YYYY-MM-DD HH:mm:ss").fromNow()}
+              </span>
+            </Link>
           </div>
         </div>
       );
@@ -581,13 +583,36 @@ class Post extends React.Component {
             {" "}
             <h3>{this.state.poster.name}</h3>{" "}
           </Link>
-          <span>
-            <i className="far fa-clock text-secondary"></i>{" "}
-            {moment(this.state.post.date, "YYYY-MM-DD HH:mm:ss").fromNow()}
-          </span>
+          <Link to={"/Posts/" + this.state.post.PostID}>
+            <span>
+              <i className="far fa-clock text-secondary"></i>{" "}
+              {moment(this.state.post.date, "YYYY-MM-DD HH:mm:ss").fromNow()}
+            </span>
+          </Link>
         </div>
       </div>
     );
+  }
+
+  rendertext() {
+    let tab = [];
+    var text = this.state.post.text;
+    if (this.state.post.text.length > 350) {
+      text = (
+        <p style={{ whiteSpace: "pre-line" }}>
+          {" "}
+          {text.substring(0, 250) + " ..."}{" "}
+          <Link className="d-inline" to={"/Posts/" + this.state.post.PostID}>
+            {"Voir tout"}
+          </Link>
+        </p>
+      );
+      tab.push(text);
+    } else {
+      text = <p style={{ whiteSpace: "pre-line" }}> {text} </p>;
+      tab.push(text);
+    }
+    return tab;
   }
 
   render() {
@@ -599,7 +624,7 @@ class Post extends React.Component {
               {this.postHeader(this.state.poster.type)}
             </div>
             <div className="job_descp">
-              <p style={{ whiteSpace: "pre-line" }}>{this.state.post.text}</p>
+              {this.rendertext()}
               {this.mediaRender()}
             </div>
 
@@ -611,7 +636,7 @@ class Post extends React.Component {
                     style={{
                       backgroundColor: "inherit",
                       border: "inherit",
-                      outline: "inherit"
+                      outline: "inherit",
                     }}
                     onClick={this.LikeIt.bind(this)}
                   >
@@ -633,10 +658,10 @@ class Post extends React.Component {
                     style={{
                       backgroundColor: "inherit",
                       border: "inherit",
-                      outline: "inherit"
+                      outline: "inherit",
                     }}
                     className="com"
-                    onClick={e => {
+                    onClick={(e) => {
                       document
                         .getElementById("GoComment" + this.state.post.PostID)
                         .focus();
@@ -664,7 +689,9 @@ class Post extends React.Component {
             {this.state.comment.com !== undefined ? (
               <>
                 <div className="plus-ic">
-                  <i className="fa fa-plus" />
+                  <Link to={"/Posts/" + this.state.post.PostID}>
+                    <i className="fa fa-plus" />
+                  </Link>
                 </div>
                 <div className="comment-sec">
                   <ul>
@@ -724,7 +751,7 @@ class Post extends React.Component {
                 <Formik
                   initialValues={{
                     postID: this.state.post.PostID,
-                    Comment: ""
+                    Comment: "",
                   }}
                   onSubmit={(data, { setSubmitting, resetForm }) => {
                     if (data.Comment.length === 0) {
@@ -739,10 +766,10 @@ class Post extends React.Component {
                       params: {
                         token: "" + localStorage.getItem("LogToken"),
                         postID: this.state.post.PostID + "",
-                        Comment: data.Comment + ""
-                      }
+                        Comment: data.Comment + "",
+                      },
                     })
-                      .then(res => {
+                      .then((res) => {
                         TokenValidator(res.data);
                         if (res.data.status === "NotPermitted") {
                           this.useModal(
@@ -763,7 +790,7 @@ class Post extends React.Component {
                           resetForm();
                         }
                       })
-                      .catch(err => {
+                      .catch((err) => {
                         this.useModal("d", "Erreure : " + err, true);
                       });
                     setSubmitting(false);
@@ -776,7 +803,7 @@ class Post extends React.Component {
                     isSubmitting,
                     errors,
                     touched,
-                    resetForm
+                    resetForm,
                   }) => (
                     <Form>
                       <Field

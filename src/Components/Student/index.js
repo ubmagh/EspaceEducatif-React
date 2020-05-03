@@ -9,7 +9,7 @@ import Aide from "../Common/Aide";
 import Classe from "./Classes/Classe";
 import MyProfile from "../Profile/MyProfile";
 import Profile from "../Profile/Profile";
-import Post from "./Posts/index";
+import Post from "../Common/Posts/index";
 
 //// importing template cssAide
 import "./css/style.css";

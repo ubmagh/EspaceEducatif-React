@@ -582,10 +582,12 @@ class Post extends React.Component {
                 </Link>
               </span>
             </h3>{" "}
-            <span>
-              <i className="far fa-clock text-secondary"></i>{" "}
-              {moment(this.state.post.date, "YYYY-MM-DD HH:mm:ss").fromNow()}
-            </span>
+            <Link to={"/Posts/" + this.state.post.PostID}>
+              <span>
+                <i className="far fa-clock text-secondary"></i>{" "}
+                {moment(this.state.post.date, "YYYY-MM-DD HH:mm:ss").fromNow()}
+              </span>
+            </Link>
           </div>
         </div>
       );
@@ -626,13 +628,36 @@ class Post extends React.Component {
               </Link>
             </span>
           </h3>{" "}
-          <span>
-            <i className="far fa-clock text-secondary"></i>{" "}
-            {moment(this.state.post.date, "YYYY-MM-DD HH:mm:ss").fromNow()}
-          </span>
+          <Link to={"/Posts/" + this.state.post.PostID}>
+            <span>
+              <i className="far fa-clock text-secondary"></i>{" "}
+              {moment(this.state.post.date, "YYYY-MM-DD HH:mm:ss").fromNow()}
+            </span>
+          </Link>
         </div>
       </div>
     );
+  }
+
+  rendertext() {
+    let tab = [];
+    var text = this.state.post.text;
+    if (this.state.post.text.length > 350) {
+      text = (
+        <p style={{ whiteSpace: "pre-line" }}>
+          {" "}
+          {text.substring(0, 250) + " ..."}{" "}
+          <Link className="d-inline" to={"/Posts/" + this.state.post.PostID}>
+            {"Voir tout"}
+          </Link>
+        </p>
+      );
+      tab.push(text);
+    } else {
+      text = <p style={{ whiteSpace: "pre-line" }}> {text} </p>;
+      tab.push(text);
+    }
+    return tab;
   }
 
   render() {
@@ -644,7 +669,7 @@ class Post extends React.Component {
               {this.postHeader(this.state.poster.type)}
             </div>
             <div className="job_descp">
-              <p style={{ whiteSpace: "pre-line" }}>{this.state.post.text}</p>
+              {this.rendertext()}
               {this.mediaRender()}
             </div>
 
@@ -709,7 +734,9 @@ class Post extends React.Component {
             {this.state.comment.com !== undefined ? (
               <>
                 <div className="plus-ic">
-                  <i className="fa fa-plus" />
+                  <Link to={"/Posts/" + this.state.post.PostID}>
+                    <i className="fa fa-plus" />
+                  </Link>
                 </div>
                 <div className="comment-sec">
                   <ul>
